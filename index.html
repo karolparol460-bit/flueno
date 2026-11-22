@@ -267,6 +267,8 @@ h2,.h2{font-weight:800;font-size:18px;line-height:1.3;margin:0;text-wrap:balance
 .listen-big .ic{width:40px;height:40px;color:var(--accent-ink)}
 #cardActions .btn+.btn{margin-top:var(--s2)}
 #cardActions .rate+.btn{margin-top:var(--s3)}
+.credit{display:inline-flex;align-items:center;gap:4px;margin-top:2px;font-size:11px;color:var(--text-3);text-decoration:underline;text-underline-offset:2px;text-align:left}
+.face .credit{margin-top:var(--s2)}
 [hidden]{display:none !important}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
 </style>
@@ -302,7 +304,8 @@ const UI={
   wordsHint:"Послухайте кожне слово і запам'ятайте переклад.",qMeaning:"Що означає «{w}»?",qSay:"Як буде «{g}»?",qListen:"Послухайте й оберіть слово",
   playAgain:"Ще раз",autoplay:"Слухати картки",stop:"Зупинити",noVoice:"На цьому пристрої немає голосу для цієї мови",
   noVoiceHint:"На цьому пристрої немає голосу для цієї мови, тому картки показуються без звуку.",
-  voice:"Голос",voiceAuto:"Автоматично: найкращий жіночий",voiceTest:"Прослухати",voiceNone:"На цьому пристрої немає голосів для цієї мови.",
+  recTitle:"Вимова живих людей",recSub:"Слова озвучують носії мови: записи з Wikimedia Commons і Вікісловника. Автор і ліцензія вказані під кожним словом.",
+  voice:"Голос синтезатора",voiceAuto:"Автоматично: найкращий жіночий",voiceTest:"Прослухати",voiceNone:"На цьому пристрої немає голосів для цієї мови.",
   levels:{A1:"Початковий",A2:"Елементарний",B1:"Середній",B2:"Вище середнього",C1:"Просунутий"}},
  ru:{welcome:"Учите язык для жизни за границей",chooseUi:"Язык приложения",chooseLang:"Какой язык учите?",chooseLangSub:"Язык можно сменить в любой момент в профиле.",
   learn:"Маршрут",cards:"Карточки",profile:"Профиль",soon:"Уроки скоро появятся",plusOnly:"Доступно в Plus и Pro",
@@ -322,7 +325,8 @@ const UI={
   wordsHint:"Послушайте каждое слово и запомните перевод.",qMeaning:"Что значит «{w}»?",qSay:"Как будет «{g}»?",qListen:"Послушайте и выберите слово",
   playAgain:"Ещё раз",autoplay:"Слушать карточки",stop:"Остановить",noVoice:"На этом устройстве нет голоса для этого языка",
   noVoiceHint:"На этом устройстве нет голоса для этого языка, поэтому карточки показываются без звука.",
-  voice:"Голос",voiceAuto:"Автоматически: лучший женский",voiceTest:"Прослушать",voiceNone:"На этом устройстве нет голосов для этого языка.",
+  recTitle:"Произношение живых людей",recSub:"Слова озвучивают носители языка: записи из Wikimedia Commons и Викисловаря. Автор и лицензия указаны под каждым словом.",
+  voice:"Голос синтезатора",voiceAuto:"Автоматически: лучший женский",voiceTest:"Прослушать",voiceNone:"На этом устройстве нет голосов для этого языка.",
   levels:{A1:"Начальный",A2:"Элементарный",B1:"Средний",B2:"Выше среднего",C1:"Продвинутый"}},
  en:{welcome:"Learn a language for life abroad",chooseUi:"App language",chooseLang:"Which language are you learning?",chooseLangSub:"You can change it any time in your profile.",
   learn:"Path",cards:"Cards",profile:"Profile",soon:"Lessons coming soon",plusOnly:"Available in Plus and Pro",
@@ -342,7 +346,8 @@ const UI={
   wordsHint:"Listen to each word and remember its translation.",qMeaning:"What does “{w}” mean?",qSay:"How do you say “{g}”?",qListen:"Listen and choose the word",
   playAgain:"Play again",autoplay:"Listen to cards",stop:"Stop",noVoice:"This device has no voice for this language",
   noVoiceHint:"This device has no voice for this language, so cards are shown without sound.",
-  voice:"Voice",voiceAuto:"Automatic: best female voice",voiceTest:"Listen",voiceNone:"This device has no voices for this language.",
+  recTitle:"Real human pronunciation",recSub:"Words are spoken by native speakers: recordings from Wikimedia Commons and Wiktionary. The author and licence are shown under each word.",
+  voice:"Synthetic voice",voiceAuto:"Automatic: best female voice",voiceTest:"Listen",voiceNone:"This device has no voices for this language.",
   levels:{A1:"Beginner",A2:"Elementary",B1:"Intermediate",B2:"Upper-intermediate",C1:"Advanced"}}
 };
 const UI_NAMES={uk:"Українська",ru:"Русский",en:"English"};
@@ -1720,7 +1725,7 @@ function wordQuizzes(rows,poolRows,withListen){
     else steps.push({type:"quiz",question:T("qSay",{g}),options:[w,...pickDistractors(w,poolW,3)],answer:0,explain:`${w} — ${g}`,say:w});
   });
   if(withListen){
-    shuffle(rows).slice(0,2).forEach(r=>{ const w=wordOf(r,lang), g=r[ui];
+    shuffle(rows.filter(r=>canSayWord(wordOf(r,lang),lang))).slice(0,2).forEach(r=>{ const w=wordOf(r,lang), g=r[ui];
       steps.push({type:"quiz",listen:true,question:T("qListen"),options:[w,...pickDistractors(w,poolW,3)],answer:0,explain:`${w} — ${g}`,say:w}); });
   }
   return steps;
@@ -1826,6 +1831,27 @@ let VOICES=[], AUDIO_INDEX=null;
 function loadVoices(){ try{ VOICES=(window.speechSynthesis&&speechSynthesis.getVoices())||[]; }catch(e){ VOICES=[]; } }
 if("speechSynthesis" in window){ loadVoices(); speechSynthesis.onvoiceschanged=()=>{ loadVoices(); if(view==="pickVoice") render(); }; }
 try{ fetch("audio/index.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(j=>{ AUDIO_INDEX=j; }).catch(()=>{}); }catch(e){}
+// Записи вимови живих людей з Wikimedia Commons (через Вікісловник), ліцензії CC BY / CC BY-SA / суспільне надбання
+let REC=null;
+try{ fetch("recordings.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(j=>{ REC=j; if(j&&view==="lesson") render(); }).catch(()=>{}); }catch(e){}
+function recKey(text,lang){ let s=String(text).replace(/[.!?¿¡]+$/,"").trim();
+  if(lang==="de") s=s.replace(/^(der|die|das) /,"");
+  if(lang==="it") s=s.replace(/^(il|lo|la|i|gli|le) /,"").replace(/^l'/,"");
+  if(lang==="es") s=s.replace(/^(el|la|los|las) /,"");
+  if(lang==="en") s=s.replace(/^(a|an|the|to) /,"");
+  return s; }
+function recFor(text,lang){ const t=REC&&REC[lang]; if(!t) return null; return t[recKey(text,lang)]||t[text]||null; }
+function recUrls(r){ const orig="https://upload.wikimedia.org/wikipedia/commons/"+r[0], file=r[0].split("/").pop();
+  const mp3="https://upload.wikimedia.org/wikipedia/commons/transcoded/"+r[0]+"/"+file+".mp3";
+  const a=document.createElement("audio"); const oggOk=a.canPlayType&&a.canPlayType('audio/ogg; codecs="vorbis"');
+  return /\.(ogg|oga|opus)$/i.test(file)&&!oggOk?[mp3,orig]:[orig,mp3]; }
+function recCredit(text,lang,plain){ const r=recFor(text,lang); if(!r) return "";
+  let f=r[0].split("/").pop(); try{ f=decodeURIComponent(f); }catch(e){}
+  const label=`${ic("mic","xs")}${esc(r[1]||"Wikimedia Commons")} · ${esc(r[2]||"CC")}`;
+  if(plain) return `<span class="credit">${label}</span>`;
+  const page="https://commons.wikimedia.org/wiki/File:"+encodeURIComponent(f.replace(/ /g,"_"));
+  return `<button class="credit" data-action="openLink" data-arg="${esc(page)}">${label}</button>`; }
+function canSayWord(text,lang){ return !!(recFor(text,lang)||audioUrl(text,lang)||("speechSynthesis" in window&&voicesFor(lang).length)); }
 function hashText(s){ let h=0x811c9dc5; for(const ch of s){ h^=ch.codePointAt(0); h=Math.imul(h,0x01000193)>>>0; } return h.toString(16).padStart(8,"0"); }
 function audioUrl(text,lang){ const h=hashText(text); const set=AUDIO_INDEX&&AUDIO_INDEX[lang]; return set&&(Array.isArray(set)?set.includes(h):set[h])?`audio/${lang}/${h}.mp3`:null; }
 const FEMALE=/female|woman|frau|zira|hedda|katja|amala|anna|petra|marlene|vicki|zosia|ewa|paulina|agnieszka|zofia|maja|zuzana|iveta|vlasta|anu|everita|ona\b|kate|serena|samantha|karen|moira|tessa|susan|hazel|libby|sonia|martha|alice|federica|paola|elsa|isabella|monica|marisol|helena|laura|elvira|lucia|carmen|elena|julia|sara|google (deutsch|polski|italiano|eesti)/i;
@@ -1840,7 +1866,7 @@ function pickVoice(lang){
   const chosen=S.voices[lang]&&list.find(v=>v.voiceURI===S.voices[lang]); if(chosen) return chosen;
   const bcp=SPEECH[lang]||"en-GB"; return list.slice().sort((a,b)=>voiceScore(b,bcp)-voiceScore(a,bcp))[0];
 }
-function canVoice(lang){ return !!((AUDIO_INDEX&&AUDIO_INDEX[lang])||("speechSynthesis" in window&&voicesFor(lang).length)); }
+function canVoice(lang){ return !!((REC&&REC[lang]&&Object.keys(REC[lang]).length)||(AUDIO_INDEX&&AUDIO_INDEX[lang])||("speechSynthesis" in window&&voicesFor(lang).length)); }
 let currentAudio=null;
 function stopSpeech(){ try{ window.speechSynthesis&&speechSynthesis.cancel(); }catch(e){} try{ currentAudio&&currentAudio.pause(); }catch(e){} currentAudio=null; }
 // Повертає проміс, що завершується, коли фраза дозвучала
@@ -1851,8 +1877,20 @@ function say(text,lang,btn){
     const guard=setTimeout(()=>finish(true),Math.min(12000,1500+text.length*120));
     if(btn) btn.classList.add("playing");
     stopSpeech();
-    const url=audioUrl(text,lang);
-    if(url){ try{ const a=new Audio(url); currentAudio=a; a.onended=()=>{ clearTimeout(guard); finish(true); }; a.onerror=()=>{ clearTimeout(guard); finish(false); }; a.play().catch(()=>{ clearTimeout(guard); finish(false); }); return; }catch(e){} }
+    const tts=()=>{
+      if(!("speechSynthesis" in window)||!voicesFor(lang).length){ clearTimeout(guard); if(btn) toast(T("noVoice")); return finish(false); }
+      try{
+        const code=SPEECH[lang]||"en-GB", u=new SpeechSynthesisUtterance(text), v=pickVoice(lang);
+        u.lang=v?v.lang:code; if(v) u.voice=v; u.rate=0.9; u.pitch=1.05;
+        u.onend=()=>{ clearTimeout(guard); finish(true); }; u.onerror=()=>{ clearTimeout(guard); finish(false); };
+        speechSynthesis.speak(u);
+      }catch(e){ clearTimeout(guard); finish(false); }
+    };
+    const urls=[]; const r=recFor(text,lang); if(r) urls.push(...recUrls(r)); const own=audioUrl(text,lang); if(own) urls.unshift(own);
+    const playNext=()=>{ const u=urls.shift(); if(!u) return tts();
+      try{ const a=new Audio(u); currentAudio=a; a.onended=()=>{ clearTimeout(guard); finish(true); }; a.onerror=()=>playNext(); a.play().catch(()=>playNext()); }catch(e){ playNext(); } };
+    if(urls.length) return playNext();
+    return tts();
     if(!("speechSynthesis" in window)){ clearTimeout(guard); toast(T("noVoice")); return finish(false); }
     try{
       const code=SPEECH[lang]||"en-GB", u=new SpeechSynthesisUtterance(text), v=pickVoice(lang);
@@ -2001,7 +2039,7 @@ function cardActions(){
 }
 function cardFaces(c){
   return `<span class="face front"><span class="code corner">${S.lang.toUpperCase()}</span><span class="word" lang="${S.lang}">${esc(c.f)}</span></span>
-    <span class="face back"><span class="code corner">${UI_CODES[S.ui]}</span><span class="word">${esc(c.b[S.ui]||c.b.uk)}</span><span class="small" lang="${S.lang}">${esc(c.f)}</span></span>`;
+    <span class="face back"><span class="code corner">${UI_CODES[S.ui]}</span><span class="word">${esc(c.b[S.ui]||c.b.uk)}</span><span class="small" lang="${S.lang}">${esc(c.f)}</span>${recCredit(c.f,S.lang,true)}</span>`;
 }
 function cardsView(){
   if(deckLang!==S.lang){ deck=[]; deckLang=S.lang; }
@@ -2058,6 +2096,7 @@ function profileView(){
       <button class="row" data-action="pickLang">${ic("book")}<span class="grow"><span class="title">${T("learnLang")}</span></span><span class="value">${langName(S.lang)}</span>${ic("chev","chev")}</button>
       <button class="row" data-action="toggleSound" role="switch" aria-checked="${S.sound}">${ic("volume")}<span class="grow"><span class="title">${T("sound")}</span></span><span class="switch ${S.sound?"on":""}"></span></button>
       <button class="row" data-action="pickVoice">${ic("mic")}<span class="grow"><span class="title">${T("voice")}</span><span class="sub">${esc(v?v.name:T("voiceNone"))}</span></span>${ic("chev","chev")}</button>
+      <button class="row" data-action="openLink" data-arg="https://commons.wikimedia.org/wiki/Category:Pronunciation">${ic("mic")}<span class="grow"><span class="title">${T("recTitle")}</span><span class="sub">${T("recSub")}</span></span>${ic("chev","chev")}</button>
       <div class="row">${ic("crown")}<span class="grow"><span class="title">${T("plan")}: ${planName()}</span>${PLAN!=="pro"?`<span class="sub">${T("plusNote")}</span>`:""}</span></div>
     </div></div>
     <div class="list"><button class="row danger" data-action="reset">${T("reset")}</button></div>
@@ -2090,7 +2129,7 @@ function lessonView(){
     foot=`<button class="btn" data-action="cont">${T("cont")}</button>`;
   } else if(step.type==="words"){
     body=`<div><h1>${esc(b.title)}</h1><p class="meta" style="margin-top:6px">${T("wordsHint")}</p></div>
-      <div class="list words">${step.items.map((it,k)=>`<div class="row"><span class="grow"><span class="title" lang="${S.lang}">${esc(it.w)}</span><span class="sub">${esc(it.g)}</span></span>
+      <div class="list words">${step.items.map((it,k)=>`<div class="row"><span class="grow"><span class="title" lang="${S.lang}">${esc(it.w)}</span><span class="sub">${esc(it.g)}</span>${recCredit(it.w,S.lang)}</span>
         <button class="mini" data-action="sayWord" data-arg="${k}" aria-label="${T("listen")}">${ic("volume","sm")}</button></div>`).join("")}</div>`;
     foot=`<button class="btn" data-action="cont">${T("cont")}</button>`;
   } else {
@@ -2214,6 +2253,7 @@ document.addEventListener("click",(e)=>{
     case "nextLesson": { const n=nextAfter(session.level,session.unit,session.idx); return n?startLesson(n.level,n.unit,n.idx):closeLesson(); }
     case "toggleSound": S.sound=!S.sound; save(); if(!S.sound) stopSpeech(); return render();
     case "reset": return confirmReset();
+    case "openLink": try{ if(inTg&&tg.openLink) return tg.openLink(arg); }catch(err){} try{ window.open(arg,"_blank","noopener"); }catch(err){} return;
   }
 });
 // Хостинг може додати свою закріплену смужку внизу. Не ховаємо її, а піднімаємо свої нижні елементи над нею.
