@@ -637,6 +637,264 @@ function lessonBody(key){
 function hasLesson(lang,level,unit,idx){ return !!LESSONS[`${lang}-${level}-${unit}-${idx}`]; }
 
 
+// ================= Уроки A1 (розділи 1–2) для решти мов =================
+// Фрази мови навчання. Уроки збираються з шаблонів нижче для кожної мови інтерфейсу.
+const PH={
+ pl:{hi:"Cześć",goodDay:"Dzień dobry",bye:"Do widzenia",thanks:"Dziękuję",iDontUnderstand:"Nie rozumiem.",
+  name:"Nazywam się {n}.",askName:"Jak się pani nazywa?",whereFromQ:"Skąd pani jest?",replyName:"Miło mi. Skąd pani jest?",
+  iAmFromUkraine:"Jestem z Ukrainy.",replyNeighbour:"Dzień dobry! Miło mi, jestem Jan.",
+  nums:["jeden","dwa","trzy","cztery","pięć","sześć","siedem","osiem","dziewięć","dziesięć"],
+  howMuch:"Ile to kosztuje?",costs3:"To kosztuje trzy złote.",whereToilet:"Gdzie jest toaleta?",
+  liveCapital:"Mieszkam w Warszawie.",whereLive:"Gdzie pani mieszka?",iSpeakLittle:"Mówię trochę po polsku.",niceCity:"Warszawa to piękne miasto!",
+  bread:"chleb",milk:"mleko",water:"woda",apple:"jabłko",
+  wantBread:"Poproszę chleb.",wantMilk:"Poproszę mleko.",wantTea:"Poproszę herbatę.",wantCoffeeMilk:"Poproszę kawę z mlekiem.",
+  whatWould:"Co podać?",hereAnything:"Proszę bardzo. Coś jeszcze?",
+  payCard:"Płacę kartą.",payCash:"Płacę gotówką.",cashWord:"gotówka",makes10:"Razem dziesięć złotych.",thanksReceipt:"Dziękuję! Proszę, paragon.",
+  whatDrink:"Co pani podać do picia?",withMilk:"z mlekiem",withoutMilk:"bez mleka",withSugar:"z cukrem",withoutSugar:"bez cukru",comingUp:"Już się robi!",
+  oneApple:"jedno jabłko",twoApples:"dwa jabłka",threeApples:"trzy jabłka",twoBananas:"dwa banany",
+  thatsAll:"To wszystko, dziękuję.",anythingElse:"Coś jeszcze?",noThatsAll:"Nie, dziękuję. To wszystko.",makes5Bye:"Razem pięć złotych. Miłego dnia!"},
+ cs:{hi:"Ahoj",goodDay:"Dobrý den",bye:"Na shledanou",thanks:"Děkuji",iDontUnderstand:"Nerozumím.",
+  name:"Jmenuji se {n}.",askName:"Jak se jmenujete?",whereFromQ:"Odkud jste?",replyName:"Těší mě. Odkud jste?",
+  iAmFromUkraine:"Jsem z Ukrajiny.",replyNeighbour:"Dobrý den! Těší mě, já jsem Jan.",
+  nums:["jedna","dvě","tři","čtyři","pět","šest","sedm","osm","devět","deset"],
+  howMuch:"Kolik to stojí?",costs3:"Stojí to třicet korun.",whereToilet:"Kde je toaleta?",
+  liveCapital:"Bydlím v Praze.",whereLive:"Kde bydlíte?",iSpeakLittle:"Mluvím trochu česky.",niceCity:"Praha je krásné město!",
+  bread:"chléb",milk:"mléko",water:"voda",apple:"jablko",
+  wantBread:"Jeden chléb, prosím.",wantMilk:"Mléko, prosím.",wantTea:"Jeden čaj, prosím.",wantCoffeeMilk:"Jednu kávu s mlékem, prosím.",
+  whatWould:"Co si přejete?",hereAnything:"Prosím. Ještě něco?",
+  payCard:"Zaplatím kartou.",payCash:"Zaplatím hotově.",cashWord:"hotovost",makes10:"Dohromady sto korun.",thanksReceipt:"Děkuji! Tady je účtenka.",
+  whatDrink:"Co si dáte k pití?",withMilk:"s mlékem",withoutMilk:"bez mléka",withSugar:"s cukrem",withoutSugar:"bez cukru",comingUp:"Hned to bude!",
+  oneApple:"jedno jablko",twoApples:"dvě jablka",threeApples:"tři jablka",twoBananas:"dva banány",
+  thatsAll:"To je všechno, děkuji.",anythingElse:"Ještě něco?",noThatsAll:"Ne, děkuji. To je všechno.",makes5Bye:"Dohromady padesát korun. Hezký den!"},
+ et:{hi:"Tere",goodDay:"Tere päevast",bye:"Head aega",thanks:"Aitäh",iDontUnderstand:"Ma ei saa aru.",
+  name:"Minu nimi on {n}.",askName:"Mis on teie nimi?",whereFromQ:"Kust te pärit olete?",replyName:"Meeldiv tutvuda. Kust te pärit olete?",
+  iAmFromUkraine:"Ma olen pärit Ukrainast.",replyNeighbour:"Tere päevast! Meeldiv tutvuda, mina olen Jaan.",
+  nums:["üks","kaks","kolm","neli","viis","kuus","seitse","kaheksa","üheksa","kümme"],
+  howMuch:"Kui palju see maksab?",costs3:"See maksab kolm eurot.",whereToilet:"Kus on tualett?",
+  liveCapital:"Ma elan Tallinnas.",whereLive:"Kus te elate?",iSpeakLittle:"Ma räägin natuke eesti keelt.",niceCity:"Tallinn on ilus linn!",
+  bread:"leib",milk:"piim",water:"vesi",apple:"õun",
+  wantBread:"Üks leib, palun.",wantMilk:"Piima, palun.",wantTea:"Üks tee, palun.",wantCoffeeMilk:"Üks kohv piimaga, palun.",
+  whatWould:"Mida te soovite?",hereAnything:"Palun. Kas veel midagi?",
+  payCard:"Maksan kaardiga.",payCash:"Maksan sularahas.",cashWord:"sularaha",makes10:"Kokku kümme eurot.",thanksReceipt:"Aitäh! Siin on teie tšekk.",
+  whatDrink:"Mida te juua soovite?",withMilk:"piimaga",withoutMilk:"ilma piimata",withSugar:"suhkruga",withoutSugar:"ilma suhkruta",comingUp:"Kohe tuleb!",
+  oneApple:"üks õun",twoApples:"kaks õuna",threeApples:"kolm õuna",twoBananas:"kaks banaani",
+  thatsAll:"See on kõik, aitäh.",anythingElse:"Kas veel midagi?",noThatsAll:"Ei, aitäh. See on kõik.",makes5Bye:"Kokku viis eurot. Ilusat päeva!"},
+ lv:{hi:"Sveiki",goodDay:"Labdien",bye:"Uz redzēšanos",thanks:"Paldies",iDontUnderstand:"Es nesaprotu.",
+  name:"Mani sauc {n}.",askName:"Kā jūs sauc?",whereFromQ:"No kurienes jūs esat?",replyName:"Prieks iepazīties. No kurienes jūs esat?",
+  iAmFromUkraine:"Es esmu no Ukrainas.",replyNeighbour:"Labdien! Prieks iepazīties, mani sauc Jānis.",
+  nums:["viens","divi","trīs","četri","pieci","seši","septiņi","astoņi","deviņi","desmit"],
+  howMuch:"Cik tas maksā?",costs3:"Tas maksā trīs eiro.",whereToilet:"Kur ir tualete?",
+  liveCapital:"Es dzīvoju Rīgā.",whereLive:"Kur jūs dzīvojat?",iSpeakLittle:"Es mazliet runāju latviski.",niceCity:"Rīga ir skaista pilsēta!",
+  bread:"maize",milk:"piens",water:"ūdens",apple:"ābols",
+  wantBread:"Vienu maizi, lūdzu.",wantMilk:"Pienu, lūdzu.",wantTea:"Vienu tēju, lūdzu.",wantCoffeeMilk:"Vienu kafiju ar pienu, lūdzu.",
+  whatWould:"Ko jūs vēlaties?",hereAnything:"Lūdzu. Vēl kaut ko?",
+  payCard:"Es maksāšu ar karti.",payCash:"Es maksāšu skaidrā naudā.",cashWord:"skaidra nauda",makes10:"Kopā desmit eiro.",thanksReceipt:"Paldies! Lūk, jūsu čeks.",
+  whatDrink:"Ko jūs vēlētos dzert?",withMilk:"ar pienu",withoutMilk:"bez piena",withSugar:"ar cukuru",withoutSugar:"bez cukura",comingUp:"Tūlīt būs!",
+  oneApple:"viens ābols",twoApples:"divi āboli",threeApples:"trīs āboli",twoBananas:"divi banāni",
+  thatsAll:"Tas ir viss, paldies.",anythingElse:"Vēl kaut ko?",noThatsAll:"Nē, paldies. Tas ir viss.",makes5Bye:"Kopā pieci eiro. Jauku dienu!"},
+ lt:{hi:"Labas",goodDay:"Laba diena",bye:"Viso gero",thanks:"Ačiū",iDontUnderstand:"Aš nesuprantu.",
+  name:"Mano vardas {n}.",askName:"Koks jūsų vardas?",whereFromQ:"Iš kur jūs esate?",replyName:"Malonu susipažinti. Iš kur jūs esate?",
+  iAmFromUkraine:"Aš esu iš Ukrainos.",replyNeighbour:"Laba diena! Malonu susipažinti, aš esu Jonas.",
+  nums:["vienas","du","trys","keturi","penki","šeši","septyni","aštuoni","devyni","dešimt"],
+  howMuch:"Kiek tai kainuoja?",costs3:"Tai kainuoja tris eurus.",whereToilet:"Kur yra tualetas?",
+  liveCapital:"Aš gyvenu Vilniuje.",whereLive:"Kur jūs gyvenate?",iSpeakLittle:"Aš truputį kalbu lietuviškai.",niceCity:"Vilnius – gražus miestas!",
+  bread:"duona",milk:"pienas",water:"vanduo",apple:"obuolys",
+  wantBread:"Prašau duonos.",wantMilk:"Prašau pieno.",wantTea:"Prašau arbatos.",wantCoffeeMilk:"Prašau kavos su pienu.",
+  whatWould:"Ko norėtumėte?",hereAnything:"Prašom. Dar ko nors?",
+  payCard:"Mokėsiu kortele.",payCash:"Mokėsiu grynaisiais.",cashWord:"grynieji pinigai",makes10:"Iš viso dešimt eurų.",thanksReceipt:"Ačiū! Štai jūsų kvitas.",
+  whatDrink:"Ką norėtumėte gerti?",withMilk:"su pienu",withoutMilk:"be pieno",withSugar:"su cukrumi",withoutSugar:"be cukraus",comingUp:"Tuoj bus!",
+  oneApple:"vienas obuolys",twoApples:"du obuoliai",threeApples:"trys obuoliai",twoBananas:"du bananai",
+  thatsAll:"Tai viskas, ačiū.",anythingElse:"Dar ko nors?",noThatsAll:"Ne, ačiū. Tai viskas.",makes5Bye:"Iš viso penki eurai. Geros dienos!"},
+ en:{hi:"Hi",goodDay:"Good afternoon",bye:"Goodbye",thanks:"Thank you",iDontUnderstand:"I don't understand.",
+  name:"My name is {n}.",askName:"What's your name?",whereFromQ:"Where are you from?",replyName:"Nice to meet you. Where are you from?",
+  iAmFromUkraine:"I'm from Ukraine.",replyNeighbour:"Good afternoon! Nice to meet you, I'm John.",
+  nums:["one","two","three","four","five","six","seven","eight","nine","ten"],
+  howMuch:"How much is this?",costs3:"It's three pounds.",whereToilet:"Where is the toilet?",
+  liveCapital:"I live in London.",whereLive:"Where do you live?",iSpeakLittle:"I speak a little English.",niceCity:"London is a great city!",
+  bread:"bread",milk:"milk",water:"water",apple:"an apple",
+  wantBread:"I'd like some bread, please.",wantMilk:"I'd like some milk, please.",wantTea:"I'd like a tea, please.",wantCoffeeMilk:"I'd like a coffee with milk, please.",
+  whatWould:"What can I get you?",hereAnything:"Here you are. Anything else?",
+  payCard:"I'll pay by card.",payCash:"I'll pay in cash.",cashWord:"cash",makes10:"That's ten pounds, please.",thanksReceipt:"Thank you! Here's your receipt.",
+  whatDrink:"What would you like to drink?",withMilk:"with milk",withoutMilk:"without milk",withSugar:"with sugar",withoutSugar:"without sugar",comingUp:"Coming right up!",
+  oneApple:"one apple",twoApples:"two apples",threeApples:"three apples",twoBananas:"two bananas",
+  thatsAll:"That's all, thanks.",anythingElse:"Anything else?",noThatsAll:"No, thanks. That's all.",makes5Bye:"That's five pounds. Have a nice day!"},
+ it:{hi:"Ciao",goodDay:"Buongiorno",bye:"Arrivederci",thanks:"Grazie",iDontUnderstand:"Non capisco.",
+  name:"Mi chiamo {n}.",askName:"Come si chiama?",whereFromQ:"Di dov'è?",replyName:"Piacere. Di dov'è?",
+  iAmFromUkraine:"Vengo dall'Ucraina.",replyNeighbour:"Buongiorno! Piacere, io sono Marco.",
+  nums:["uno","due","tre","quattro","cinque","sei","sette","otto","nove","dieci"],
+  howMuch:"Quanto costa?",costs3:"Costa tre euro.",whereToilet:"Dov'è il bagno?",
+  liveCapital:"Abito a Roma.",whereLive:"Dove abita?",iSpeakLittle:"Parlo un po' di italiano.",niceCity:"Roma è bellissima!",
+  bread:"il pane",milk:"il latte",water:"l'acqua",apple:"la mela",
+  wantBread:"Vorrei del pane, per favore.",wantMilk:"Vorrei del latte, per favore.",wantTea:"Vorrei un tè, per favore.",wantCoffeeMilk:"Vorrei un caffè con latte, per favore.",
+  whatWould:"Cosa desidera?",hereAnything:"Ecco a Lei. Altro?",
+  payCard:"Pago con la carta.",payCash:"Pago in contanti.",cashWord:"contanti",makes10:"Sono dieci euro.",thanksReceipt:"Grazie! Ecco lo scontrino.",
+  whatDrink:"Cosa prende da bere?",withMilk:"con latte",withoutMilk:"senza latte",withSugar:"con zucchero",withoutSugar:"senza zucchero",comingUp:"Arriva subito!",
+  oneApple:"una mela",twoApples:"due mele",threeApples:"tre mele",twoBananas:"due banane",
+  thatsAll:"È tutto, grazie.",anythingElse:"Altro?",noThatsAll:"No, grazie. È tutto.",makes5Bye:"Sono cinque euro. Buona giornata!"},
+ es:{hi:"Hola",goodDay:"Buenos días",bye:"Adiós",thanks:"Gracias",iDontUnderstand:"No entiendo.",
+  name:"Me llamo {n}.",askName:"¿Cómo se llama?",whereFromQ:"¿De dónde es usted?",replyName:"Mucho gusto. ¿De dónde es usted?",
+  iAmFromUkraine:"Soy de Ucrania.",replyNeighbour:"¡Buenos días! Mucho gusto, yo soy Carlos.",
+  nums:["uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve","diez"],
+  howMuch:"¿Cuánto cuesta?",costs3:"Cuesta tres euros.",whereToilet:"¿Dónde está el baño?",
+  liveCapital:"Vivo en Madrid.",whereLive:"¿Dónde vive?",iSpeakLittle:"Hablo un poco de español.",niceCity:"¡Madrid es una ciudad preciosa!",
+  bread:"el pan",milk:"la leche",water:"el agua",apple:"la manzana",
+  wantBread:"Quería pan, por favor.",wantMilk:"Quería leche, por favor.",wantTea:"Quería un té, por favor.",wantCoffeeMilk:"Quería un café con leche, por favor.",
+  whatWould:"¿Qué desea?",hereAnything:"Aquí tiene. ¿Algo más?",
+  payCard:"Pago con tarjeta.",payCash:"Pago en efectivo.",cashWord:"efectivo",makes10:"Son diez euros.",thanksReceipt:"¡Gracias! Aquí tiene el recibo.",
+  whatDrink:"¿Qué va a tomar?",withMilk:"con leche",withoutMilk:"sin leche",withSugar:"con azúcar",withoutSugar:"sin azúcar",comingUp:"¡Ahora mismo!",
+  oneApple:"una manzana",twoApples:"dos manzanas",threeApples:"tres manzanas",twoBananas:"dos plátanos",
+  thatsAll:"Eso es todo, gracias.",anythingElse:"¿Algo más?",noThatsAll:"No, gracias. Eso es todo.",makes5Bye:"Son cinco euros. ¡Que tenga un buen día!"}
+};
+const LANG_ADV={pl:{uk:"польською",ru:"по-польски",en:"Polish"},cs:{uk:"чеською",ru:"по-чешски",en:"Czech"},et:{uk:"естонською",ru:"по-эстонски",en:"Estonian"},
+  lv:{uk:"латиською",ru:"по-латышски",en:"Latvian"},lt:{uk:"литовською",ru:"по-литовски",en:"Lithuanian"},en:{uk:"англійською",ru:"по-английски",en:"English"},
+  it:{uk:"італійською",ru:"по-итальянски",en:"Italian"},es:{uk:"іспанською",ru:"по-испански",en:"Spanish"}};
+const LIVE_CAP_UI={pl:{uk:"Я живу у Варшаві",ru:"Я живу в Варшаве",en:"I live in Warsaw"},cs:{uk:"Я живу в Празі",ru:"Я живу в Праге",en:"I live in Prague"},
+  et:{uk:"Я живу в Таллінні",ru:"Я живу в Таллине",en:"I live in Tallinn"},lv:{uk:"Я живу в Ризі",ru:"Я живу в Риге",en:"I live in Riga"},
+  lt:{uk:"Я живу у Вільнюсі",ru:"Я живу в Вильнюсе",en:"I live in Vilnius"},en:{uk:"Я живу в Лондоні",ru:"Я живу в Лондоне",en:"I live in London"},
+  it:{uk:"Я живу в Римі",ru:"Я живу в Риме",en:"I live in Rome"},es:{uk:"Я живу в Мадриді",ru:"Я живу в Мадриде",en:"I live in Madrid"}};
+const GEN_NOTES={
+ pl:{formal:{uk:"До незнайомих звертаються ввічливо: pan — до чоловіка, pani — до жінки.",ru:"К незнакомым обращаются вежливо: pan — к мужчине, pani — к женщине.",en:"With strangers use pan (to a man) or pani (to a woman) as a polite “you”."},
+  gender:{uk:"Артиклів у польській немає, але є рід: chleb — чоловічий, woda — жіночий, mleko — середній.",ru:"Артиклей в польском нет, но есть род: chleb — мужской, woda — женский, mleko — средний.",en:"Polish has no articles but has gender: chleb is masculine, woda feminine, mleko neuter."}},
+ cs:{formal:{uk:"З незнайомими говорять на «ви» (vykání), з друзями — на «ти» (tykání).",ru:"С незнакомыми говорят на «вы» (vykání), с друзьями — на «ты» (tykání).",en:"Use the polite “vy” (vykání) with strangers and “ty” (tykání) with friends."},
+  gender:{uk:"Артиклів у чеській немає, але є рід: chléb — чоловічий, voda — жіночий, mléko — середній.",ru:"Артиклей в чешском нет, но есть род: chléb — мужской, voda — женский, mléko — средний.",en:"Czech has no articles but has gender: chléb is masculine, voda feminine, mléko neuter."}},
+ et:{formal:{uk:"З незнайомими кажуть teie (ви), з друзями — sina (ти).",ru:"С незнакомыми говорят teie (вы), с друзьями — sina (ты).",en:"Use teie (polite “you”) with strangers and sina with friends."},
+  gender:{uk:"В естонській немає ні артиклів, ні роду, тож нові слова запам'ятовувати простіше.",ru:"В эстонском нет ни артиклей, ни рода, поэтому новые слова запоминать проще.",en:"Estonian has neither articles nor gender, which makes new words easier to learn."}},
+ lv:{formal:{uk:"З незнайомими кажуть jūs (ви), з друзями — tu (ти).",ru:"С незнакомыми говорят jūs (вы), с друзьями — tu (ты).",en:"Use jūs (polite “you”) with strangers and tu with friends."},
+  gender:{uk:"Артиклів у латиській немає, а родів лише два: maize — жіночий, piens — чоловічий.",ru:"Артиклей в латышском нет, а родов только два: maize — женский, piens — мужской.",en:"Latvian has no articles and only two genders: maize is feminine, piens masculine."}},
+ lt:{formal:{uk:"З незнайомими кажуть jūs (ви), з друзями — tu (ти).",ru:"С незнакомыми говорят jūs (вы), с друзьями — tu (ты).",en:"Use jūs (polite “you”) with strangers and tu with friends."},
+  gender:{uk:"Артиклів у литовській немає, а родів лише два: duona — жіночий, pienas — чоловічий.",ru:"Артиклей в литовском нет, а родов только два: duona — женский, pienas — мужской.",en:"Lithuanian has no articles and only two genders: duona is feminine, pienas masculine."}},
+ en:{formal:{uk:"Окремого ввічливого «Ви» в англійській немає: ввічливість передають словами please і thank you.",ru:"Отдельного вежливого «Вы» в английском нет: вежливость передают словами please и thank you.",en:"English has no separate polite “you”: politeness comes from please and thank you."},
+  gender:{uk:"Роду в англійській немає, але перед словами, які можна порахувати, ставлять a або an: an apple, a banana.",ru:"Рода в английском нет, но перед словами, которые можно посчитать, ставят a или an: an apple, a banana.",en:"English has no gender, but countable nouns take a or an: an apple, a banana."}},
+ it:{formal:{uk:"До незнайомих звертаються на Lei (ви), до друзів — на tu (ти).",ru:"К незнакомым обращаются на Lei (вы), к друзьям — на tu (ты).",en:"Use Lei (polite “you”) with strangers and tu with friends."},
+  gender:{uk:"Кожне слово має рід і артикль: il pane — чоловічий, la mela — жіночий. Вчіть слово разом з артиклем.",ru:"У каждого слова есть род и артикль: il pane — мужской, la mela — женский. Учите слово вместе с артиклем.",en:"Every noun has a gender and an article: il pane is masculine, la mela feminine. Learn each word with its article."}},
+ es:{formal:{uk:"До незнайомих звертаються на usted (ви), до друзів — на tú (ти).",ru:"К незнакомым обращаются на usted (вы), к друзьям — на tú (ты).",en:"Use usted (polite “you”) with strangers and tú with friends."},
+  gender:{uk:"Кожне слово має рід і артикль: el pan — чоловічий, la leche — жіночий. Вчіть слово разом з артиклем.",ru:"У каждого слова есть род и артикль: el pan — мужской, la leche — женский. Учите слово вместе с артиклем.",en:"Every noun has a gender and an article: el pan is masculine, la leche feminine. Learn each word with its article."}}
+};
+const GEN_TXT={
+ uk:{titles:["Привітання","Як вас звати","Числа і ціни","Розповідь про себе","Продукти","Ціна і оплата","Кав'ярня","Покупки"],
+  goals:["Привітатися і попрощатися ввічливо.","Представитися і запитати ім'я.","Назвати числа від 1 до 10 і спитати ціну.","Сказати, де ви живете і звідки ви.","Назвати основні продукти і попросити їх.","Розплатитися карткою або готівкою.","Замовити напій у кав'ярні.","Назвати кількість і завершити покупку."],
+  l1:{explain:"Неформально вітаються словом {hi}, ввічливо — {goodDay}. Прощаються: {bye}. Подякувати: {thanks}. {noteFormal}",q1:"Як ввічливо привітатися вдень?",q1x:"{goodDay} — ввічливе привітання. {bye} означає «до побачення».",
+   q2:"Що означає «{bye}»?",q2o:["До побачення","Привіт","Дякую","Будь ласка"],q2x:"{bye} — так ввічливо прощаються.",
+   sc:"Ви зустріли нового сусіда в під'їзді. Як привітатися?",w1:"{bye} — це «до побачення». Для привітання скажіть {goodDay}.",w2:"{thanks} — це «дякую». Привітатися можна так: {goodDay}."},
+  l2:{explain:"Щоб представитися, скажіть {myNameX} Ввічливо запитати ім'я: {askName} Запитати, звідки людина: {whereFromQ} Розповісти про себе: {iAmFromUkraine}",
+   q1:"Оберіть фразу «Мене звати Ірина».",q1x:"{nameIryna} — так представляються.",q2:"Як ввічливо спитати «Звідки ви?»",q2x:"{whereFromQ} — ввічливе питання про походження.",
+   sc:"Викладач питає: «{askName}» Як відповісти?",w1:"Це про те, звідки ви. Спершу назвіть ім'я: {myNameX}",w2:"Це «дякую». На питання про ім'я відповідайте: {myNameX}"},
+  l3:{explain:"Числа від 1 до 10: {nList}. Ціну питають так: {howMuch}",q1:"Як буде «сім»?",q1x:"{n7} — сім, {n8} — вісім, {n6} — шість, {n9} — дев'ять.",
+   q2:"Оберіть фразу «Скільки це коштує?»",q2x:"{howMuch} — так питають ціну.",sc:"Ви в крамниці й хочете дізнатися ціну. Що сказати?",
+   w1:"Так питають, де туалет. Щоб дізнатися ціну: {howMuch}",w2:"Це ім'я. Щоб спитати ціну, скажіть: {howMuch}"},
+  l4:{explain:"Щоб сказати, де ви живете: {liveCapital} Звідки ви: {iAmFromUkraine} Якщо мову поки знаєте слабко: {iSpeakLittle}",q1:"Оберіть фразу «{liveCapUI}».",
+   q1x:"{liveCapital} — «{liveCapUI}». А {whereLive} — це питання «Де ви живете?».",q2:"Як сказати «Я трохи говорю {langAdv}»?",q2x:"{iSpeakLittle} — стане в пригоді, поки мова ще нова.",
+   sc:"Знайомий питає: «{whereLive}» Що відповісти?",w1:"Це питання про ціну. Про житло кажуть так: {liveCapital}",w2:"Ви питаєте ім'я. Скажіть, де живете: {liveCapital}"},
+  l5:{explain:"Основні продукти: {bread} — хліб, {milk} — молоко, {water} — вода, {apple} — яблуко. Попросити в магазині: {wantBread} {noteGender}",q1:"Як буде «хліб»?",
+   q1x:"{bread} — хліб, {milk} — молоко, {water} — вода.",q2:"Як попросити молоко?",q2x:"{wantMilk} — так просять молоко.",
+   sc:"Продавець питає: «{whatWould}» Попросіть хліб.",w1:"Це ім'я. Щоб попросити хліб: {wantBread}",w2:"Це «до побачення». Скажіть: {wantBread}"},
+  l6:{explain:"Заплатити карткою: {payCard} Готівкою: {payCash} Слово «готівка» — {cashWord}.",q1:"Як сказати «Я заплачу карткою»?",q1x:"{payCard} — карткою, {payCash} — готівкою.",
+   q2:"Що означає «{cashWord}»?",q2o:["готівка","картка","чек","ціна"],q2x:"{cashWord} — готівка.",sc:"На касі кажуть: «{makes10}» Заплатіть карткою.",
+   w1:"Ціну вже назвали. Щоб заплатити карткою: {payCard}",w2:"Це питання про туалет. Скажіть: {payCard}"},
+  l7:{explain:"Замовити напій: {wantTea} З молоком — {withMilk}, без цукру — {withoutSugar}.",q1:"Як замовити чай?",q1x:"{wantTea} — так замовляють чай.",
+   q2:"Як буде «з молоком»?",q2x:"{withMilk} — з молоком, {withoutMilk} — без молока, {withSugar} — з цукром.",sc:"Бариста питає: «{whatDrink}» Замовте каву з молоком.",
+   w1:"Хліб — не напій. Скажіть: {wantCoffeeMilk}",w2:"Це про оплату. Спершу замовте: {wantCoffeeMilk}"},
+  l8:{explain:"Кількість: {oneApple} — одне яблуко, {twoApples} — два яблука, {threeApples} — три яблука. Завершити покупку: {thatsAll}",q1:"Як буде «два яблука»?",
+   q1x:"{twoApples} — два яблука, {twoBananas} — два банани.",q2:"Оберіть фразу «Це все, дякую».",q2x:"{thatsAll} — так завершують покупку. {anythingElse} — це питання «Ще щось?».",
+   sc:"Продавець питає: «{anythingElse}» Вам більше нічого не треба.",w1:"Так ви просите ще хліб. Якщо більше нічого не треба: {noThatsAll}",w2:"Це ім'я. Скажіть: {noThatsAll}"}},
+ ru:{titles:["Приветствие","Как вас зовут","Числа и цены","Рассказ о себе","Продукты","Цена и оплата","Кафе","Покупки"],
+  goals:["Поздороваться и попрощаться вежливо.","Представиться и спросить имя.","Назвать числа от 1 до 10 и спросить цену.","Сказать, где вы живёте и откуда вы.","Назвать основные продукты и попросить их.","Расплатиться картой или наличными.","Заказать напиток в кафе.","Назвать количество и закончить покупку."],
+  l1:{explain:"Неформально здороваются словом {hi}, вежливо — {goodDay}. Прощаются: {bye}. Поблагодарить: {thanks}. {noteFormal}",q1:"Как вежливо поздороваться днём?",q1x:"{goodDay} — вежливое приветствие. {bye} значит «до свидания».",
+   q2:"Что значит «{bye}»?",q2o:["До свидания","Привет","Спасибо","Пожалуйста"],q2x:"{bye} — так вежливо прощаются.",
+   sc:"Вы встретили нового соседа в подъезде. Как поздороваться?",w1:"{bye} — это «до свидания». Чтобы поздороваться, скажите {goodDay}.",w2:"{thanks} — это «спасибо». Поздороваться можно так: {goodDay}."},
+  l2:{explain:"Чтобы представиться, скажите {myNameX} Вежливо спросить имя: {askName} Спросить, откуда человек: {whereFromQ} Рассказать о себе: {iAmFromUkraine}",
+   q1:"Выберите фразу «Меня зовут Ирина».",q1x:"{nameIryna} — так представляются.",q2:"Как вежливо спросить «Откуда вы?»",q2x:"{whereFromQ} — вежливый вопрос о происхождении.",
+   sc:"Преподаватель спрашивает: «{askName}» Как ответить?",w1:"Это о том, откуда вы. Сначала назовите имя: {myNameX}",w2:"Это «спасибо». На вопрос об имени отвечайте: {myNameX}"},
+  l3:{explain:"Числа от 1 до 10: {nList}. Цену спрашивают так: {howMuch}",q1:"Как будет «семь»?",q1x:"{n7} — семь, {n8} — восемь, {n6} — шесть, {n9} — девять.",
+   q2:"Выберите фразу «Сколько это стоит?»",q2x:"{howMuch} — так спрашивают цену.",sc:"Вы в магазине и хотите узнать цену. Что сказать?",
+   w1:"Так спрашивают, где туалет. Чтобы узнать цену: {howMuch}",w2:"Это имя. Чтобы спросить цену, скажите: {howMuch}"},
+  l4:{explain:"Чтобы сказать, где вы живёте: {liveCapital} Откуда вы: {iAmFromUkraine} Если язык пока знаете слабо: {iSpeakLittle}",q1:"Выберите фразу «{liveCapUI}».",
+   q1x:"{liveCapital} — «{liveCapUI}». А {whereLive} — это вопрос «Где вы живёте?».",q2:"Как сказать «Я немного говорю {langAdv}»?",q2x:"{iSpeakLittle} — пригодится, пока язык ещё новый.",
+   sc:"Знакомый спрашивает: «{whereLive}» Что ответить?",w1:"Это вопрос о цене. О жилье говорят так: {liveCapital}",w2:"Вы спрашиваете имя. Скажите, где живёте: {liveCapital}"},
+  l5:{explain:"Основные продукты: {bread} — хлеб, {milk} — молоко, {water} — вода, {apple} — яблоко. Попросить в магазине: {wantBread} {noteGender}",q1:"Как будет «хлеб»?",
+   q1x:"{bread} — хлеб, {milk} — молоко, {water} — вода.",q2:"Как попросить молоко?",q2x:"{wantMilk} — так просят молоко.",
+   sc:"Продавец спрашивает: «{whatWould}» Попросите хлеб.",w1:"Это имя. Чтобы попросить хлеб: {wantBread}",w2:"Это «до свидания». Скажите: {wantBread}"},
+  l6:{explain:"Заплатить картой: {payCard} Наличными: {payCash} Слово «наличные» — {cashWord}.",q1:"Как сказать «Я заплачу картой»?",q1x:"{payCard} — картой, {payCash} — наличными.",
+   q2:"Что значит «{cashWord}»?",q2o:["наличные","карта","чек","цена"],q2x:"{cashWord} — наличные.",sc:"На кассе говорят: «{makes10}» Заплатите картой.",
+   w1:"Цену уже назвали. Чтобы заплатить картой: {payCard}",w2:"Это вопрос о туалете. Скажите: {payCard}"},
+  l7:{explain:"Заказать напиток: {wantTea} С молоком — {withMilk}, без сахара — {withoutSugar}.",q1:"Как заказать чай?",q1x:"{wantTea} — так заказывают чай.",
+   q2:"Как будет «с молоком»?",q2x:"{withMilk} — с молоком, {withoutMilk} — без молока, {withSugar} — с сахаром.",sc:"Бариста спрашивает: «{whatDrink}» Закажите кофе с молоком.",
+   w1:"Хлеб — не напиток. Скажите: {wantCoffeeMilk}",w2:"Это про оплату. Сначала закажите: {wantCoffeeMilk}"},
+  l8:{explain:"Количество: {oneApple} — одно яблоко, {twoApples} — два яблока, {threeApples} — три яблока. Закончить покупку: {thatsAll}",q1:"Как будет «два яблока»?",
+   q1x:"{twoApples} — два яблока, {twoBananas} — два банана.",q2:"Выберите фразу «Это всё, спасибо».",q2x:"{thatsAll} — так заканчивают покупку. {anythingElse} — это вопрос «Что-то ещё?».",
+   sc:"Продавец спрашивает: «{anythingElse}» Вам больше ничего не нужно.",w1:"Так вы просите ещё хлеб. Если больше ничего не нужно: {noThatsAll}",w2:"Это имя. Скажите: {noThatsAll}"}},
+ en:{titles:["Greetings","What's your name","Numbers and prices","About yourself","Groceries","Price and payment","At the café","Shopping"],
+  goals:["Say hello and goodbye politely.","Introduce yourself and ask someone's name.","Count from 1 to 10 and ask the price.","Say where you live and where you're from.","Name basic foods and ask for them.","Pay by card or in cash.","Order a drink at a café.","Say how many and finish shopping."],
+  l1:{explain:"The casual greeting is {hi}; the polite one is {goodDay}. To say goodbye: {bye}. To thank someone: {thanks}. {noteFormal}",q1:"How do you greet someone politely during the day?",q1x:"{goodDay} is the polite greeting. {bye} means “goodbye”.",
+   q2:"What does “{bye}” mean?",q2o:["Goodbye","Hello","Thank you","Please"],q2x:"{bye} is the polite way to say goodbye.",
+   sc:"You meet a new neighbour in the stairwell. How do you greet them?",w1:"{bye} means “goodbye”. To greet someone say {goodDay}.",w2:"{thanks} means “thank you”. To greet someone say {goodDay}."},
+  l2:{explain:"To introduce yourself, say {myNameX} To politely ask someone's name: {askName} To ask where they're from: {whereFromQ} To talk about yourself: {iAmFromUkraine}",
+   q1:"Choose the phrase “My name is Iryna”.",q1x:"{nameIryna} is how you introduce yourself.",q2:"How do you politely ask “Where are you from?”",q2x:"{whereFromQ} is the polite question about where someone is from.",
+   sc:"The teacher asks: “{askName}” How do you answer?",w1:"That says where you're from. First give your name: {myNameX}",w2:"That means “thank you”. Answer a name question with: {myNameX}"},
+  l3:{explain:"Numbers 1 to 10: {nList}. To ask the price: {howMuch}",q1:"How do you say “seven”?",q1x:"{n7} is seven, {n8} is eight, {n6} is six, {n9} is nine.",
+   q2:"Choose the phrase “How much does this cost?”",q2x:"{howMuch} is how you ask the price.",sc:"You're in a shop and want to know the price. What do you say?",
+   w1:"That asks where the toilet is. To ask the price: {howMuch}",w2:"That's a name. To ask the price say: {howMuch}"},
+  l4:{explain:"To say where you live: {liveCapital} Where you're from: {iAmFromUkraine} If the language is still new to you: {iSpeakLittle}",q1:"Choose the phrase “{liveCapUI}”.",
+   q1x:"{liveCapital} means “{liveCapUI}”. {whereLive} is the question “Where do you live?”.",q2:"How do you say “I speak a little {langAdv}”?",q2x:"{iSpeakLittle} comes in handy while the language is still new.",
+   sc:"A friend asks: “{whereLive}” What do you answer?",w1:"That asks the price. To say where you live: {liveCapital}",w2:"You're asking their name. Say where you live: {liveCapital}"},
+  l5:{explain:"Basic foods: {bread} means bread, {milk} milk, {water} water, {apple} an apple. To ask for something in a shop: {wantBread} {noteGender}",q1:"How do you say “bread”?",
+   q1x:"{bread} is bread, {milk} is milk, {water} is water.",q2:"How do you ask for milk?",q2x:"{wantMilk} is how you ask for milk.",
+   sc:"The shop assistant asks: “{whatWould}” Ask for bread.",w1:"That's a name. To ask for bread: {wantBread}",w2:"That means “goodbye”. Say: {wantBread}"},
+  l6:{explain:"To pay by card: {payCard} In cash: {payCash} The word for cash is {cashWord}.",q1:"How do you say “I'll pay by card”?",q1x:"{payCard} is by card, {payCash} is in cash.",
+   q2:"What does “{cashWord}” mean?",q2o:["cash","card","receipt","price"],q2x:"{cashWord} means cash.",sc:"At the till you hear: “{makes10}” Pay by card.",
+   w1:"You've already been told the price. To pay by card: {payCard}",w2:"That asks where the toilet is. Say: {payCard}"},
+  l7:{explain:"To order a drink: {wantTea} With milk is {withMilk}; without sugar is {withoutSugar}.",q1:"How do you order a tea?",q1x:"{wantTea} is how you order tea.",
+   q2:"How do you say “with milk”?",q2x:"{withMilk} is with milk, {withoutMilk} without milk, {withSugar} with sugar.",sc:"The barista asks: “{whatDrink}” Order a coffee with milk.",
+   w1:"Bread isn't a drink. Say: {wantCoffeeMilk}",w2:"That's about paying. First order: {wantCoffeeMilk}"},
+  l8:{explain:"Quantities: {oneApple} is one apple, {twoApples} two apples, {threeApples} three apples. To finish shopping: {thatsAll}",q1:"How do you say “two apples”?",
+   q1x:"{twoApples} is two apples, {twoBananas} two bananas.",q2:"Choose the phrase “That's all, thanks”.",q2x:"{thatsAll} is how you finish shopping. {anythingElse} is the question “Anything else?”.",
+   sc:"The assistant asks: “{anythingElse}” You don't need anything else.",w1:"That asks for more bread. If you need nothing else: {noThatsAll}",w2:"That's a name. Say: {noThatsAll}"}}
+};
+function buildGeneratedLessons(){
+  for(const c of Object.keys(PH)){
+    const P=PH[c], name=n=>P.name.replace("{n}",n), ex=s=>c==="es"?"¡"+s+"!":s+"!";
+    const V0={...P,nList:P.nums.join(", "),n6:P.nums[5],n7:P.nums[6],n8:P.nums[7],n9:P.nums[8],myNameX:name("..."),nameIryna:name("Iryna")};
+    const bodies={};
+    for(const u of ["uk","ru","en"]){
+      const X=GEN_TXT[u], V={...V0,langAdv:LANG_ADV[c][u],liveCapUI:LIVE_CAP_UI[c][u],noteFormal:GEN_NOTES[c].formal[u],noteGender:GEN_NOTES[c].gender[u]};
+      const f=s=>s.replace(/\{(\w+)\}/g,(m,k)=>k in V?V[k]:m);
+      const ex1=t=>({type:"explain",text:f(t)});
+      const quiz=(q,opts,x,ui)=>({type:"quiz",question:f(q),options:opts,answer:0,explain:f(x),uiOpts:!!ui});
+      const dlg=(t,ok,okReply,a,wa,b,wb)=>({type:"dialogue",scene:f(t.sc),options:[{text:ok,ok:true,reply:okReply},{text:a,ok:false,reply:f(wa)},{text:b,ok:false,reply:f(wb)}]});
+      const L=[
+        [ex1(X.l1.explain),quiz(X.l1.q1,[P.goodDay,P.bye,P.thanks,P.iDontUnderstand],X.l1.q1x),quiz(X.l1.q2,X.l1.q2o,X.l1.q2x,true),
+          dlg(X.l1,ex(P.goodDay)+" "+name("Olena"),P.replyNeighbour,ex(P.bye),X.l1.w1,P.thanks+".",X.l1.w2)],
+        [ex1(X.l2.explain),quiz(X.l2.q1,[name("Iryna"),P.whereFromQ,P.howMuch,P.whereToilet],X.l2.q1x),quiz(X.l2.q2,[P.whereFromQ,P.askName,P.howMuch,P.iDontUnderstand],X.l2.q2x),
+          dlg(X.l2,name("Olena"),P.replyName,P.iAmFromUkraine,X.l2.w1,P.thanks+".",X.l2.w2)],
+        [ex1(X.l3.explain),quiz(X.l3.q1,[P.nums[6],P.nums[7],P.nums[5],P.nums[8]],X.l3.q1x),quiz(X.l3.q2,[P.howMuch,P.whereToilet,P.askName,P.iDontUnderstand],X.l3.q2x),
+          dlg(X.l3,P.howMuch,P.costs3,P.whereToilet,X.l3.w1,name("Anna"),X.l3.w2)],
+        [ex1(X.l4.explain),quiz(X.l4.q1,[P.liveCapital,P.iAmFromUkraine,P.whereLive,P.iSpeakLittle],X.l4.q1x),quiz(X.l4.q2,[P.iSpeakLittle,P.iDontUnderstand,P.iAmFromUkraine,P.thanks+"."],X.l4.q2x),
+          dlg(X.l4,P.liveCapital,P.niceCity,P.howMuch,X.l4.w1,P.askName,X.l4.w2)],
+        [ex1(X.l5.explain),quiz(X.l5.q1,[P.bread,P.milk,P.water,P.apple],X.l5.q1x),quiz(X.l5.q2,[P.wantMilk,P.wantBread,P.wantTea,P.howMuch],X.l5.q2x),
+          dlg(X.l5,P.wantBread,P.hereAnything,name("Olena"),X.l5.w1,ex(P.bye),X.l5.w2)],
+        [ex1(X.l6.explain),quiz(X.l6.q1,[P.payCard,P.payCash,P.howMuch,P.thanks+"."],X.l6.q1x),quiz(X.l6.q2,X.l6.q2o,X.l6.q2x,true),
+          dlg(X.l6,P.payCard,P.thanksReceipt,P.howMuch,X.l6.w1,P.whereToilet,X.l6.w2)],
+        [ex1(X.l7.explain),quiz(X.l7.q1,[P.wantTea,P.wantMilk,P.wantBread,P.payCard],X.l7.q1x),quiz(X.l7.q2,[P.withMilk,P.withoutMilk,P.withSugar,P.withoutSugar],X.l7.q2x),
+          dlg(X.l7,P.wantCoffeeMilk,P.comingUp,P.wantBread,X.l7.w1,P.payCash,X.l7.w2)],
+        [ex1(X.l8.explain),quiz(X.l8.q1,[P.twoApples,P.threeApples,P.oneApple,P.twoBananas],X.l8.q1x),quiz(X.l8.q2,[P.thatsAll,P.anythingElse,P.howMuch,P.iDontUnderstand],X.l8.q2x),
+          dlg(X.l8,P.noThatsAll,P.makes5Bye,P.wantBread,X.l8.w1,name("Olena"),X.l8.w2)]
+      ];
+      L.forEach((steps,i)=>{ const key=`${c}-A1-${i<4?1:2}-${i%4+1}`; (bodies[key]=bodies[key]||{})[u]={title:X.titles[i],goal:X.goals[i],steps}; });
+    }
+    for(const key in bodies){
+      if(LESSONS[key]) continue; // уроки, написані вручну, мають пріоритет
+      LESSONS[key]=bodies[key].uk; LESSON_TR[key]={};
+      for(const u of ["ru","en"]){
+        const b=bodies[key][u];
+        LESSON_TR[key][u]={title:b.title,goal:b.goal,steps:b.steps.map(st=>st.type==="explain"?{text:st.text}
+          :st.type==="quiz"?{question:st.question,explain:st.explain,...(st.uiOpts?{options:st.options}:{})}
+          :{scene:st.scene,replies:st.options.map(o=>o.reply)})};
+      }
+    }
+  }
+}
+buildGeneratedLessons();
+
 // ================= Іконки (один набір, лінійні) =================
 const ICONS={
   route:'<circle cx="6" cy="5" r="2.2"/><circle cx="18" cy="19" r="2.2"/><path d="M6 7.2V8a3 3 0 0 0 3 3h6a3 3 0 0 1 3 3v2.8"/>',
@@ -977,7 +1235,7 @@ function lessonView(){
       let cls="";
       if(s.chosen!==null){ cls= orig===right?"right": d===s.chosen?"wrong":"dim"; }
       const t=texts[orig];
-      return `<button class="opt ${cls}" data-action="answer" data-arg="${d}" ${s.chosen!==null?"disabled":""} ${hasCyr(t)?"":`lang="${S.lang}"`}>
+      return `<button class="opt ${cls}" data-action="answer" data-arg="${d}" ${s.chosen!==null?"disabled":""} ${(step.optionsLocalized||step.uiOpts||hasCyr(t))?"":`lang="${S.lang}"`}>
         <span class="key">${"ABCD"[d]}</span><span>${esc(t)}</span></button>`;
     }).join("");
     if(step.type==="quiz") body=`<h1>${esc(step.question)}</h1><div class="opts">${opts}</div>`;
@@ -995,7 +1253,7 @@ function lessonView(){
       let note="";
       if(step.type==="quiz") note=step.explain;
       else if(!ok) note=step.options[order[s.chosen]].reply;
-      const rightText=texts[right], canListen=!step.optionsLocalized&&!hasCyr(rightText)&&step.type==="quiz";
+      const rightText=texts[right], canListen=!step.optionsLocalized&&!step.uiOpts&&!hasCyr(rightText)&&step.type==="quiz";
       foot=`<div class="fb ${ok?"ok":"bad"}"><div class="fb-head">${ic(ok?"checkCircle":"xCircle")}${ok?T("correct"):T("wrong")}</div>
         ${note?`<p>${esc(note)}</p>`:""}
         <div class="fb-row">${canListen?`<button class="mini" data-action="listenAnswer" aria-label="${T("listen")}">${ic("volume")}</button>`:""}
