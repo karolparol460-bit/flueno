@@ -254,6 +254,19 @@ h2,.h2{font-weight:800;font-size:18px;line-height:1.3;margin:0;text-wrap:balance
 .row > .ic:first-child{color:var(--text-2)}
 .stat-val{font-weight:800;font-size:17px}
 .app.full{padding:0;max-width:none}
+
+.mini{width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--surface-2);color:var(--text);flex:0 0 auto}
+.mini.playing,.listen-big.playing{color:var(--accent-ink)}
+.mini.playing .ic,.listen-big.playing .ic{animation:pulse .9s ease-in-out infinite}
+.words .row{min-height:64px}
+.words .title{font-size:18px}
+.voice-pick{text-align:left;padding:var(--s1) 0}
+.les.rev:not(.done):not(.cur){background:color-mix(in oklab,var(--lv) 18%,var(--surface-2));color:var(--lv)}
+.listen-big{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--s2);width:100%;padding:var(--s6);border-radius:var(--r-lg);
+  background:color-mix(in oklab,var(--accent) 14%,var(--surface));color:var(--text);font-weight:800}
+.listen-big .ic{width:40px;height:40px;color:var(--accent-ink)}
+#cardActions .btn+.btn{margin-top:var(--s2)}
+#cardActions .rate+.btn{margin-top:var(--s3)}
 [hidden]{display:none !important}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
 </style>
@@ -273,48 +286,63 @@ h2,.h2{font-weight:800;font-size:18px;line-height:1.3;margin:0;text-wrap:balance
 const UI={
  uk:{welcome:"Вивчайте мову для життя за кордоном",chooseUi:"Мова застосунку",chooseLang:"Яку мову вивчаєте?",chooseLangSub:"Мову можна змінити будь-коли в профілі.",
   learn:"Маршрут",cards:"Картки",profile:"Профіль",soon:"Уроки скоро з'являться",plusOnly:"Доступно в Plus і Pro",
-  plusNote:"Більше розділів і рівнів — у тарифах Plus і Pro. Оформити можна в боті командою /plans.",
-  explain:"Пояснення",cont:"Продовжити",check:"Перевірити",correct:"Правильно!",wrong:"Не зовсім",situation:"Ситуація",pick:"Оберіть відповідь",
+  plusNote:"Більше рівнів — у тарифах Plus (A1–B1) і Pro (A1–C1). Оформити можна в боті командою /plans.",
+  explain:"Пояснення",cont:"Продовжити",correct:"Правильно!",wrong:"Не зовсім",situation:"Ситуація",pick:"Оберіть відповідь",
   dontKnow:"Не знаю",hard:"Важко",easy:"Легко",showAnswer:"Показати переклад",tapFlip:"Торкніться картки, щоб перевернути",
   deckDone:"На сьогодні все!",deckDoneSub:"Нові картки з'являться, коли настане час повторення.",toRoute:"До маршруту",
   learned:"Вивчено слів",streak:"Днів поспіль",lessonsDone:"Уроків пройдено",progress:"Прогрес",settings:"Налаштування",
-  plan:"Тариф",free:"Безкоштовний",reset:"Скинути прогрес",resetQ:"Скинути весь прогрес? Це не можна скасувати.",resetOk:"Прогрес скинуто",
+  plan:"Тариф",planFree:"Безкоштовний",planPlus:"Plus",planPro:"Pro",reset:"Скинути прогрес",resetQ:"Скинути весь прогрес? Це не можна скасувати.",resetOk:"Прогрес скинуто",
   uiLang:"Мова застосунку",learnLang:"Мова навчання",sound:"Озвучка",cardsLeft:"Залишилось: {n}",listen:"Слухати",
   reviewDue:"Повторити картки",lessonsCount:"Уроки: {d} / {t}",levelLocked:"Пройдіть {lv}, щоб відкрити",
   upNext:"Далі: {title}",startLesson:"Почати урок",unitDone:"Розділ пройдено. Можна повторити будь-який урок.",
   lessonDone:"Урок пройдено!",lessonRetry:"Майже вийшло",scoreLine:"Правильних відповідей: {c} з {t}",nextLesson:"Наступний урок",retry:"Пройти ще раз",
   now:"зараз",days:"{n} дн.",close:"Закрити",back:"Назад",lockedLesson:"Спершу пройдіть попередній урок",
   msgStart:"Привіт! Я Лінго. Почнемо з першого уроку?",msgGo:"Чудово йдеш! Продовжуймо.",msgDue:"Час повторити слова, поки вони свіжі.",msgLevel:"Новий рівень відкрито!",
+  review:"Повторення",reviewGoal:"Закріпіть слова і фрази з цього розділу.",vocabGoal:"Нових слів: {n}",newWords:"Нові слова",
+  wordsHint:"Послухайте кожне слово і запам'ятайте переклад.",qMeaning:"Що означає «{w}»?",qSay:"Як буде «{g}»?",qListen:"Послухайте й оберіть слово",
+  playAgain:"Ще раз",autoplay:"Слухати картки",stop:"Зупинити",noVoice:"На цьому пристрої немає голосу для цієї мови",
+  noVoiceHint:"На цьому пристрої немає голосу для цієї мови, тому картки показуються без звуку.",
+  voice:"Голос",voiceAuto:"Автоматично: найкращий жіночий",voiceTest:"Прослухати",voiceNone:"На цьому пристрої немає голосів для цієї мови.",
   levels:{A1:"Початковий",A2:"Елементарний",B1:"Середній",B2:"Вище середнього",C1:"Просунутий"}},
  ru:{welcome:"Учите язык для жизни за границей",chooseUi:"Язык приложения",chooseLang:"Какой язык учите?",chooseLangSub:"Язык можно сменить в любой момент в профиле.",
   learn:"Маршрут",cards:"Карточки",profile:"Профиль",soon:"Уроки скоро появятся",plusOnly:"Доступно в Plus и Pro",
-  plusNote:"Больше разделов и уровней — в тарифах Plus и Pro. Оформить можно в боте командой /plans.",
-  explain:"Объяснение",cont:"Продолжить",check:"Проверить",correct:"Верно!",wrong:"Не совсем",situation:"Ситуация",pick:"Выберите ответ",
+  plusNote:"Больше уровней — в тарифах Plus (A1–B1) и Pro (A1–C1). Оформить можно в боте командой /plans.",
+  explain:"Объяснение",cont:"Продолжить",correct:"Верно!",wrong:"Не совсем",situation:"Ситуация",pick:"Выберите ответ",
   dontKnow:"Не знаю",hard:"Трудно",easy:"Легко",showAnswer:"Показать перевод",tapFlip:"Коснитесь карточки, чтобы перевернуть",
   deckDone:"На сегодня всё!",deckDoneSub:"Новые карточки появятся, когда придёт время повторения.",toRoute:"К маршруту",
   learned:"Выучено слов",streak:"Дней подряд",lessonsDone:"Уроков пройдено",progress:"Прогресс",settings:"Настройки",
-  plan:"Тариф",free:"Бесплатный",reset:"Сбросить прогресс",resetQ:"Сбросить весь прогресс? Это нельзя отменить.",resetOk:"Прогресс сброшен",
+  plan:"Тариф",planFree:"Бесплатный",planPlus:"Plus",planPro:"Pro",reset:"Сбросить прогресс",resetQ:"Сбросить весь прогресс? Это нельзя отменить.",resetOk:"Прогресс сброшен",
   uiLang:"Язык приложения",learnLang:"Язык обучения",sound:"Озвучка",cardsLeft:"Осталось: {n}",listen:"Слушать",
   reviewDue:"Повторить карточки",lessonsCount:"Уроки: {d} / {t}",levelLocked:"Пройдите {lv}, чтобы открыть",
   upNext:"Дальше: {title}",startLesson:"Начать урок",unitDone:"Раздел пройден. Можно повторить любой урок.",
   lessonDone:"Урок пройден!",lessonRetry:"Почти получилось",scoreLine:"Правильных ответов: {c} из {t}",nextLesson:"Следующий урок",retry:"Пройти ещё раз",
   now:"сейчас",days:"{n} дн.",close:"Закрыть",back:"Назад",lockedLesson:"Сначала пройдите предыдущий урок",
   msgStart:"Привет! Я Линго. Начнём с первого урока?",msgGo:"Отлично идёшь! Продолжаем.",msgDue:"Пора повторить слова, пока они свежие.",msgLevel:"Новый уровень открыт!",
+  review:"Повторение",reviewGoal:"Закрепите слова и фразы из этого раздела.",vocabGoal:"Новых слов: {n}",newWords:"Новые слова",
+  wordsHint:"Послушайте каждое слово и запомните перевод.",qMeaning:"Что значит «{w}»?",qSay:"Как будет «{g}»?",qListen:"Послушайте и выберите слово",
+  playAgain:"Ещё раз",autoplay:"Слушать карточки",stop:"Остановить",noVoice:"На этом устройстве нет голоса для этого языка",
+  noVoiceHint:"На этом устройстве нет голоса для этого языка, поэтому карточки показываются без звука.",
+  voice:"Голос",voiceAuto:"Автоматически: лучший женский",voiceTest:"Прослушать",voiceNone:"На этом устройстве нет голосов для этого языка.",
   levels:{A1:"Начальный",A2:"Элементарный",B1:"Средний",B2:"Выше среднего",C1:"Продвинутый"}},
  en:{welcome:"Learn a language for life abroad",chooseUi:"App language",chooseLang:"Which language are you learning?",chooseLangSub:"You can change it any time in your profile.",
   learn:"Path",cards:"Cards",profile:"Profile",soon:"Lessons coming soon",plusOnly:"Available in Plus and Pro",
-  plusNote:"More units and levels come with Plus and Pro. Get them in the bot with /plans.",
-  explain:"Explanation",cont:"Continue",check:"Check",correct:"Correct!",wrong:"Not quite",situation:"Situation",pick:"Choose an answer",
+  plusNote:"More levels come with Plus (A1–B1) and Pro (A1–C1). Get them in the bot with /plans.",
+  explain:"Explanation",cont:"Continue",correct:"Correct!",wrong:"Not quite",situation:"Situation",pick:"Choose an answer",
   dontKnow:"Don't know",hard:"Hard",easy:"Easy",showAnswer:"Show translation",tapFlip:"Tap the card to flip it",
   deckDone:"All done for today!",deckDoneSub:"New cards will appear when it's time to review.",toRoute:"Back to path",
   learned:"Words learned",streak:"Day streak",lessonsDone:"Lessons completed",progress:"Progress",settings:"Settings",
-  plan:"Plan",free:"Free",reset:"Reset progress",resetQ:"Reset all progress? This can't be undone.",resetOk:"Progress reset",
+  plan:"Plan",planFree:"Free",planPlus:"Plus",planPro:"Pro",reset:"Reset progress",resetQ:"Reset all progress? This can't be undone.",resetOk:"Progress reset",
   uiLang:"App language",learnLang:"Learning language",sound:"Sound",cardsLeft:"{n} left",listen:"Listen",
   reviewDue:"Review cards",lessonsCount:"Lessons: {d} / {t}",levelLocked:"Finish {lv} to unlock",
   upNext:"Up next: {title}",startLesson:"Start lesson",unitDone:"Unit complete. You can replay any lesson.",
   lessonDone:"Lesson complete!",lessonRetry:"Almost there",scoreLine:"Correct answers: {c} of {t}",nextLesson:"Next lesson",retry:"Try again",
   now:"now",days:"{n} d",close:"Close",back:"Back",lockedLesson:"Finish the previous lesson first",
   msgStart:"Hi! I'm Lingo. Shall we start with the first lesson?",msgGo:"You're doing great! Let's keep going.",msgDue:"Time to review your words while they're fresh.",msgLevel:"New level unlocked!",
+  review:"Review",reviewGoal:"Practise the words and phrases from this unit.",vocabGoal:"New words: {n}",newWords:"New words",
+  wordsHint:"Listen to each word and remember its translation.",qMeaning:"What does “{w}” mean?",qSay:"How do you say “{g}”?",qListen:"Listen and choose the word",
+  playAgain:"Play again",autoplay:"Listen to cards",stop:"Stop",noVoice:"This device has no voice for this language",
+  noVoiceHint:"This device has no voice for this language, so cards are shown without sound.",
+  voice:"Voice",voiceAuto:"Automatic: best female voice",voiceTest:"Listen",voiceNone:"This device has no voices for this language.",
   levels:{A1:"Beginner",A2:"Elementary",B1:"Intermediate",B2:"Upper-intermediate",C1:"Advanced"}}
 };
 const UI_NAMES={uk:"Українська",ru:"Русский",en:"English"};
@@ -328,13 +356,9 @@ const LANG_NAMES={
   en:{uk:"Англійська",ru:"Английский",en:"English"}, it:{uk:"Італійська",ru:"Итальянский",en:"Italian"},
   es:{uk:"Іспанська",ru:"Испанский",en:"Spanish"}
 };
-const UNITS_I18N={
-  uk:["Знайомство і побут","Їжа і магазини","Транспорт і місто","Житло і оренда","Робота і співбесіда","Лікар і здоров'я","Документи та установи","Освіта і діти","Гроші і банки","Дозвілля і плани"],
-  ru:["Знакомство и быт","Еда и магазины","Транспорт и город","Жильё и аренда","Работа и собеседование","Врач и здоровье","Документы и учреждения","Учёба и дети","Деньги и банки","Досуг и планы"],
-  en:["Introductions and daily life","Food and shops","Transport and the city","Housing and rent","Work and job interviews","Doctor and health","Documents and offices","Study and children","Money and banks","Leisure and plans"]
-};
 const LEVELS=["A1","A2","B1","B2","C1"];
-const UNIT_COUNT=10, LESSONS_PER_UNIT=4, FREE_UNITS_A1=2;
+const UNIT_COUNT=5, LESSONS_PER_UNIT=5; // 4 уроки + повторення в кожному розділі
+const PLAN=(()=>{ try{ const p=new URLSearchParams(location.search).get("plan"); return ["free","plus","pro"].includes(p)?p:"free"; }catch(e){ return "free"; } })();
 
 // ================= Картки (SM-2 інтервальні повторення) =================
 // Формат: [слово, переклад, озвучка(необов'язково)]
@@ -620,7 +644,7 @@ const LESSON_TR={
    {scene:"The driver asks: Wohin möchten Sie? What do you say?",replies:["Gut. Das macht zehn Euro.","The driver is asking where to go. Say: Zum Bahnhof, bitte.","Ich heiße is for your name. Say: Zum Bahnhof, bitte."]}]}}
 };
 // Урок мовою інтерфейсу: беремо переклад, якщо він є, інакше український оригінал
-function lessonBody(key){
+function staticLessonBody(key){
   const b=LESSONS[key]; if(!b) return null;
   const tr=LESSON_TR[key]&&LESSON_TR[key][S.ui]; if(!tr) return b;
   return {title:tr.title||b.title, goal:tr.goal||b.goal, steps:b.steps.map((st,i)=>{
@@ -634,7 +658,7 @@ function lessonBody(key){
     return ns;
   })};
 }
-function hasLesson(lang,level,unit,idx){ return !!LESSONS[`${lang}-${level}-${unit}-${idx}`]; }
+function staticHasLesson(lang,level,unit,idx){ return !!LESSONS[`${lang}-${level}-${unit}-${idx}`]; }
 
 
 // ================= Уроки A1 (розділи 1–2) для решти мов =================
@@ -895,6 +919,703 @@ function buildGeneratedLessons(){
 }
 buildGeneratedLessons();
 
+// ================= Словник за рівнями CEFR =================
+// Кожне слово: [uk, ru, en, de, pl, cs, et, lv, lt, it, es]. Для англійської як мови навчання береться en.
+const VOCAB_COL={en:2,de:3,pl:4,cs:5,et:6,lv:7,lt:8,it:9,es:10};
+const UNIT_NAMES={
+ A1:{uk:["Знайомство","Їжа і магазини","Місто і транспорт","Дім і сім'я","Час і погода"],ru:["Знакомство","Еда и магазины","Город и транспорт","Дом и семья","Время и погода"],en:["Getting to know people","Food and shops","City and transport","Home and family","Time and weather"]},
+ A2:{uk:["Житло і оренда","Робота","Здоров'я","Послуги","Вільний час"],ru:["Жильё и аренда","Работа","Здоровье","Услуги","Свободное время"],en:["Housing and rent","Work","Health","Services","Free time"]},
+ B1:{uk:["Документи та установи","Освіта","Гроші","Медіа і технології","Почуття і стосунки"],ru:["Документы и учреждения","Образование","Деньги","Медиа и технологии","Чувства и отношения"],en:["Documents and offices","Education","Money","Media and technology","Feelings and relationships"]},
+ B2:{uk:["Кар'єра","Суспільство і закон","Природа і довкілля","Наука і здоров'я","Культура і мистецтво"],ru:["Карьера","Общество и закон","Природа и экология","Наука и здоровье","Культура и искусство"],en:["Career","Society and law","Nature and environment","Science and health","Culture and the arts"]},
+ C1:{uk:["Економіка і бізнес","Політика й інституції","Право та етика","Наука і аргументація","Мова й комунікація"],ru:["Экономика и бизнес","Политика и институты","Право и этика","Наука и аргументация","Язык и коммуникация"],en:["Economy and business","Politics and institutions","Law and ethics","Research and argument","Language and communication"]}
+};
+const VOCAB={
+ A1:{
+  3:[
+   {t:["Транспорт","Транспорт","Transport"],w:[
+    ["автобус","автобус","bus","der Bus","autobus","autobus","buss","autobuss","autobusas","l'autobus","el autobús"],
+    ["потяг","поезд","train","der Zug","pociąg","vlak","rong","vilciens","traukinys","il treno","el tren"],
+    ["трамвай","трамвай","tram","die Straßenbahn","tramwaj","tramvaj","tramm","tramvajs","tramvajus","il tram","el tranvía"],
+    ["метро","метро","underground","die U-Bahn","metro","metro","metroo","metro","metro","la metropolitana","el metro"],
+    ["таксі","такси","taxi","das Taxi","taksówka","taxi","takso","taksometrs","taksi","il taxi","el taxi"],
+    ["машина","машина","car","das Auto","samochód","auto","auto","automašīna","automobilis","la macchina","el coche"]]},
+   {t:["Місто","Город","The city"],w:[
+    ["вулиця","улица","street","die Straße","ulica","ulice","tänav","iela","gatvė","la strada","la calle"],
+    ["вокзал","вокзал","station","der Bahnhof","dworzec","nádraží","raudteejaam","stacija","stotis","la stazione","la estación"],
+    ["аеропорт","аэропорт","airport","der Flughafen","lotnisko","letiště","lennujaam","lidosta","oro uostas","l'aeroporto","el aeropuerto"],
+    ["магазин","магазин","shop","das Geschäft","sklep","obchod","pood","veikals","parduotuvė","il negozio","la tienda"],
+    ["аптека","аптека","pharmacy","die Apotheke","apteka","lékárna","apteek","aptieka","vaistinė","la farmacia","la farmacia"],
+    ["лікарня","больница","hospital","das Krankenhaus","szpital","nemocnice","haigla","slimnīca","ligoninė","l'ospedale","el hospital"]]},
+   {t:["Напрямки","Направления","Directions"],w:[
+    ["ліворуч","налево","left","links","w lewo","doleva","vasakule","pa kreisi","į kairę","a sinistra","a la izquierda"],
+    ["праворуч","направо","right","rechts","w prawo","doprava","paremale","pa labi","į dešinę","a destra","a la derecha"],
+    ["прямо","прямо","straight on","geradeaus","prosto","rovně","otse","taisni","tiesiai","dritto","todo recto"],
+    ["близько","близко","near","nah","blisko","blízko","lähedal","tuvu","arti","vicino","cerca"],
+    ["далеко","далеко","far","weit","daleko","daleko","kaugel","tālu","toli","lontano","lejos"],
+    ["тут","здесь","here","hier","tutaj","tady","siin","šeit","čia","qui","aquí"]]},
+   {t:["Поїздка","Поездка","Travel"],w:[
+    ["квиток","билет","ticket","die Fahrkarte","bilet","jízdenka","pilet","biļete","bilietas","il biglietto","el billete"],
+    ["розклад","расписание","timetable","der Fahrplan","rozkład jazdy","jízdní řád","sõiduplaan","saraksts","tvarkaraštis","l'orario","el horario"],
+    ["платформа","платформа","platform","das Gleis","peron","nástupiště","perroon","perons","peronas","il binario","el andén"],
+    ["відправлення","отправление","departure","die Abfahrt","odjazd","odjezd","väljumine","atiešana","išvykimas","la partenza","la salida"],
+    ["прибуття","прибытие","arrival","die Ankunft","przyjazd","příjezd","saabumine","pienākšana","atvykimas","l'arrivo","la llegada"],
+    ["запізнення","опоздание","delay","die Verspätung","opóźnienie","zpoždění","hilinemine","kavēšanās","vėlavimas","il ritardo","el retraso"]]}],
+  4:[
+   {t:["Сім'я","Семья","Family"],w:[
+    ["мама","мама","mother","die Mutter","matka","matka","ema","māte","mama","la madre","la madre"],
+    ["тато","папа","father","der Vater","ojciec","otec","isa","tēvs","tėtis","il padre","el padre"],
+    ["син","сын","son","der Sohn","syn","syn","poeg","dēls","sūnus","il figlio","el hijo"],
+    ["донька","дочь","daughter","die Tochter","córka","dcera","tütar","meita","dukra","la figlia","la hija"],
+    ["брат","брат","brother","der Bruder","brat","bratr","vend","brālis","brolis","il fratello","el hermano"],
+    ["сестра","сестра","sister","die Schwester","siostra","sestra","õde","māsa","sesuo","la sorella","la hermana"]]},
+   {t:["Дім","Дом","Home"],w:[
+    ["будинок","дом","house","das Haus","dom","dům","maja","māja","namas","la casa","la casa"],
+    ["квартира","квартира","flat","die Wohnung","mieszkanie","byt","korter","dzīvoklis","butas","l'appartamento","el piso"],
+    ["кімната","комната","room","das Zimmer","pokój","pokoj","tuba","istaba","kambarys","la stanza","la habitación"],
+    ["кухня","кухня","kitchen","die Küche","kuchnia","kuchyně","köök","virtuve","virtuvė","la cucina","la cocina"],
+    ["ванна кімната","ванная","bathroom","das Badezimmer","łazienka","koupelna","vannituba","vannas istaba","vonios kambarys","il bagno","el baño"],
+    ["ліжко","кровать","bed","das Bett","łóżko","postel","voodi","gulta","lova","il letto","la cama"]]},
+   {t:["Речі вдома","Вещи дома","Things at home"],w:[
+    ["стіл","стол","table","der Tisch","stół","stůl","laud","galds","stalas","il tavolo","la mesa"],
+    ["стілець","стул","chair","der Stuhl","krzesło","židle","tool","krēsls","kėdė","la sedia","la silla"],
+    ["вікно","окно","window","das Fenster","okno","okno","aken","logs","langas","la finestra","la ventana"],
+    ["двері","дверь","door","die Tür","drzwi","dveře","uks","durvis","durys","la porta","la puerta"],
+    ["ключ","ключ","key","der Schlüssel","klucz","klíč","võti","atslēga","raktas","la chiave","la llave"],
+    ["лампа","лампа","lamp","die Lampe","lampa","lampa","lamp","lampa","lempa","la lampada","la lámpara"]]},
+   {t:["Люди","Люди","People"],w:[
+    ["дитина","ребёнок","child","das Kind","dziecko","dítě","laps","bērns","vaikas","il bambino","el niño"],
+    ["чоловік","мужчина","man","der Mann","mężczyzna","muž","mees","vīrietis","vyras","l'uomo","el hombre"],
+    ["жінка","женщина","woman","die Frau","kobieta","žena","naine","sieviete","moteris","la donna","la mujer"],
+    ["друг","друг","friend","der Freund","przyjaciel","přítel","sõber","draugs","draugas","l'amico","el amigo"],
+    ["сусід","сосед","neighbour","der Nachbar","sąsiad","soused","naaber","kaimiņš","kaimynas","il vicino","el vecino"],
+    ["дружина","жена","wife","die Ehefrau","żona","manželka","abikaasa","sieva","žmona","la moglie","la esposa"]]}],
+  5:[
+   {t:["Тиждень","Неделя","The week"],w:[
+    ["сьогодні","сегодня","today","heute","dzisiaj","dnes","täna","šodien","šiandien","oggi","hoy"],
+    ["завтра","завтра","tomorrow","morgen","jutro","zítra","homme","rīt","rytoj","domani","mañana"],
+    ["вчора","вчера","yesterday","gestern","wczoraj","včera","eile","vakar","vakar","ieri","ayer"],
+    ["день","день","day","der Tag","dzień","den","päev","diena","diena","il giorno","el día"],
+    ["тиждень","неделя","week","die Woche","tydzień","týden","nädal","nedēļa","savaitė","la settimana","la semana"],
+    ["вихідні","выходные","weekend","das Wochenende","weekend","víkend","nädalavahetus","nedēļas nogale","savaitgalis","il fine settimana","el fin de semana"]]},
+   {t:["Дні тижня","Дни недели","Days of the week"],w:[
+    ["понеділок","понедельник","Monday","der Montag","poniedziałek","pondělí","esmaspäev","pirmdiena","pirmadienis","il lunedì","el lunes"],
+    ["вівторок","вторник","Tuesday","der Dienstag","wtorek","úterý","teisipäev","otrdiena","antradienis","il martedì","el martes"],
+    ["середа","среда","Wednesday","der Mittwoch","środa","středa","kolmapäev","trešdiena","trečiadienis","il mercoledì","el miércoles"],
+    ["четвер","четверг","Thursday","der Donnerstag","czwartek","čtvrtek","neljapäev","ceturtdiena","ketvirtadienis","il giovedì","el jueves"],
+    ["п'ятниця","пятница","Friday","der Freitag","piątek","pátek","reede","piektdiena","penktadienis","il venerdì","el viernes"],
+    ["субота","суббота","Saturday","der Samstag","sobota","sobota","laupäev","sestdiena","šeštadienis","il sabato","el sábado"],
+    ["неділя","воскресенье","Sunday","der Sonntag","niedziela","neděle","pühapäev","svētdiena","sekmadienis","la domenica","el domingo"]]},
+   {t:["Час доби","Время суток","Time of day"],w:[
+    ["ранок","утро","morning","der Morgen","rano","ráno","hommik","rīts","rytas","la mattina","la mañana"],
+    ["вечір","вечер","evening","der Abend","wieczór","večer","õhtu","vakars","vakaras","la sera","la tarde"],
+    ["ніч","ночь","night","die Nacht","noc","noc","öö","nakts","naktis","la notte","la noche"],
+    ["година","час","hour","die Stunde","godzina","hodina","tund","stunda","valanda","l'ora","la hora"],
+    ["хвилина","минута","minute","die Minute","minuta","minuta","minut","minūte","minutė","il minuto","el minuto"],
+    ["зараз","сейчас","now","jetzt","teraz","teď","praegu","tagad","dabar","adesso","ahora"]]},
+   {t:["Погода","Погода","Weather"],w:[
+    ["погода","погода","weather","das Wetter","pogoda","počasí","ilm","laiks","oras","il tempo","el tiempo"],
+    ["сонце","солнце","sun","die Sonne","słońce","slunce","päike","saule","saulė","il sole","el sol"],
+    ["дощ","дождь","rain","der Regen","deszcz","déšť","vihm","lietus","lietus","la pioggia","la lluvia"],
+    ["сніг","снег","snow","der Schnee","śnieg","sníh","lumi","sniegs","sniegas","la neve","la nieve"],
+    ["холодно","холодно","cold","kalt","zimno","chladno","külm","auksti","šalta","freddo","frío"],
+    ["тепло","тепло","warm","warm","ciepło","teplo","soe","silti","šilta","caldo","cálido"]]}]
+ },
+ A2:{
+  1:[
+   {t:["Оренда","Аренда","Renting"],w:[
+    ["оренда","аренда","rent","die Miete","czynsz","nájem","üür","īre","nuoma","l'affitto","el alquiler"],
+    ["орендодавець","арендодатель","landlord","der Vermieter","wynajmujący","pronajímatel","üürileandja","izīrētājs","nuomotojas","il padrone di casa","el casero"],
+    ["договір","договор","contract","der Vertrag","umowa","smlouva","leping","līgums","sutartis","il contratto","el contrato"],
+    ["застава","залог","deposit","die Kaution","kaucja","kauce","tagatisraha","drošības nauda","užstatas","la cauzione","la fianza"],
+    ["комунальні послуги","коммунальные услуги","utilities","die Nebenkosten","media","služby","kommunaalkulud","komunālie maksājumi","komunaliniai mokesčiai","le utenze","los suministros"],
+    ["оголошення","объявление","advert","die Anzeige","ogłoszenie","inzerát","kuulutus","sludinājums","skelbimas","l'annuncio","el anuncio"]]},
+   {t:["Квартира","Квартира","The flat"],w:[
+    ["поверх","этаж","floor","der Stock","piętro","patro","korrus","stāvs","aukštas","il piano","la planta"],
+    ["балкон","балкон","balcony","der Balkon","balkon","balkon","rõdu","balkons","balkonas","il balcone","el balcón"],
+    ["опалення","отопление","heating","die Heizung","ogrzewanie","topení","küte","apkure","šildymas","il riscaldamento","la calefacción"],
+    ["меблі","мебель","furniture","die Möbel","meble","nábytek","mööbel","mēbeles","baldai","i mobili","los muebles"],
+    ["пральна машина","стиральная машина","washing machine","die Waschmaschine","pralka","pračka","pesumasin","veļas mašīna","skalbimo mašina","la lavatrice","la lavadora"],
+    ["холодильник","холодильник","fridge","der Kühlschrank","lodówka","lednička","külmkapp","ledusskapis","šaldytuvas","il frigorifero","la nevera"]]},
+   {t:["Проблеми вдома","Проблемы дома","Problems at home"],w:[
+    ["зламаний","сломанный","broken","kaputt","zepsuty","rozbitý","katki","salauzts","sugedęs","rotto","roto"],
+    ["ремонтувати","ремонтировать","to repair","reparieren","naprawiać","opravit","parandama","labot","taisyti","riparare","reparar"],
+    ["електрика","электричество","electricity","der Strom","prąd","elektřina","elekter","elektrība","elektra","l'elettricità","la electricidad"],
+    ["шум","шум","noise","der Lärm","hałas","hluk","müra","troksnis","triukšmas","il rumore","el ruido"],
+    ["сантехнік","сантехник","plumber","der Klempner","hydraulik","instalatér","torulukksepp","santehniķis","santechnikas","l'idraulico","el fontanero"],
+    ["прибирання","уборка","cleaning","das Putzen","sprzątanie","úklid","koristamine","uzkopšana","valymas","le pulizie","la limpieza"]]},
+   {t:["Переїзд","Переезд","Moving house"],w:[
+    ["переїжджати","переезжать","to move house","umziehen","przeprowadzać się","stěhovat se","kolima","pārvākties","kraustytis","traslocare","mudarse"],
+    ["адреса","адрес","address","die Adresse","adres","adresa","aadress","adrese","adresas","l'indirizzo","la dirección"],
+    ["коробка","коробка","box","der Karton","karton","krabice","kast","kaste","dėžė","la scatola","la caja"],
+    ["реєстрація адреси","регистрация адреса","address registration","die Anmeldung","meldunek","hlášení pobytu","elukoha registreerimine","dzīvesvietas deklarēšana","gyvenamosios vietos deklaravimas","la registrazione della residenza","el empadronamiento"],
+    ["район","район","neighbourhood","das Viertel","dzielnica","čtvrť","linnaosa","rajons","rajonas","il quartiere","el barrio"],
+    ["поштова скринька","почтовый ящик","letterbox","der Briefkasten","skrzynka pocztowa","poštovní schránka","postkast","pastkastīte","pašto dėžutė","la cassetta delle lettere","el buzón"]]}],
+  2:[
+   {t:["Професії","Профессии","Jobs"],w:[
+    ["лікар","врач","doctor","der Arzt","lekarz","lékař","arst","ārsts","gydytojas","il medico","el médico"],
+    ["вчитель","учитель","teacher","der Lehrer","nauczyciel","učitel","õpetaja","skolotājs","mokytojas","l'insegnante","el profesor"],
+    ["водій","водитель","driver","der Fahrer","kierowca","řidič","autojuht","šoferis","vairuotojas","l'autista","el conductor"],
+    ["кухар","повар","cook","der Koch","kucharz","kuchař","kokk","pavārs","virėjas","il cuoco","el cocinero"],
+    ["продавець","продавец","shop assistant","der Verkäufer","sprzedawca","prodavač","müüja","pārdevējs","pardavėjas","il commesso","el dependiente"],
+    ["медсестра","медсестра","nurse","die Krankenschwester","pielęgniarka","zdravotní sestra","medõde","medmāsa","slaugytoja","l'infermiera","la enfermera"]]},
+   {t:["На роботі","На работе","At work"],w:[
+    ["робота","работа","work","die Arbeit","praca","práce","töö","darbs","darbas","il lavoro","el trabajo"],
+    ["колега","коллега","colleague","der Kollege","kolega","kolega","kolleeg","kolēģis","kolega","il collega","el compañero de trabajo"],
+    ["начальник","начальник","boss","der Chef","szef","šéf","ülemus","priekšnieks","viršininkas","il capo","el jefe"],
+    ["зарплата","зарплата","salary","das Gehalt","pensja","plat","palk","alga","atlyginimas","lo stipendio","el sueldo"],
+    ["офіс","офис","office","das Büro","biuro","kancelář","kontor","birojs","biuras","l'ufficio","la oficina"],
+    ["зміна","смена","shift","die Schicht","zmiana","směna","vahetus","maiņa","pamaina","il turno","el turno"]]},
+   {t:["Пошук роботи","Поиск работы","Looking for a job"],w:[
+    ["вакансія","вакансия","vacancy","die Stelle","oferta pracy","volné místo","vaba töökoht","vakance","laisva darbo vieta","il posto vacante","la vacante"],
+    ["резюме","резюме","CV","der Lebenslauf","CV","životopis","CV","CV","gyvenimo aprašymas","il curriculum","el currículum"],
+    ["співбесіда","собеседование","job interview","das Vorstellungsgespräch","rozmowa kwalifikacyjna","pohovor","tööintervjuu","darba intervija","darbo pokalbis","il colloquio di lavoro","la entrevista de trabajo"],
+    ["досвід","опыт","experience","die Erfahrung","doświadczenie","zkušenost","kogemus","pieredze","patirtis","l'esperienza","la experiencia"],
+    ["навички","навыки","skills","die Fähigkeiten","umiejętności","dovednosti","oskused","prasmes","įgūdžiai","le competenze","las habilidades"],
+    ["подавати заявку","подавать заявку","to apply","sich bewerben","aplikować","ucházet se","kandideerima","pieteikties","pateikti paraišką","candidarsi","solicitar"]]},
+   {t:["Робочий час","Рабочее время","Working hours"],w:[
+    ["повний робочий день","полный рабочий день","full-time","Vollzeit","pełny etat","plný úvazek","täistööaeg","pilna slodze","visu etatu","a tempo pieno","a jornada completa"],
+    ["неповний робочий день","неполный рабочий день","part-time","Teilzeit","niepełny etat","částečný úvazek","osaline tööaeg","nepilna slodze","ne visu etatu","part-time","a tiempo parcial"],
+    ["відпустка","отпуск","holiday","der Urlaub","urlop","dovolená","puhkus","atvaļinājums","atostogos","le ferie","las vacaciones"],
+    ["лікарняний","больничный","sick leave","die Krankschreibung","zwolnienie lekarskie","nemocenská","haigusleht","slimības lapa","nedarbingumo pažymėjimas","il congedo per malattia","la baja médica"],
+    ["перерва","перерыв","break","die Pause","przerwa","přestávka","paus","pārtraukums","pertrauka","la pausa","el descanso"],
+    ["понаднормові","сверхурочные","overtime","die Überstunden","nadgodziny","přesčas","ületunnitöö","virsstundas","viršvalandžiai","gli straordinari","las horas extra"]]}],
+  3:[
+   {t:["Тіло","Тело","The body"],w:[
+    ["голова","голова","head","der Kopf","głowa","hlava","pea","galva","galva","la testa","la cabeza"],
+    ["рука","рука","hand","die Hand","ręka","ruka","käsi","roka","ranka","la mano","la mano"],
+    ["нога","нога","leg","das Bein","noga","noha","jalg","kāja","koja","la gamba","la pierna"],
+    ["спина","спина","back","der Rücken","plecy","záda","selg","mugura","nugara","la schiena","la espalda"],
+    ["живіт","живот","stomach","der Bauch","brzuch","břicho","kõht","vēders","pilvas","la pancia","la barriga"],
+    ["зуб","зуб","tooth","der Zahn","ząb","zub","hammas","zobs","dantis","il dente","el diente"]]},
+   {t:["Симптоми","Симптомы","Symptoms"],w:[
+    ["біль","боль","pain","der Schmerz","ból","bolest","valu","sāpes","skausmas","il dolore","el dolor"],
+    ["температура","температура","fever","das Fieber","gorączka","horečka","palavik","temperatūra","temperatūra","la febbre","la fiebre"],
+    ["кашель","кашель","cough","der Husten","kaszel","kašel","köha","klepus","kosulys","la tosse","la tos"],
+    ["нежить","насморк","runny nose","der Schnupfen","katar","rýma","nohu","iesnas","sloga","il raffreddore","el resfriado"],
+    ["нудота","тошнота","nausea","die Übelkeit","mdłości","nevolnost","iiveldus","slikta dūša","pykinimas","la nausea","las náuseas"],
+    ["алергія","аллергия","allergy","die Allergie","alergia","alergie","allergia","alerģija","alergija","l'allergia","la alergia"]]},
+   {t:["У лікаря","У врача","At the doctor's"],w:[
+    ["запис до лікаря","запись к врачу","appointment","der Termin","wizyta","termín","vastuvõtuaeg","pieraksts","vizitas","l'appuntamento","la cita"],
+    ["рецепт","рецепт","prescription","das Rezept","recepta","recept","retsept","recepte","receptas","la ricetta","la receta"],
+    ["ліки","лекарство","medicine","das Medikament","lek","lék","ravim","zāles","vaistai","la medicina","el medicamento"],
+    ["страховка","страховка","insurance","die Versicherung","ubezpieczenie","pojištění","kindlustus","apdrošināšana","draudimas","l'assicurazione","el seguro"],
+    ["швидка допомога","скорая помощь","ambulance","der Krankenwagen","karetka","sanitka","kiirabi","ātrā palīdzība","greitoji pagalba","l'ambulanza","la ambulancia"],
+    ["аналіз крові","анализ крови","blood test","die Blutuntersuchung","badanie krwi","vyšetření krve","vereanalüüs","asins analīze","kraujo tyrimas","l'esame del sangue","el análisis de sangre"]]},
+   {t:["Здоровий спосіб життя","Здоровый образ жизни","Healthy living"],w:[
+    ["спорт","спорт","sport","der Sport","sport","sport","sport","sports","sportas","lo sport","el deporte"],
+    ["сон","сон","sleep","der Schlaf","sen","spánek","uni","miegs","miegas","il sonno","el sueño"],
+    ["здоровий","здоровый","healthy","gesund","zdrowy","zdravý","terve","vesels","sveikas","sano","sano"],
+    ["хворий","больной","ill","krank","chory","nemocný","haige","slims","sergantis","malato","enfermo"],
+    ["втомлений","усталый","tired","müde","zmęczony","unavený","väsinud","noguris","pavargęs","stanco","cansado"],
+    ["ходити пішки","ходить пешком","to walk","zu Fuß gehen","chodzić pieszo","chodit pěšky","jalutama","staigāt","vaikščioti","camminare","caminar"]]}],
+  4:[
+   {t:["Одяг","Одежда","Clothes"],w:[
+    ["одяг","одежда","clothes","die Kleidung","ubranie","oblečení","riided","apģērbs","drabužiai","i vestiti","la ropa"],
+    ["куртка","куртка","jacket","die Jacke","kurtka","bunda","jope","jaka","striukė","la giacca","la chaqueta"],
+    ["взуття","обувь","shoes","die Schuhe","buty","boty","kingad","apavi","batai","le scarpe","los zapatos"],
+    ["розмір","размер","size","die Größe","rozmiar","velikost","suurus","izmērs","dydis","la taglia","la talla"],
+    ["приміряти","примерять","to try on","anprobieren","przymierzyć","vyzkoušet","selga proovima","pielaikot","pasimatuoti","provare","probarse"],
+    ["знижка","скидка","discount","der Rabatt","zniżka","sleva","allahindlus","atlaide","nuolaida","lo sconto","el descuento"]]},
+   {t:["Пошта","Почта","The post office"],w:[
+    ["пошта","почта","post office","die Post","poczta","pošta","postkontor","pasts","paštas","l'ufficio postale","correos"],
+    ["лист","письмо","letter","der Brief","list","dopis","kiri","vēstule","laiškas","la lettera","la carta"],
+    ["посилка","посылка","parcel","das Paket","paczka","balík","pakk","paka","siuntinys","il pacco","el paquete"],
+    ["марка","марка","stamp","die Briefmarke","znaczek","známka","postmark","pastmarka","pašto ženklas","il francobollo","el sello"],
+    ["надсилати","отправлять","to send","schicken","wysyłać","posílat","saatma","sūtīt","siųsti","spedire","enviar"],
+    ["отримувати","получать","to receive","bekommen","otrzymywać","dostávat","saama","saņemt","gauti","ricevere","recibir"]]},
+   {t:["Банк","Банк","The bank"],w:[
+    ["рахунок","счёт","account","das Konto","konto","účet","konto","konts","sąskaita","il conto","la cuenta"],
+    ["банкомат","банкомат","cash machine","der Geldautomat","bankomat","bankomat","pangaautomaat","bankomāts","bankomatas","il bancomat","el cajero automático"],
+    ["переказ","перевод","transfer","die Überweisung","przelew","převod","ülekanne","pārskaitījums","pervedimas","il bonifico","la transferencia"],
+    ["комісія","комиссия","fee","die Gebühr","opłata","poplatek","tasu","komisijas maksa","mokestis","la commissione","la comisión"],
+    ["пін-код","пин-код","PIN","die PIN","PIN","PIN","PIN-kood","PIN kods","PIN kodas","il PIN","el PIN"],
+    ["позика","заём","loan","der Kredit","kredyt","půjčka","laen","aizdevums","paskola","il prestito","el préstamo"]]},
+   {t:["Телефон та інтернет","Телефон и интернет","Phone and internet"],w:[
+    ["телефон","телефон","phone","das Handy","telefon","telefon","telefon","telefons","telefonas","il telefono","el móvil"],
+    ["дзвонити","звонить","to call","anrufen","dzwonić","volat","helistama","zvanīt","skambinti","chiamare","llamar"],
+    ["повідомлення","сообщение","message","die Nachricht","wiadomość","zpráva","sõnum","ziņa","žinutė","il messaggio","el mensaje"],
+    ["пароль","пароль","password","das Passwort","hasło","heslo","parool","parole","slaptažodis","la password","la contraseña"],
+    ["зарядний пристрій","зарядное устройство","charger","das Ladegerät","ładowarka","nabíječka","laadija","lādētājs","įkroviklis","il caricabatterie","el cargador"],
+    ["SIM-карта","SIM-карта","SIM card","die SIM-Karte","karta SIM","SIM karta","SIM-kaart","SIM karte","SIM kortelė","la SIM","la tarjeta SIM"]]}],
+  5:[
+   {t:["Хобі","Хобби","Hobbies"],w:[
+    ["читати","читать","to read","lesen","czytać","číst","lugema","lasīt","skaityti","leggere","leer"],
+    ["малювати","рисовать","to draw","zeichnen","rysować","kreslit","joonistama","zīmēt","piešti","disegnare","dibujar"],
+    ["готувати","готовить","to cook","kochen","gotować","vařit","süüa tegema","gatavot","gaminti","cucinare","cocinar"],
+    ["плавати","плавать","to swim","schwimmen","pływać","plavat","ujuma","peldēt","plaukti","nuotare","nadar"],
+    ["танцювати","танцевать","to dance","tanzen","tańczyć","tancovat","tantsima","dejot","šokti","ballare","bailar"],
+    ["співати","петь","to sing","singen","śpiewać","zpívat","laulma","dziedāt","dainuoti","cantare","cantar"]]},
+   {t:["Подорожі","Путешествия","Travelling"],w:[
+    ["подорож","путешествие","trip","die Reise","podróż","cesta","reis","ceļojums","kelionė","il viaggio","el viaje"],
+    ["готель","гостиница","hotel","das Hotel","hotel","hotel","hotell","viesnīca","viešbutis","l'albergo","el hotel"],
+    ["валіза","чемодан","suitcase","der Koffer","walizka","kufr","kohver","čemodāns","lagaminas","la valigia","la maleta"],
+    ["паспорт","паспорт","passport","der Reisepass","paszport","pas","pass","pase","pasas","il passaporto","el pasaporte"],
+    ["бронювати","бронировать","to book","buchen","rezerwować","rezervovat","broneerima","rezervēt","rezervuoti","prenotare","reservar"],
+    ["кордон","граница","border","die Grenze","granica","hranice","piir","robeža","siena","il confine","la frontera"]]},
+   {t:["Розваги","Развлечения","Going out"],w:[
+    ["кіно","кино","cinema","das Kino","kino","kino","kino","kino","kinas","il cinema","el cine"],
+    ["театр","театр","theatre","das Theater","teatr","divadlo","teater","teātris","teatras","il teatro","el teatro"],
+    ["музей","музей","museum","das Museum","muzeum","muzeum","muuseum","muzejs","muziejus","il museo","el museo"],
+    ["концерт","концерт","concert","das Konzert","koncert","koncert","kontsert","koncerts","koncertas","il concerto","el concierto"],
+    ["парк","парк","park","der Park","park","park","park","parks","parkas","il parco","el parque"],
+    ["виставка","выставка","exhibition","die Ausstellung","wystawa","výstava","näitus","izstāde","paroda","la mostra","la exposición"]]},
+   {t:["Плани","Планы","Making plans"],w:[
+    ["зустріч","встреча","meeting","das Treffen","spotkanie","schůzka","kohtumine","tikšanās","susitikimas","l'incontro","el encuentro"],
+    ["запрошувати","приглашать","to invite","einladen","zapraszać","zvát","kutsuma","aicināt","kviesti","invitare","invitar"],
+    ["вільний","свободный","free","frei","wolny","volný","vaba","brīvs","laisvas","libero","libre"],
+    ["зайнятий","занятый","busy","beschäftigt","zajęty","zaneprázdněný","hõivatud","aizņemts","užsiėmęs","occupato","ocupado"],
+    ["свято","праздник","celebration","das Fest","święto","svátek","püha","svētki","šventė","la festa","la fiesta"],
+    ["день народження","день рождения","birthday","der Geburtstag","urodziny","narozeniny","sünnipäev","dzimšanas diena","gimtadienis","il compleanno","el cumpleaños"]]}]
+ }
+};
+
+Object.assign(VOCAB,{
+ B1:{
+  1:[
+   {t:["Документи","Документы","Documents"],w:[
+    ["документ","документ","document","das Dokument","dokument","doklad","dokument","dokuments","dokumentas","il documento","el documento"],
+    ["посвідка на проживання","вид на жительство","residence permit","die Aufenthaltserlaubnis","karta pobytu","povolení k pobytu","elamisluba","uzturēšanās atļauja","leidimas gyventi","il permesso di soggiorno","el permiso de residencia"],
+    ["заява","заявление","application","der Antrag","wniosek","žádost","taotlus","iesniegums","prašymas","la domanda","la solicitud"],
+    ["підпис","подпись","signature","die Unterschrift","podpis","podpis","allkiri","paraksts","parašas","la firma","la firma"],
+    ["копія","копия","copy","die Kopie","kopia","kopie","koopia","kopija","kopija","la copia","la copia"],
+    ["термін дії","срок действия","validity","die Gültigkeit","ważność","platnost","kehtivus","derīgums","galiojimas","la validità","la validez"]]},
+   {t:["В установі","В учреждении","At the office"],w:[
+    ["відомство","ведомство","authority","die Behörde","urząd","úřad","amet","iestāde","įstaiga","l'ufficio pubblico","la administración"],
+    ["черга","очередь","queue","die Warteschlange","kolejka","fronta","järjekord","rinda","eilė","la coda","la cola"],
+    ["бланк","бланк","form","das Formular","formularz","formulář","vorm","veidlapa","forma","il modulo","el formulario"],
+    ["печатка","печать","official stamp","der Stempel","pieczątka","razítko","tempel","zīmogs","antspaudas","il timbro","el sello oficial"],
+    ["довідка","справка","certificate","die Bescheinigung","zaświadczenie","potvrzení","tõend","izziņa","pažyma","il certificato","el certificado"],
+    ["податок","налог","tax","die Steuer","podatek","daň","maks","nodoklis","mokesčiai","la tassa","el impuesto"]]},
+   {t:["Права і обов'язки","Права и обязанности","Rights and duties"],w:[
+    ["право","право","right","das Recht","prawo","právo","õigus","tiesības","teisė","il diritto","el derecho"],
+    ["обов'язок","обязанность","duty","die Pflicht","obowiązek","povinnost","kohustus","pienākums","pareiga","il dovere","el deber"],
+    ["закон","закон","law","das Gesetz","ustawa","zákon","seadus","likums","įstatymas","la legge","la ley"],
+    ["штраф","штраф","fine","das Bußgeld","mandat","pokuta","trahv","sods","bauda","la multa","la multa"],
+    ["дозвіл","разрешение","permission","die Erlaubnis","pozwolenie","povolení","luba","atļauja","leidimas","il permesso","el permiso"],
+    ["громадянство","гражданство","citizenship","die Staatsangehörigkeit","obywatelstwo","občanství","kodakondsus","pilsonība","pilietybė","la cittadinanza","la ciudadanía"]]},
+   {t:["Терміни і домовленості","Сроки и договорённости","Deadlines and arrangements"],w:[
+    ["кінцевий термін","крайний срок","deadline","die Frist","termin","lhůta","tähtaeg","termiņš","terminas","la scadenza","el plazo"],
+    ["скасовувати","отменять","to cancel","absagen","odwołać","zrušit","tühistama","atcelt","atšaukti","annullare","cancelar"],
+    ["переносити","переносить","to postpone","verschieben","przełożyć","odložit","edasi lükkama","pārcelt","atidėti","rinviare","aplazar"],
+    ["підтверджувати","подтверждать","to confirm","bestätigen","potwierdzić","potvrdit","kinnitama","apstiprināt","patvirtinti","confermare","confirmar"],
+    ["пунктуальний","пунктуальный","punctual","pünktlich","punktualny","dochvilný","täpne","precīzs","punktualus","puntuale","puntual"],
+    ["запізнюватися","опаздывать","to be late","sich verspäten","spóźniać się","přijít pozdě","hilinema","kavēties","vėluoti","essere in ritardo","llegar tarde"]]}],
+  2:[
+   {t:["Школа","Школа","School"],w:[
+    ["школа","школа","school","die Schule","szkoła","škola","kool","skola","mokykla","la scuola","la escuela"],
+    ["клас","класс","class","die Klasse","klasa","třída","klass","klase","klasė","la classe","la clase"],
+    ["оцінка","оценка","mark","die Note","ocena","známka","hinne","atzīme","pažymys","il voto","la nota"],
+    ["домашнє завдання","домашнее задание","homework","die Hausaufgaben","praca domowa","domácí úkol","kodutöö","mājasdarbs","namų darbai","i compiti","los deberes"],
+    ["урок","урок","lesson","der Unterricht","lekcja","vyučování","õppetund","mācību stunda","pamoka","la lezione","la lección"],
+    ["канікули","каникулы","school holidays","die Ferien","ferie","prázdniny","koolivaheaeg","brīvlaiks","mokinių atostogos","le vacanze scolastiche","las vacaciones escolares"]]},
+   {t:["Університет і курси","Университет и курсы","University and courses"],w:[
+    ["університет","университет","university","die Universität","uniwersytet","univerzita","ülikool","universitāte","universitetas","l'università","la universidad"],
+    ["курс","курс","course","der Kurs","kurs","kurz","kursus","kurss","kursas","il corso","el curso"],
+    ["іспит","экзамен","exam","die Prüfung","egzamin","zkouška","eksam","eksāmens","egzaminas","l'esame","el examen"],
+    ["диплом","диплом","diploma","das Zeugnis","dyplom","diplom","diplom","diploms","diplomas","il diploma","el diploma"],
+    ["стипендія","стипендия","scholarship","das Stipendium","stypendium","stipendium","stipendium","stipendija","stipendija","la borsa di studio","la beca"],
+    ["лекція","лекция","lecture","die Vorlesung","wykład","přednáška","loeng","lekcija","paskaita","la lezione universitaria","la clase magistral"]]},
+   {t:["Навчання","Учёба","Learning"],w:[
+    ["вчити","учить","to learn","lernen","uczyć się","učit se","õppima","mācīties","mokytis","imparare","aprender"],
+    ["пояснювати","объяснять","to explain","erklären","wyjaśniać","vysvětlovat","selgitama","izskaidrot","paaiškinti","spiegare","explicar"],
+    ["повторювати","повторять","to repeat","wiederholen","powtarzać","opakovat","kordama","atkārtot","kartoti","ripetere","repetir"],
+    ["запам'ятовувати","запоминать","to memorise","sich merken","zapamiętywać","pamatovat si","meelde jätma","iegaumēt","įsiminti","memorizzare","memorizar"],
+    ["помилка","ошибка","mistake","der Fehler","błąd","chyba","viga","kļūda","klaida","l'errore","el error"],
+    ["вправа","упражнение","exercise","die Übung","ćwiczenie","cvičení","harjutus","vingrinājums","pratimas","l'esercizio","el ejercicio"]]},
+   {t:["Діти","Дети","Children"],w:[
+    ["дитячий садок","детский сад","kindergarten","der Kindergarten","przedszkole","školka","lasteaed","bērnudārzs","darželis","la scuola materna","la guardería"],
+    ["батьки","родители","parents","die Eltern","rodzice","rodiče","vanemad","vecāki","tėvai","i genitori","los padres"],
+    ["виховувати","воспитывать","to bring up","erziehen","wychowywać","vychovávat","kasvatama","audzināt","auklėti","educare","criar"],
+    ["гратися","играть","to play","spielen","bawić się","hrát si","mängima","spēlēties","žaisti","giocare","jugar"],
+    ["іграшка","игрушка","toy","das Spielzeug","zabawka","hračka","mänguasi","rotaļlieta","žaislas","il giocattolo","el juguete"],
+    ["няня","няня","babysitter","der Babysitter","opiekunka","chůva","lapsehoidja","aukle","auklė","la babysitter","la niñera"]]}],
+  3:[
+   {t:["Бюджет","Бюджет","Budget"],w:[
+    ["бюджет","бюджет","budget","das Budget","budżet","rozpočet","eelarve","budžets","biudžetas","il bilancio","el presupuesto"],
+    ["витрати","расходы","expenses","die Ausgaben","wydatki","výdaje","kulud","izdevumi","išlaidos","le spese","los gastos"],
+    ["дохід","доход","income","das Einkommen","dochód","příjem","sissetulek","ienākumi","pajamos","il reddito","los ingresos"],
+    ["заощаджувати","экономить","to save money","sparen","oszczędzać","šetřit","säästma","krāt","taupyti","risparmiare","ahorrar"],
+    ["борг","долг","debt","die Schulden","dług","dluh","võlg","parāds","skola","il debito","la deuda"],
+    ["рахунок до оплати","счёт к оплате","bill","die Rechnung","rachunek","faktura","arve","rēķins","sąskaita faktūra","la bolletta","la factura"]]},
+   {t:["Покупки онлайн","Покупки онлайн","Online shopping"],w:[
+    ["замовлення","заказ","order","die Bestellung","zamówienie","objednávka","tellimus","pasūtījums","užsakymas","l'ordine","el pedido"],
+    ["доставка","доставка","delivery","die Lieferung","dostawa","doručení","kättetoimetamine","piegāde","pristatymas","la consegna","la entrega"],
+    ["повернення товару","возврат товара","return","die Rücksendung","zwrot","vrácení","tagastus","atgriešana","grąžinimas","il reso","la devolución"],
+    ["гарантія","гарантия","warranty","die Garantie","gwarancja","záruka","garantii","garantija","garantija","la garanzia","la garantía"],
+    ["кошик","корзина","basket","der Warenkorb","koszyk","košík","ostukorv","grozs","krepšelis","il carrello","la cesta"],
+    ["чек","чек","receipt","der Kassenbon","paragon","účtenka","tšekk","čeks","kvitas","lo scontrino","el recibo"]]},
+   {t:["Ціни","Цены","Prices"],w:[
+    ["дорогий","дорогой","expensive","teuer","drogi","drahý","kallis","dārgs","brangus","caro","caro"],
+    ["дешевий","дешёвый","cheap","billig","tani","levný","odav","lēts","pigus","economico","barato"],
+    ["ціна","цена","price","der Preis","cena","cena","hind","cena","kaina","il prezzo","el precio"],
+    ["платити","платить","to pay","bezahlen","płacić","platit","tasuma","samaksāt","mokėti","pagare","pagar"],
+    ["коштувати","стоить","to cost","kosten","kosztować","stát","maksma","maksāt","kainuoti","costare","costar"],
+    ["розпродаж","распродажа","sale","der Ausverkauf","wyprzedaż","výprodej","väljamüük","izpārdošana","išpardavimas","i saldi","las rebajas"]]},
+   {t:["Фінанси","Финансы","Finance"],w:[
+    ["кредитна картка","кредитная карта","credit card","die Kreditkarte","karta kredytowa","kreditní karta","krediitkaart","kredītkarte","kredito kortelė","la carta di credito","la tarjeta de crédito"],
+    ["відсотки","проценты","interest","die Zinsen","odsetki","úrok","intress","procenti","palūkanos","gli interessi","los intereses"],
+    ["пенсія","пенсия","pension","die Rente","emerytura","důchod","pension","pensija","pensija","la pensione","la pensión"],
+    ["інвестувати","инвестировать","to invest","investieren","inwestować","investovat","investeerima","investēt","investuoti","investire","invertir"],
+    ["валюта","валюта","currency","die Währung","waluta","měna","valuuta","valūta","valiuta","la valuta","la moneda"],
+    ["обмін валюти","обмен валюты","currency exchange","der Geldwechsel","wymiana walut","výměna peněz","valuutavahetus","valūtas apmaiņa","valiutos keitimas","il cambio","el cambio de moneda"]]}],
+  4:[
+   {t:["Комп'ютер","Компьютер","Computers"],w:[
+    ["комп'ютер","компьютер","computer","der Computer","komputer","počítač","arvuti","dators","kompiuteris","il computer","el ordenador"],
+    ["клавіатура","клавиатура","keyboard","die Tastatur","klawiatura","klávesnice","klaviatuur","tastatūra","klaviatūra","la tastiera","el teclado"],
+    ["екран","экран","screen","der Bildschirm","ekran","obrazovka","ekraan","ekrāns","ekranas","lo schermo","la pantalla"],
+    ["файл","файл","file","die Datei","plik","soubor","fail","fails","failas","il file","el archivo"],
+    ["завантажувати","скачивать","to download","herunterladen","pobierać","stahovat","alla laadima","lejupielādēt","atsisiųsti","scaricare","descargar"],
+    ["оновлення","обновление","update","das Update","aktualizacja","aktualizace","uuendus","atjauninājums","atnaujinimas","l'aggiornamento","la actualización"]]},
+   {t:["Інтернет","Интернет","The internet"],w:[
+    ["сайт","сайт","website","die Webseite","strona internetowa","webová stránka","veebileht","tīmekļa vietne","svetainė","il sito web","el sitio web"],
+    ["пошук","поиск","search","die Suche","wyszukiwanie","vyhledávání","otsing","meklēšana","paieška","la ricerca","la búsqueda"],
+    ["обліковий запис","учётная запись","user account","das Benutzerkonto","konto użytkownika","uživatelský účet","kasutajakonto","lietotāja konts","paskyra","l'account","la cuenta de usuario"],
+    ["електронна пошта","электронная почта","email","die E-Mail","e-mail","e-mail","e-post","e-pasts","el. paštas","l'e-mail","el correo electrónico"],
+    ["з'єднання","соединение","connection","die Verbindung","połączenie","připojení","ühendus","savienojums","ryšys","la connessione","la conexión"],
+    ["соцмережі","соцсети","social media","die sozialen Medien","media społecznościowe","sociální sítě","sotsiaalmeedia","sociālie tīkli","socialiniai tinklai","i social","las redes sociales"]]},
+   {t:["Новини","Новости","The news"],w:[
+    ["новини","новости","news","die Nachrichten","wiadomości","zprávy","uudised","ziņas","naujienos","le notizie","las noticias"],
+    ["газета","газета","newspaper","die Zeitung","gazeta","noviny","ajaleht","avīze","laikraštis","il giornale","el periódico"],
+    ["журналіст","журналист","journalist","der Journalist","dziennikarz","novinář","ajakirjanik","žurnālists","žurnalistas","il giornalista","el periodista"],
+    ["стаття","статья","article","der Artikel","artykuł","článek","artikkel","raksts","straipsnis","l'articolo","el artículo"],
+    ["реклама","реклама","advertising","die Werbung","reklama","reklama","reklaam","reklāma","reklama","la pubblicità","la publicidad"],
+    ["інтерв'ю","интервью","interview","das Interview","wywiad","rozhovor","intervjuu","intervija","interviu","l'intervista","la entrevista"]]},
+   {t:["Смартфон","Смартфон","Smartphones"],w:[
+    ["додаток","приложение","app","die App","aplikacja","aplikace","rakendus","lietotne","programėlė","l'app","la aplicación"],
+    ["сповіщення","уведомление","notification","die Benachrichtigung","powiadomienie","oznámení","teavitus","paziņojums","pranešimas","la notifica","la notificación"],
+    ["акумулятор","аккумулятор","battery","der Akku","bateria","baterie","aku","akumulators","baterija","la batteria","la batería"],
+    ["фото","фото","photo","das Foto","zdjęcie","fotka","foto","foto","nuotrauka","la foto","la foto"],
+    ["налаштування","настройки","settings","die Einstellungen","ustawienia","nastavení","seaded","iestatījumi","nustatymai","le impostazioni","los ajustes"],
+    ["бездротовий","беспроводной","wireless","kabellos","bezprzewodowy","bezdrátový","juhtmevaba","bezvadu","belaidis","senza fili","inalámbrico"]]}],
+  5:[
+   {t:["Емоції","Эмоции","Emotions"],w:[
+    ["щасливий","счастливый","happy","glücklich","szczęśliwy","šťastný","õnnelik","laimīgs","laimingas","felice","feliz"],
+    ["сумний","грустный","sad","traurig","smutny","smutný","kurb","skumjš","liūdnas","triste","triste"],
+    ["сердитий","сердитый","angry","wütend","zły","naštvaný","vihane","dusmīgs","piktas","arrabbiato","enfadado"],
+    ["наляканий","испуганный","scared","ängstlich","przestraszony","vyděšený","hirmunud","nobijies","išsigandęs","spaventato","asustado"],
+    ["здивований","удивлённый","surprised","überrascht","zaskoczony","překvapený","üllatunud","pārsteigts","nustebęs","sorpreso","sorprendido"],
+    ["спокійний","спокойный","calm","ruhig","spokojny","klidný","rahulik","mierīgs","ramus","calmo","tranquilo"]]},
+   {t:["Стосунки","Отношения","Relationships"],w:[
+    ["кохання","любовь","love","die Liebe","miłość","láska","armastus","mīlestība","meilė","l'amore","el amor"],
+    ["дружба","дружба","friendship","die Freundschaft","przyjaźń","přátelství","sõprus","draudzība","draugystė","l'amicizia","la amistad"],
+    ["шлюб","брак","marriage","die Ehe","małżeństwo","manželství","abielu","laulība","santuoka","il matrimonio","el matrimonio"],
+    ["розлучення","развод","divorce","die Scheidung","rozwód","rozvod","lahutus","šķiršanās","skyrybos","il divorzio","el divorcio"],
+    ["довіра","доверие","trust","das Vertrauen","zaufanie","důvěra","usaldus","uzticība","pasitikėjimas","la fiducia","la confianza"],
+    ["сварка","ссора","quarrel","der Streit","kłótnia","hádka","tüli","strīds","ginčas","il litigio","la pelea"]]},
+   {t:["Характер","Характер","Personality"],w:[
+    ["добрий","добрый","kind","freundlich","życzliwy","laskavý","lahke","laipns","malonus","gentile","amable"],
+    ["чесний","честный","honest","ehrlich","uczciwy","upřímný","aus","godīgs","sąžiningas","onesto","honesto"],
+    ["терплячий","терпеливый","patient","geduldig","cierpliwy","trpělivý","kannatlik","pacietīgs","kantrus","paziente","paciente"],
+    ["лінивий","ленивый","lazy","faul","leniwy","líný","laisk","slinks","tingus","pigro","perezoso"],
+    ["сором'язливий","застенчивый","shy","schüchtern","nieśmiały","stydlivý","häbelik","kautrīgs","drovus","timido","tímido"],
+    ["впевнений у собі","уверенный в себе","confident","selbstbewusst","pewny siebie","sebevědomý","enesekindel","pašpārliecināts","pasitikintis savimi","sicuro di sé","seguro de sí mismo"]]},
+   {t:["Спілкування","Общение","Communication"],w:[
+    ["погоджуватися","соглашаться","to agree","zustimmen","zgadzać się","souhlasit","nõustuma","piekrist","sutikti","essere d'accordo","estar de acuerdo"],
+    ["сперечатися","спорить","to argue","streiten","kłócić się","hádat se","vaidlema","strīdēties","ginčytis","litigare","discutir"],
+    ["вибачатися","извиняться","to apologise","sich entschuldigen","przepraszać","omlouvat se","vabandama","atvainoties","atsiprašyti","scusarsi","disculparse"],
+    ["пробачати","прощать","to forgive","verzeihen","wybaczać","odpouštět","andestama","piedot","atleisti","perdonare","perdonar"],
+    ["скаржитися","жаловаться","to complain","sich beschweren","narzekać","stěžovat si","kaebama","sūdzēties","skųstis","lamentarsi","quejarse"],
+    ["переконувати","убеждать","to convince","überzeugen","przekonywać","přesvědčovat","veenma","pārliecināt","įtikinti","convincere","convencer"]]}]
+ }
+});
+
+Object.assign(VOCAB,{
+ B2:{
+  1:[
+   {t:["Кар'єра","Карьера","Career"],w:[
+    ["кар'єра","карьера","career","die Karriere","kariera","kariéra","karjäär","karjera","karjera","la carriera","la carrera profesional"],
+    ["підвищення","повышение","promotion","die Beförderung","awans","povýšení","edutamine","paaugstinājums","paaukštinimas","la promozione","el ascenso"],
+    ["звільнення","увольнение","dismissal","die Kündigung","zwolnienie","výpověď","vallandamine","atlaišana","atleidimas","il licenziamento","el despido"],
+    ["відповідальність","ответственность","responsibility","die Verantwortung","odpowiedzialność","odpovědnost","vastutus","atbildība","atsakomybė","la responsabilità","la responsabilidad"],
+    ["кваліфікація","квалификация","qualification","die Qualifikation","kwalifikacje","kvalifikace","kvalifikatsioon","kvalifikācija","kvalifikacija","la qualifica","la cualificación"],
+    ["підприємець","предприниматель","entrepreneur","der Unternehmer","przedsiębiorca","podnikatel","ettevõtja","uzņēmējs","verslininkas","l'imprenditore","el empresario"]]},
+   {t:["Переговори","Переговоры","Negotiating"],w:[
+    ["переговори","переговоры","negotiations","die Verhandlungen","negocjacje","vyjednávání","läbirääkimised","sarunas","derybos","le trattative","las negociaciones"],
+    ["угода","соглашение","agreement","die Vereinbarung","porozumienie","dohoda","kokkulepe","vienošanās","susitarimas","l'accordo","el acuerdo"],
+    ["компроміс","компромисс","compromise","der Kompromiss","kompromis","kompromis","kompromiss","kompromiss","kompromisas","il compromesso","el término medio"],
+    ["пропозиція","предложение","offer","das Angebot","oferta","nabídka","pakkumine","piedāvājums","pasiūlymas","l'offerta","la oferta"],
+    ["умова","условие","condition","die Bedingung","warunek","podmínka","tingimus","nosacījums","sąlyga","la condizione","la condición"],
+    ["відмовляти","отказывать","to refuse","ablehnen","odmawiać","odmítat","keelduma","atteikties","atsisakyti","rifiutare","rechazar"]]},
+   {t:["Компанія","Компания","The company"],w:[
+    ["компанія","компания","company","das Unternehmen","firma","firma","ettevõte","uzņēmums","įmonė","l'azienda","la empresa"],
+    ["відділ","отдел","department","die Abteilung","dział","oddělení","osakond","nodaļa","skyrius","il reparto","el departamento"],
+    ["працівник","работник","employee","der Arbeitnehmer","pracownik","zaměstnanec","töötaja","darbinieks","darbuotojas","il dipendente","el empleado"],
+    ["роботодавець","работодатель","employer","der Arbeitgeber","pracodawca","zaměstnavatel","tööandja","darba devējs","darbdavys","il datore di lavoro","el empleador"],
+    ["профспілка","профсоюз","trade union","die Gewerkschaft","związek zawodowy","odbory","ametiühing","arodbiedrība","profesinė sąjunga","il sindacato","el sindicato"],
+    ["прибуток","прибыль","profit","der Gewinn","zysk","zisk","kasum","peļņa","pelnas","il profitto","el beneficio"]]},
+   {t:["Робочі навички","Рабочие навыки","Work skills"],w:[
+    ["вирішувати проблеми","решать проблемы","to solve problems","Probleme lösen","rozwiązywać problemy","řešit problémy","probleeme lahendama","risināt problēmas","spręsti problemas","risolvere problemi","resolver problemas"],
+    ["лідерство","лидерство","leadership","die Führung","przywództwo","vedení","juhtimine","vadība","lyderystė","la leadership","el liderazgo"],
+    ["командна робота","командная работа","teamwork","die Teamarbeit","praca zespołowa","týmová práce","meeskonnatöö","komandas darbs","komandinis darbas","il lavoro di squadra","el trabajo en equipo"],
+    ["ефективний","эффективный","efficient","effizient","wydajny","efektivní","tõhus","efektīvs","efektyvus","efficiente","eficiente"],
+    ["творчий","творческий","creative","kreativ","kreatywny","tvořivý","loov","radošs","kūrybingas","creativo","creativo"],
+    ["надійний","надёжный","reliable","zuverlässig","rzetelny","spolehlivý","usaldusväärne","uzticams","patikimas","affidabile","fiable"]]}],
+  2:[
+   {t:["Суспільство","Общество","Society"],w:[
+    ["суспільство","общество","society","die Gesellschaft","społeczeństwo","společnost","ühiskond","sabiedrība","visuomenė","la società","la sociedad"],
+    ["рівність","равенство","equality","die Gleichheit","równość","rovnost","võrdsus","vienlīdzība","lygybė","l'uguaglianza","la igualdad"],
+    ["біженець","беженец","refugee","der Flüchtling","uchodźca","uprchlík","pagulane","bēglis","pabėgėlis","il rifugiato","el refugiado"],
+    ["інтеграція","интеграция","integration","die Integration","integracja","integrace","lõimumine","integrācija","integracija","l'integrazione","la integración"],
+    ["волонтер","волонтёр","volunteer","der Freiwillige","wolontariusz","dobrovolník","vabatahtlik","brīvprātīgais","savanoris","il volontario","el voluntario"],
+    ["безробіття","безработица","unemployment","die Arbeitslosigkeit","bezrobocie","nezaměstnanost","töötus","bezdarbs","nedarbas","la disoccupazione","el desempleo"]]},
+   {t:["Закон і суд","Закон и суд","Law and courts"],w:[
+    ["суд","суд","court","das Gericht","sąd","soud","kohus","tiesa","teismas","il tribunale","el tribunal"],
+    ["адвокат","адвокат","lawyer","der Anwalt","adwokat","advokát","advokaat","advokāts","advokatas","l'avvocato","el abogado"],
+    ["доказ","доказательство","evidence","der Beweis","dowód","důkaz","tõendusmaterjal","pierādījums","įrodymas","la prova","la prueba"],
+    ["злочин","преступление","crime","das Verbrechen","przestępstwo","trestný čin","kuritegu","noziegums","nusikaltimas","il reato","el delito"],
+    ["свідок","свидетель","witness","der Zeuge","świadek","svědek","tunnistaja","liecinieks","liudytojas","il testimone","el testigo"],
+    ["вирок","приговор","verdict","das Urteil","wyrok","rozsudek","kohtuotsus","spriedums","nuosprendis","la sentenza","la sentencia"]]},
+   {t:["Політика","Политика","Politics"],w:[
+    ["уряд","правительство","government","die Regierung","rząd","vláda","valitsus","valdība","vyriausybė","il governo","el gobierno"],
+    ["вибори","выборы","elections","die Wahlen","wybory","volby","valimised","vēlēšanas","rinkimai","le elezioni","las elecciones"],
+    ["партія","партия","political party","die Partei","partia","strana","erakond","partija","partija","il partito","el partido"],
+    ["парламент","парламент","parliament","das Parlament","parlament","parlament","parlament","parlaments","parlamentas","il parlamento","el parlamento"],
+    ["голосувати","голосовать","to vote","wählen","głosować","volit","hääletama","balsot","balsuoti","votare","votar"],
+    ["демократія","демократия","democracy","die Demokratie","demokracja","demokracie","demokraatia","demokrātija","demokratija","la democrazia","la democracia"]]},
+   {t:["Проблеми суспільства","Проблемы общества","Social issues"],w:[
+    ["бідність","бедность","poverty","die Armut","ubóstwo","chudoba","vaesus","nabadzība","skurdas","la povertà","la pobreza"],
+    ["дискримінація","дискриминация","discrimination","die Diskriminierung","dyskryminacja","diskriminace","diskrimineerimine","diskriminācija","diskriminacija","la discriminazione","la discriminación"],
+    ["насильство","насилие","violence","die Gewalt","przemoc","násilí","vägivald","vardarbība","smurtas","la violenza","la violencia"],
+    ["корупція","коррупция","corruption","die Korruption","korupcja","korupce","korruptsioon","korupcija","korupcija","la corruzione","la corrupción"],
+    ["житлова криза","жилищный кризис","housing crisis","die Wohnungsnot","kryzys mieszkaniowy","bytová krize","eluasemekriis","mājokļu krīze","būsto krizė","la crisi abitativa","la crisis de la vivienda"],
+    ["нерівність","неравенство","inequality","die Ungleichheit","nierówność","nerovnost","ebavõrdsus","nevienlīdzība","nelygybė","la disuguaglianza","la desigualdad"]]}],
+  3:[
+   {t:["Природа","Природа","Nature"],w:[
+    ["ліс","лес","forest","der Wald","las","les","mets","mežs","miškas","il bosco","el bosque"],
+    ["річка","река","river","der Fluss","rzeka","řeka","jõgi","upe","upė","il fiume","el río"],
+    ["гора","гора","mountain","der Berg","góra","hora","mägi","kalns","kalnas","la montagna","la montaña"],
+    ["море","море","sea","das Meer","morze","moře","meri","jūra","jūra","il mare","el mar"],
+    ["озеро","озеро","lake","der See","jezioro","jezero","järv","ezers","ežeras","il lago","el lago"],
+    ["поле","поле","field","das Feld","pole","pole","põld","lauks","laukas","il campo","el campo"]]},
+   {t:["Довкілля","Окружающая среда","The environment"],w:[
+    ["довкілля","окружающая среда","environment","die Umwelt","środowisko","životní prostředí","keskkond","vide","aplinka","l'ambiente","el medio ambiente"],
+    ["забруднення","загрязнение","pollution","die Verschmutzung","zanieczyszczenie","znečištění","reostus","piesārņojums","tarša","l'inquinamento","la contaminación"],
+    ["відходи","отходы","waste","der Abfall","odpady","odpad","jäätmed","atkritumi","atliekos","i rifiuti","los residuos"],
+    ["переробка","переработка","recycling","das Recycling","recykling","recyklace","ringlussevõtt","pārstrāde","perdirbimas","il riciclaggio","el reciclaje"],
+    ["клімат","климат","climate","das Klima","klimat","klima","kliima","klimats","klimatas","il clima","el clima"],
+    ["енергія","энергия","energy","die Energie","energia","energie","energia","enerģija","energija","l'energia","la energía"]]},
+   {t:["Зміна клімату","Изменение климата","Climate change"],w:[
+    ["глобальне потепління","глобальное потепление","global warming","die Erderwärmung","globalne ocieplenie","globální oteplování","globaalne soojenemine","globālā sasilšana","visuotinis atšilimas","il riscaldamento globale","el calentamiento global"],
+    ["викиди","выбросы","emissions","die Emissionen","emisje","emise","heitkogused","emisijas","emisijos","le emissioni","las emisiones"],
+    ["посуха","засуха","drought","die Dürre","susza","sucho","põud","sausums","sausra","la siccità","la sequía"],
+    ["повінь","наводнение","flood","die Überschwemmung","powódź","povodeň","üleujutus","plūdi","potvynis","l'alluvione","la inundación"],
+    ["відновлюваний","возобновляемый","renewable","erneuerbar","odnawialny","obnovitelný","taastuv","atjaunojams","atsinaujinantis","rinnovabile","renovable"],
+    ["захищати","защищать","to protect","schützen","chronić","chránit","kaitsma","aizsargāt","saugoti","proteggere","proteger"]]},
+   {t:["Тварини і рослини","Животные и растения","Animals and plants"],w:[
+    ["тварина","животное","animal","das Tier","zwierzę","zvíře","loom","dzīvnieks","gyvūnas","l'animale","el animal"],
+    ["рослина","растение","plant","die Pflanze","roślina","rostlina","taim","augs","augalas","la pianta","la planta"],
+    ["дерево","дерево","tree","der Baum","drzewo","strom","puu","koks","medis","l'albero","el árbol"],
+    ["птах","птица","bird","der Vogel","ptak","pták","lind","putns","paukštis","l'uccello","el pájaro"],
+    ["вид","вид","species","die Art","gatunek","druh","liik","suga","rūšis","la specie","la especie"],
+    ["вимирати","вымирать","to die out","aussterben","wymierać","vymírat","välja surema","izmirt","išnykti","estinguersi","extinguirse"]]}],
+  4:[
+   {t:["Медицина","Медицина","Medicine"],w:[
+    ["хвороба","болезнь","disease","die Krankheit","choroba","nemoc","haigus","slimība","liga","la malattia","la enfermedad"],
+    ["лікування","лечение","treatment","die Behandlung","leczenie","léčba","ravi","ārstēšana","gydymas","la cura","el tratamiento"],
+    ["щеплення","прививка","vaccination","die Impfung","szczepienie","očkování","vaktsineerimine","vakcinācija","skiepijimas","la vaccinazione","la vacunación"],
+    ["операція","операция","surgery","die Operation","operacja","operace","operatsioon","operācija","operacija","l'operazione","la operación"],
+    ["діагноз","диагноз","diagnosis","die Diagnose","diagnoza","diagnóza","diagnoos","diagnoze","diagnozė","la diagnosi","el diagnóstico"],
+    ["одужувати","выздоравливать","to recover","sich erholen","wracać do zdrowia","uzdravit se","paranema","atveseļoties","pasveikti","guarire","recuperarse"]]},
+   {t:["Психічне здоров'я","Психическое здоровье","Mental health"],w:[
+    ["стрес","стресс","stress","der Stress","stres","stres","stress","stress","stresas","lo stress","el estrés"],
+    ["тривога","тревога","anxiety","die Angst","lęk","úzkost","ärevus","trauksme","nerimas","l'ansia","la ansiedad"],
+    ["депресія","депрессия","depression","die Depression","depresja","deprese","depressioon","depresija","depresija","la depressione","la depresión"],
+    ["психолог","психолог","psychologist","der Psychologe","psycholog","psycholog","psühholoog","psihologs","psichologas","lo psicologo","el psicólogo"],
+    ["підтримка","поддержка","support","die Unterstützung","wsparcie","podpora","tugi","atbalsts","parama","il sostegno","el apoyo"],
+    ["вигорання","выгорание","burnout","das Burnout","wypalenie zawodowe","vyhoření","läbipõlemine","izdegšana","perdegimas","il burnout","el agotamiento"]]},
+   {t:["Наука","Наука","Science"],w:[
+    ["дослідження","исследование","research","die Forschung","badania","výzkum","uurimistöö","pētniecība","tyrimai","la ricerca scientifica","la investigación"],
+    ["експеримент","эксперимент","experiment","das Experiment","eksperyment","experiment","katse","eksperiments","eksperimentas","l'esperimento","el experimento"],
+    ["відкриття","открытие","discovery","die Entdeckung","odkrycie","objev","avastus","atklājums","atradimas","la scoperta","el descubrimiento"],
+    ["теорія","теория","theory","die Theorie","teoria","teorie","teooria","teorija","teorija","la teoria","la teoría"],
+    ["науковець","учёный","scientist","der Wissenschaftler","naukowiec","vědec","teadlane","zinātnieks","mokslininkas","lo scienziato","el científico"],
+    ["доводити","доказывать","to prove","beweisen","udowadniać","dokazovat","tõestama","pierādīt","įrodyti","dimostrare","demostrar"]]},
+   {t:["Технології майбутнього","Технологии будущего","Future technology"],w:[
+    ["штучний інтелект","искусственный интеллект","artificial intelligence","die künstliche Intelligenz","sztuczna inteligencja","umělá inteligence","tehisintellekt","mākslīgais intelekts","dirbtinis intelektas","l'intelligenza artificiale","la inteligencia artificial"],
+    ["робот","робот","robot","der Roboter","robot","robot","robot","robots","robotas","il robot","el robot"],
+    ["винахід","изобретение","invention","die Erfindung","wynalazek","vynález","leiutis","izgudrojums","išradimas","l'invenzione","el invento"],
+    ["безпека","безопасность","security","die Sicherheit","bezpieczeństwo","bezpečnost","turvalisus","drošība","saugumas","la sicurezza","la seguridad"],
+    ["дані","данные","data","die Daten","dane","data","andmed","dati","duomenys","i dati","los datos"],
+    ["розвиток","развитие","development","die Entwicklung","rozwój","vývoj","areng","attīstība","plėtra","lo sviluppo","el desarrollo"]]}],
+  5:[
+   {t:["Мистецтво","Искусство","Art"],w:[
+    ["мистецтво","искусство","art","die Kunst","sztuka","umění","kunst","māksla","menas","l'arte","el arte"],
+    ["художник","художник","painter","der Maler","malarz","malíř","maalikunstnik","gleznotājs","dailininkas","il pittore","el pintor"],
+    ["картина","картина","painting","das Gemälde","obraz","obraz","maal","glezna","paveikslas","il quadro","el cuadro"],
+    ["скульптура","скульптура","sculpture","die Skulptur","rzeźba","socha","skulptuur","skulptūra","skulptūra","la scultura","la escultura"],
+    ["галерея","галерея","gallery","die Galerie","galeria","galerie","galerii","galerija","galerija","la galleria","la galería"],
+    ["твір мистецтва","произведение искусства","work of art","das Kunstwerk","dzieło sztuki","umělecké dílo","kunstiteos","mākslas darbs","meno kūrinys","l'opera d'arte","la obra de arte"]]},
+   {t:["Література","Литература","Literature"],w:[
+    ["книжка","книга","book","das Buch","książka","kniha","raamat","grāmata","knyga","il libro","el libro"],
+    ["роман","роман","novel","der Roman","powieść","román","romaan","romāns","romanas","il romanzo","la novela"],
+    ["поезія","поэзия","poetry","die Lyrik","poezja","poezie","luule","dzeja","poezija","la poesia","la poesía"],
+    ["автор","автор","author","der Autor","autor","autor","autor","autors","autorius","l'autore","el autor"],
+    ["сюжет","сюжет","plot","die Handlung","fabuła","děj","süžee","sižets","siužetas","la trama","la trama"],
+    ["персонаж","персонаж","character","die Figur","postać","postava","tegelane","tēls","veikėjas","il personaggio","el personaje"]]},
+   {t:["Музика і кіно","Музыка и кино","Music and film"],w:[
+    ["пісня","песня","song","das Lied","piosenka","píseň","laul","dziesma","daina","la canzone","la canción"],
+    ["оркестр","оркестр","orchestra","das Orchester","orkiestra","orchestr","orkester","orķestris","orkestras","l'orchestra","la orquesta"],
+    ["режисер","режиссёр","film director","der Regisseur","reżyser","režisér","režissöör","režisors","režisierius","il regista","el director de cine"],
+    ["актор","актёр","actor","der Schauspieler","aktor","herec","näitleja","aktieris","aktorius","l'attore","el actor"],
+    ["сцена","сцена","stage","die Bühne","scena","jeviště","lava","skatuve","scena","il palcoscenico","el escenario"],
+    ["глядачі","зрители","audience","das Publikum","publiczność","publikum","publik","skatītāji","žiūrovai","il pubblico","el público"]]},
+   {t:["Традиції","Традиции","Traditions"],w:[
+    ["традиція","традиция","tradition","die Tradition","tradycja","tradice","traditsioon","tradīcija","tradicija","la tradizione","la tradición"],
+    ["звичай","обычай","custom","der Brauch","zwyczaj","zvyk","komme","paraža","paprotys","l'usanza","la costumbre"],
+    ["релігія","религия","religion","die Religion","religia","náboženství","religioon","reliģija","religija","la religione","la religión"],
+    ["спадщина","наследие","heritage","das Erbe","dziedzictwo","dědictví","pärand","mantojums","paveldas","il patrimonio","el patrimonio"],
+    ["святкувати","праздновать","to celebrate","feiern","świętować","slavit","tähistama","svinēt","švęsti","festeggiare","celebrar"],
+    ["ідентичність","идентичность","identity","die Identität","tożsamość","identita","identiteet","identitāte","tapatybė","l'identità","la identidad"]]}]
+ },
+ C1:{
+  1:[
+   {t:["Економіка","Экономика","The economy"],w:[
+    ["економіка","экономика","economy","die Wirtschaft","gospodarka","ekonomika","majandus","ekonomika","ekonomika","l'economia","la economía"],
+    ["інфляція","инфляция","inflation","die Inflation","inflacja","inflace","inflatsioon","inflācija","infliacija","l'inflazione","la inflación"],
+    ["зростання","рост","growth","das Wachstum","wzrost","růst","kasv","izaugsme","augimas","la crescita","el crecimiento"],
+    ["рецесія","рецессия","recession","die Rezession","recesja","recese","majanduslangus","recesija","recesija","la recessione","la recesión"],
+    ["попит","спрос","demand","die Nachfrage","popyt","poptávka","nõudlus","pieprasījums","paklausa","la domanda di mercato","la demanda"],
+    ["ринок","рынок","market","der Markt","rynek","trh","turg","tirgus","rinka","il mercato","el mercado"]]},
+   {t:["Бізнес","Бизнес","Business"],w:[
+    ["інвестиція","инвестиция","investment","die Investition","inwestycja","investice","investeering","investīcija","investicija","l'investimento","la inversión"],
+    ["конкуренція","конкуренция","competition","der Wettbewerb","konkurencja","konkurence","konkurents","konkurence","konkurencija","la concorrenza","la competencia"],
+    ["акціонер","акционер","shareholder","der Aktionär","akcjonariusz","akcionář","aktsionär","akcionārs","akcininkas","l'azionista","el accionista"],
+    ["оборот","оборот","turnover","der Umsatz","obrót","obrat","käive","apgrozījums","apyvarta","il fatturato","la facturación"],
+    ["банкрутство","банкротство","bankruptcy","die Insolvenz","upadłość","bankrot","pankrot","bankrots","bankrotas","il fallimento","la quiebra"],
+    ["стратегія","стратегия","strategy","die Strategie","strategia","strategie","strateegia","stratēģija","strategija","la strategia","la estrategia"]]},
+   {t:["Ринок праці","Рынок труда","The labour market"],w:[
+    ["ринок праці","рынок труда","labour market","der Arbeitsmarkt","rynek pracy","trh práce","tööturg","darba tirgus","darbo rinka","il mercato del lavoro","el mercado laboral"],
+    ["нестача кадрів","нехватка кадров","staff shortage","der Fachkräftemangel","niedobór pracowników","nedostatek pracovníků","tööjõupuudus","darbaspēka trūkums","darbuotojų trūkumas","la carenza di personale","la escasez de personal"],
+    ["автоматизація","автоматизация","automation","die Automatisierung","automatyzacja","automatizace","automatiseerimine","automatizācija","automatizacija","l'automazione","la automatización"],
+    ["продуктивність","производительность","productivity","die Produktivität","wydajność","produktivita","tootlikkus","produktivitāte","produktyvumas","la produttività","la productividad"],
+    ["мінімальна зарплата","минимальная зарплата","minimum wage","der Mindestlohn","płaca minimalna","minimální mzda","miinimumpalk","minimālā alga","minimalusis atlyginimas","il salario minimo","el salario mínimo"],
+    ["віддалена робота","удалённая работа","remote work","die Fernarbeit","praca zdalna","práce na dálku","kaugtöö","attālinātais darbs","nuotolinis darbas","il lavoro da remoto","el teletrabajo"]]},
+   {t:["Фінансові ринки","Финансовые рынки","Financial markets"],w:[
+    ["акція","акция","share","die Aktie","akcja","akcie","aktsia","akcija","akcija","l'azione","la acción"],
+    ["біржа","биржа","stock exchange","die Börse","giełda","burza","börs","birža","birža","la borsa","la bolsa"],
+    ["ризик","риск","risk","das Risiko","ryzyko","riziko","risk","risks","rizika","il rischio","el riesgo"],
+    ["прибутковість","доходность","return","die Rendite","stopa zwrotu","výnos","tootlus","ienesīgums","grąža","il rendimento","la rentabilidad"],
+    ["криза","кризис","crisis","die Krise","kryzys","krize","kriis","krīze","krizė","la crisi","la crisis"],
+    ["регулювання","регулирование","regulation","die Regulierung","regulacja","regulace","reguleerimine","regulējums","reguliavimas","la regolamentazione","la regulación"]]}],
+  2:[
+   {t:["Держава","Государство","The state"],w:[
+    ["держава","государство","state","der Staat","państwo","stát","riik","valsts","valstybė","lo Stato","el Estado"],
+    ["конституція","конституция","constitution","die Verfassung","konstytucja","ústava","põhiseadus","Satversme","Konstitucija","la Costituzione","la Constitución"],
+    ["міністерство","министерство","ministry","das Ministerium","ministerstwo","ministerstvo","ministeerium","ministrija","ministerija","il ministero","el ministerio"],
+    ["влада","власть","power","die Macht","władza","moc","võim","vara","valdžia","il potere","el poder"],
+    ["суверенітет","суверенитет","sovereignty","die Souveränität","suwerenność","suverenita","suveräänsus","suverenitāte","suverenitetas","la sovranità","la soberanía"],
+    ["бюрократія","бюрократия","bureaucracy","die Bürokratie","biurokracja","byrokracie","bürokraatia","birokrātija","biurokratija","la burocrazia","la burocracia"]]},
+   {t:["Міжнародні відносини","Международные отношения","International relations"],w:[
+    ["дипломатія","дипломатия","diplomacy","die Diplomatie","dyplomacja","diplomacie","diplomaatia","diplomātija","diplomatija","la diplomazia","la diplomacia"],
+    ["санкції","санкции","sanctions","die Sanktionen","sankcje","sankce","sanktsioonid","sankcijas","sankcijos","le sanzioni","las sanciones"],
+    ["союз","союз","alliance","das Bündnis","sojusz","aliance","liit","alianse","aljansas","l'alleanza","la alianza"],
+    ["міжнародний договір","международный договор","treaty","das Abkommen","traktat","mezinárodní smlouva","rahvusvaheline leping","starptautisks līgums","tarptautinė sutartis","il trattato","el tratado"],
+    ["конфлікт","конфликт","conflict","der Konflikt","konflikt","konflikt","konflikt","konflikts","konfliktas","il conflitto","el conflicto"],
+    ["посольство","посольство","embassy","die Botschaft","ambasada","velvyslanectví","saatkond","vēstniecība","ambasada","l'ambasciata","la embajada"]]},
+   {t:["Громадянське суспільство","Гражданское общество","Civil society"],w:[
+    ["протест","протест","protest","der Protest","protest","protest","protest","protests","protestas","la protesta","la protesta"],
+    ["петиція","петиция","petition","die Petition","petycja","petice","petitsioon","petīcija","peticija","la petizione","la petición"],
+    ["організація","организация","organisation","die Organisation","organizacja","organizace","organisatsioon","organizācija","organizacija","l'organizzazione","la organización"],
+    ["прозорість","прозрачность","transparency","die Transparenz","przejrzystość","transparentnost","läbipaistvus","caurskatāmība","skaidrumas","la trasparenza","la transparencia"],
+    ["свобода слова","свобода слова","freedom of speech","die Meinungsfreiheit","wolność słowa","svoboda projevu","sõnavabadus","vārda brīvība","žodžio laisvė","la libertà di parola","la libertad de expresión"],
+    ["громадська думка","общественное мнение","public opinion","die öffentliche Meinung","opinia publiczna","veřejné mínění","avalik arvamus","sabiedriskā doma","viešoji nuomonė","l'opinione pubblica","la opinión pública"]]},
+   {t:["Реформи","Реформы","Reforms"],w:[
+    ["реформа","реформа","reform","die Reform","reforma","reforma","reform","reforma","reforma","la riforma","la reforma"],
+    ["законопроєкт","законопроект","bill","der Gesetzentwurf","projekt ustawy","návrh zákona","eelnõu","likumprojekts","įstatymo projektas","il disegno di legge","el proyecto de ley"],
+    ["ухвалювати","принимать (закон)","to pass","verabschieden","uchwalić","schválit","vastu võtma","pieņemt","priimti","approvare","aprobar"],
+    ["впроваджувати","внедрять","to implement","umsetzen","wdrażać","zavádět","ellu viima","īstenot","įgyvendinti","attuare","implementar"],
+    ["наслідок","последствие","consequence","die Folge","skutek","důsledek","tagajärg","sekas","pasekmė","la conseguenza","la consecuencia"],
+    ["вплив","влияние","influence","der Einfluss","wpływ","vliv","mõju","ietekme","įtaka","l'influenza","la influencia"]]}],
+  3:[
+   {t:["Права людини","Права человека","Human rights"],w:[
+    ["права людини","права человека","human rights","die Menschenrechte","prawa człowieka","lidská práva","inimõigused","cilvēktiesības","žmogaus teisės","i diritti umani","los derechos humanos"],
+    ["гідність","достоинство","dignity","die Würde","godność","důstojnost","inimväärikus","cieņa","orumas","la dignità","la dignidad"],
+    ["захист","защита","protection","der Schutz","ochrona","ochrana","kaitse","aizsardzība","apsauga","la protezione","la protección"],
+    ["притулок","убежище","asylum","das Asyl","azyl","azyl","varjupaik","patvērums","prieglobstis","l'asilo","el asilo"],
+    ["свобода","свобода","freedom","die Freiheit","wolność","svoboda","vabadus","brīvība","laisvė","la libertà","la libertad"],
+    ["справедливість","справедливость","justice","die Gerechtigkeit","sprawiedliwość","spravedlnost","õiglus","taisnīgums","teisingumas","la giustizia","la justicia"]]},
+   {t:["Юридичні поняття","Юридические понятия","Legal terms"],w:[
+    ["позов","иск","lawsuit","die Klage","pozew","žaloba","hagi","prasība","ieškinys","la causa","la demanda judicial"],
+    ["обвинувачений","обвиняемый","defendant","der Angeklagte","oskarżony","obžalovaný","süüdistatav","apsūdzētais","kaltinamasis","l'imputato","el acusado"],
+    ["апеляція","апелляция","appeal","die Berufung","odwołanie","odvolání","apellatsioon","apelācija","apeliacija","il ricorso","el recurso"],
+    ["порушення","нарушение","violation","der Verstoß","naruszenie","porušení","rikkumine","pārkāpums","pažeidimas","la violazione","la infracción"],
+    ["положення","положение","provision","die Bestimmung","przepis","ustanovení","säte","noteikums","nuostata","la disposizione","la disposición"],
+    ["законний","законный","lawful","rechtmäßig","legalny","zákonný","seaduslik","likumīgs","teisėtas","legale","legal"]]},
+   {t:["Етика","Этика","Ethics"],w:[
+    ["етика","этика","ethics","die Ethik","etyka","etika","eetika","ētika","etika","l'etica","la ética"],
+    ["мораль","мораль","morality","die Moral","moralność","morálka","moraal","morāle","moralė","la morale","la moral"],
+    ["цінності","ценности","values","die Werte","wartości","hodnoty","väärtused","vērtības","vertybės","i valori","los valores"],
+    ["совість","совесть","conscience","das Gewissen","sumienie","svědomí","südametunnistus","sirdsapziņa","sąžinė","la coscienza","la conciencia"],
+    ["упередження","предубеждение","prejudice","das Vorurteil","uprzedzenie","předsudek","eelarvamus","aizspriedums","išankstinis nusistatymas","il pregiudizio","el prejuicio"],
+    ["толерантність","толерантность","tolerance","die Toleranz","tolerancja","tolerance","sallivus","iecietība","tolerancija","la tolleranza","la tolerancia"]]},
+   {t:["Безпека","Безопасность","Security"],w:[
+    ["оборона","оборона","defence","die Verteidigung","obrona","obrana","riigikaitse","valsts aizsardzība","gynyba","la difesa","la defensa"],
+    ["загроза","угроза","threat","die Bedrohung","zagrożenie","hrozba","oht","draudi","grėsmė","la minaccia","la amenaza"],
+    ["тероризм","терроризм","terrorism","der Terrorismus","terroryzm","terorismus","terrorism","terorisms","terorizmas","il terrorismo","el terrorismo"],
+    ["кібератака","кибератака","cyberattack","der Cyberangriff","cyberatak","kybernetický útok","küberrünnak","kiberuzbrukums","kibernetinė ataka","l'attacco informatico","el ciberataque"],
+    ["стійкість","устойчивость","resilience","die Resilienz","odporność","odolnost","vastupidavus","noturība","atsparumas","la resilienza","la resiliencia"],
+    ["запобігати","предотвращать","to prevent","verhindern","zapobiegać","předcházet","ennetama","novērst","užkirsti kelią","prevenire","prevenir"]]}],
+  4:[
+   {t:["Дослідження","Исследование","Research"],w:[
+    ["гіпотеза","гипотеза","hypothesis","die Hypothese","hipoteza","hypotéza","hüpotees","hipotēze","hipotezė","l'ipotesi","la hipótesis"],
+    ["аналіз","анализ","analysis","die Analyse","analiza","analýza","analüüs","analīze","analizė","l'analisi","el análisis"],
+    ["висновок","вывод","conclusion","die Schlussfolgerung","konkluzja","závěr","järeldus","secinājums","išvada","la conclusione","la conclusión"],
+    ["метод","метод","method","die Methode","metoda","metoda","meetod","metode","metodas","il metodo","el método"],
+    ["джерело","источник","source","die Quelle","źródło","zdroj","allikas","avots","šaltinis","la fonte","la fuente"],
+    ["об'єктивний","объективный","objective","objektiv","obiektywny","objektivní","objektiivne","objektīvs","objektyvus","oggettivo","objetivo"]]},
+   {t:["Академічне життя","Академическая жизнь","Academic life"],w:[
+    ["дисертація","диссертация","thesis","die Dissertation","rozprawa doktorska","disertace","väitekiri","disertācija","disertacija","la tesi","la tesis"],
+    ["науковий керівник","научный руководитель","supervisor","der Betreuer","promotor","školitel","juhendaja","darba vadītājs","vadovas","il relatore","el director de tesis"],
+    ["публікація","публикация","publication","die Veröffentlichung","publikacja","publikace","publikatsioon","publikācija","publikacija","la pubblicazione","la publicación"],
+    ["рецензія","рецензия","review","das Gutachten","recenzja","recenze","retsensioon","recenzija","recenzija","la revisione","la revisión"],
+    ["грант","грант","grant","die Förderung","grant","grant","grant","grants","dotacija","il finanziamento","la subvención"],
+    ["цитувати","цитировать","to cite","zitieren","cytować","citovat","tsiteerima","citēt","cituoti","citare","citar"]]},
+   {t:["Аргументація","Аргументация","Argumentation"],w:[
+    ["аргумент","аргумент","argument","das Argument","argument","argument","argument","arguments","argumentas","l'argomento","el argumento"],
+    ["твердження","утверждение","claim","die Behauptung","twierdzenie","tvrzení","väide","apgalvojums","teiginys","l'affermazione","la afirmación"],
+    ["спростовувати","опровергать","to refute","widerlegen","obalać","vyvracet","ümber lükkama","atspēkot","paneigti","confutare","refutar"],
+    ["припущення","предположение","assumption","die Annahme","założenie","předpoklad","eeldus","pieņēmums","prielaida","il presupposto","la suposición"],
+    ["суперечність","противоречие","contradiction","der Widerspruch","sprzeczność","rozpor","vastuolu","pretruna","prieštaravimas","la contraddizione","la contradicción"],
+    ["обґрунтовувати","обосновывать","to justify","begründen","uzasadniać","zdůvodňovat","põhjendama","pamatot","pagrįsti","giustificare","justificar"]]},
+   {t:["Абстрактні поняття","Абстрактные понятия","Abstract ideas"],w:[
+    ["поняття","понятие","concept","der Begriff","pojęcie","pojem","mõiste","jēdziens","sąvoka","il concetto","el concepto"],
+    ["перспектива","перспектива","perspective","die Perspektive","perspektywa","perspektiva","perspektiiv","perspektīva","perspektyva","la prospettiva","la perspectiva"],
+    ["суть","суть","essence","das Wesen","istota","podstata","olemus","būtība","esmė","l'essenza","la esencia"],
+    ["тенденція","тенденция","trend","die Tendenz","tendencja","trend","suundumus","tendence","tendencija","la tendenza","la tendencia"],
+    ["складність","сложность","complexity","die Komplexität","złożoność","složitost","keerukus","sarežģītība","sudėtingumas","la complessità","la complejidad"],
+    ["неоднозначний","неоднозначный","ambiguous","mehrdeutig","niejednoznaczny","nejednoznačný","mitmetähenduslik","divdomīgs","dviprasmiškas","ambiguo","ambiguo"]]}],
+  5:[
+   {t:["Ділове листування","Деловая переписка","Business correspondence"],w:[
+    ["відповідно до","в соответствии с","in accordance with","gemäß","zgodnie z","v souladu s","kooskõlas","saskaņā ar","pagal","in conformità con","de acuerdo con"],
+    ["з повагою","с уважением","kind regards","mit freundlichen Grüßen","z poważaniem","s pozdravem","lugupidamisega","ar cieņu","pagarbiai","cordiali saluti","atentamente"],
+    ["у вкладенні","во вложении","attached","im Anhang","w załączniku","v příloze","manuses","pielikumā","priede","in allegato","adjunto"],
+    ["щодо","касательно","regarding","bezüglich","w sprawie","ohledně","seoses","attiecībā uz","dėl","riguardo a","en relación con"],
+    ["терміново","срочно","urgent","dringend","pilne","naléhavé","kiire","steidzami","skubu","urgente","urgente"],
+    ["нагадування","напоминание","reminder","die Erinnerung","przypomnienie","připomenutí","meeldetuletus","atgādinājums","priminimas","il promemoria","el recordatorio"]]},
+   {t:["Висловлення думки","Выражение мнения","Giving opinions"],w:[
+    ["на мою думку","по-моему","in my opinion","meiner Meinung nach","moim zdaniem","podle mého názoru","minu arvates","manuprāt","mano nuomone","secondo me","en mi opinión"],
+    ["з одного боку","с одной стороны","on the one hand","einerseits","z jednej strony","na jedné straně","ühelt poolt","no vienas puses","viena vertus","da un lato","por un lado"],
+    ["з іншого боку","с другой стороны","on the other hand","andererseits","z drugiej strony","na druhé straně","teiselt poolt","no otras puses","kita vertus","dall'altro lato","por otro lado"],
+    ["однак","однако","however","jedoch","jednak","avšak","siiski","tomēr","tačiau","tuttavia","sin embargo"],
+    ["отже","следовательно","therefore","deshalb","dlatego","proto","seetõttu","tāpēc","todėl","quindi","por lo tanto"],
+    ["незважаючи на","несмотря на","despite","trotz","mimo","navzdory","vaatamata","neskatoties uz","nepaisant","nonostante","a pesar de"]]},
+   {t:["Точність висловлювання","Точность высказывания","Precise wording"],w:[
+    ["наголошувати","подчёркивать","to emphasise","betonen","podkreślać","zdůrazňovat","rõhutama","uzsvērt","pabrėžti","sottolineare","subrayar"],
+    ["припускати","предполагать","to suppose","vermuten","przypuszczać","předpokládat","oletama","domāt","manyti","supporre","suponer"],
+    ["уточнювати","уточнять","to clarify","klären","doprecyzować","upřesnit","täpsustama","precizēt","patikslinti","chiarire","aclarar"],
+    ["узагальнювати","обобщать","to generalise","verallgemeinern","uogólniać","zobecňovat","üldistama","vispārināt","apibendrinti","generalizzare","generalizar"],
+    ["порівнювати","сравнивать","to compare","vergleichen","porównywać","srovnávat","võrdlema","salīdzināt","palyginti","confrontare","comparar"],
+    ["оцінювати","оценивать","to assess","bewerten","oceniać","hodnotit","hindama","novērtēt","įvertinti","valutare","evaluar"]]},
+   {t:["Публічний виступ","Публичное выступление","Public speaking"],w:[
+    ["промова","речь","speech","die Rede","przemówienie","projev","kõne","runa","kalba","il discorso","el discurso"],
+    ["презентація","презентация","presentation","die Präsentation","prezentacja","prezentace","esitlus","prezentācija","pristatymas","la presentazione","la presentación"],
+    ["переконливий","убедительный","convincing","überzeugend","przekonujący","přesvědčivý","veenev","pārliecinošs","įtikinamas","convincente","convincente"],
+    ["дискусія","дискуссия","discussion","die Diskussion","dyskusja","diskuse","arutelu","diskusija","diskusija","la discussione","el debate"],
+    ["підсумовувати","подводить итоги","to sum up","zusammenfassen","podsumować","shrnout","kokku võtma","apkopot","reziumuoti","riassumere","resumir"],
+    ["висловлюватися","высказываться","to express oneself","sich äußern","wypowiadać się","vyjadřovat se","väljenduma","izteikties","reikšti mintis","esprimersi","expresarse"]]}]
+ }
+});
+
 // ================= Іконки (один набір, лінійні) =================
 const ICONS={
   route:'<circle cx="6" cy="5" r="2.2"/><circle cx="18" cy="19" r="2.2"/><path d="M6 7.2V8a3 3 0 0 0 3 3h6a3 3 0 0 1 3 3v2.8"/>',
@@ -914,7 +1635,10 @@ const ICONS={
   checkCircle:'<circle cx="12" cy="12" r="9"/><path d="M8 12.3l2.8 2.8L16.2 9.5"/>',
   xCircle:'<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>',
   globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/>',
-  book:'<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19"/>'
+  book:'<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19"/>',
+  refresh:'<path d="M4.5 12a7.5 7.5 0 0 1 13-5.1L19.5 9M19.5 4.5V9H15"/><path d="M19.5 12a7.5 7.5 0 0 1-13 5.1L4.5 15M4.5 19.5V15H9"/>',
+  play:'<path d="M8 5.5v13l10.5-6.5z"/>',
+  mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/>'
 };
 function ic(name,cls){ return `<svg class="ic ${cls||""}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name]||""}</svg>`; }
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -945,36 +1669,118 @@ function owl(size,mood,cls){
 
 // ================= Стан =================
 const KEY="flueno-v2";
-const defaults={ui:null,lang:null,level:"A1",passed:{},cards:{},streak:0,lastDay:null,sound:true};
+const defaults={ui:null,lang:null,level:"A1",passed:{},cards:{},streak:0,lastDay:null,sound:true,voices:{}};
 let S=load();
-function load(){ try{ return Object.assign({},defaults,JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){ return {...defaults}; } }
+function load(){ try{ const s=Object.assign({},defaults,JSON.parse(localStorage.getItem(KEY)||"{}")); s.voices=s.voices||{}; return s; }catch(e){ return {...defaults,voices:{}}; } }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 function T(k,v){ let s=(UI[S.ui]||UI.uk)[k]; if(s==null) s=UI.uk[k]; if(v) for(const x in v) s=s.split("{"+x+"}").join(v[x]); return s; }
 function lvName(l){ return (UI[S.ui]||UI.uk).levels[l]; }
 function langName(c){ return (LANG_NAMES[c]||{})[S.ui]||LANG_NAMES[c].uk; }
-function unitNames(){ return UNITS_I18N[S.ui]||UNITS_I18N.uk; }
+function unitNames(level){ const u=UNIT_NAMES[level]||UNIT_NAMES.A1; return u[S.ui]||u.uk; }
+function uiIdx(){ return {uk:0,ru:1,en:2}[S.ui]||0; }
 function lessonKey(lang,level,unit,idx){ return `${lang}-${level}-${unit}-${idx}`; }
-function allowed(level,unit){ return level==="A1" && unit<=FREE_UNITS_A1; }
+function planName(){ return T({free:"planFree",plus:"planPlus",pro:"planPro"}[PLAN]); }
+// Тарифи як у боті: безкоштовно — A1 розділи 1–2, Plus — A1–B1, Pro — усі рівні
+function allowed(level,unit){
+  if(PLAN==="pro") return true;
+  if(PLAN==="plus") return ["A1","A2","B1"].includes(level);
+  return level==="A1"&&unit<=2;
+}
 
-// SM-2: 0 — не знаю, 3 — важко, 5 — легко
+// ---- Уроки: ручні, фразові, тематичні (словник) і повторення ----
+function vocabLesson(level,unit,idx){ const l=VOCAB[level]; return (l&&l[unit]&&l[unit][idx-1])||null; }
+function wordOf(row,lang){ return row[VOCAB_COL[lang]]; }
+function hasContent(lang,level,unit,idx){ return !!(staticHasLesson(lang,level,unit,idx)||vocabLesson(level,unit,idx)); }
+function hasLesson(lang,level,unit,idx){
+  if(idx===LESSONS_PER_UNIT){ for(let i=1;i<LESSONS_PER_UNIT;i++) if(hasContent(lang,level,unit,i)) return true; return false; }
+  return hasContent(lang,level,unit,idx);
+}
+function lessonTitle(lang,level,unit,idx){
+  if(idx===LESSONS_PER_UNIT) return T("review");
+  const k=lessonKey(lang,level,unit,idx);
+  if(staticHasLesson(lang,level,unit,idx)) return staticLessonBody(k).title;
+  const v=vocabLesson(level,unit,idx); return v?v.t[uiIdx()]:"";
+}
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function pickDistractors(correct,pool,n){
+  const out=[], seen=new Set([correct]);
+  for(const x of shuffle(pool)){ if(!seen.has(x)){ seen.add(x); out.push(x); } if(out.length>=n) break; }
+  return out;
+}
+function unitWords(level,unit){
+  const rows=[]; for(let i=1;i<LESSONS_PER_UNIT;i++){ const v=vocabLesson(level,unit,i); if(v&&!staticHasLesson(S.lang,level,unit,i)) rows.push(...v.w); }
+  return rows;
+}
+function wordQuizzes(rows,poolRows,withListen){
+  const lang=S.lang, ui=uiIdx(), steps=[];
+  const poolW=poolRows.map(r=>wordOf(r,lang)), poolG=poolRows.map(r=>r[ui]);
+  rows.forEach((r,k)=>{
+    const w=wordOf(r,lang), g=r[ui];
+    if(k%2===0) steps.push({type:"quiz",question:T("qMeaning",{w}),options:[g,...pickDistractors(g,poolG,3)],answer:0,explain:`${w} — ${g}`,uiOpts:true,say:w});
+    else steps.push({type:"quiz",question:T("qSay",{g}),options:[w,...pickDistractors(w,poolW,3)],answer:0,explain:`${w} — ${g}`,say:w});
+  });
+  if(withListen){
+    shuffle(rows).slice(0,2).forEach(r=>{ const w=wordOf(r,lang), g=r[ui];
+      steps.push({type:"quiz",listen:true,question:T("qListen"),options:[w,...pickDistractors(w,poolW,3)],answer:0,explain:`${w} — ${g}`,say:w}); });
+  }
+  return steps;
+}
+function buildVocabBody(level,unit,idx){
+  const v=vocabLesson(level,unit,idx), ui=uiIdx();
+  const pool=unitWords(level,unit).length>=8?unitWords(level,unit):v.w;
+  const items=v.w.map(r=>({w:wordOf(r,S.lang),g:r[ui]}));
+  return {title:v.t[ui],goal:T("vocabGoal",{n:items.length}),kind:"vocab",rows:v.w,
+    steps:[{type:"words",items},...wordQuizzes(v.w,pool,canVoice(S.lang))]};
+}
+function buildReviewBody(level,unit){
+  const rows=unitWords(level,unit), steps=[];
+  if(rows.length){
+    // Спершу слова, які ви знаєте найгірше або ще не повторювали
+    const score=r=>{ const c=S.cards[S.lang+":"+wordOf(r,S.lang)]; return c?(c.ef||2.5)+(c.reps||0)*0.3:0; };
+    const pick=shuffle(rows).sort((a,b)=>score(a)-score(b)).slice(0,8);
+    steps.push(...wordQuizzes(pick,rows,canVoice(S.lang)));
+  }
+  // Питання з уроків фраз цього розділу
+  for(let i=1;i<LESSONS_PER_UNIT;i++) if(staticHasLesson(S.lang,level,unit,i)){
+    const b=staticLessonBody(lessonKey(S.lang,level,unit,i));
+    steps.push(...b.steps.filter(s=>s.type!=="explain"));
+  }
+  return {title:T("review"),goal:T("reviewGoal"),kind:"review",steps:shuffle(steps).slice(0,10)};
+}
+function lessonBody(key){
+  const [lang,level,u,i]=key.split("-"), unit=+u, idx=+i;
+  if(idx===LESSONS_PER_UNIT) return hasLesson(lang,level,unit,idx)?buildReviewBody(level,unit):null;
+  if(staticHasLesson(lang,level,unit,idx)) return staticLessonBody(key);
+  if(vocabLesson(level,unit,idx)) return buildVocabBody(level,unit,idx);
+  return null;
+}
+
+// ---- Картки: базові фрази + слова з пройдених уроків, повторення за SM-2 ----
 function sm2(card,q){
   const c=card||{ef:2.5,reps:0,interval:0,due:0};
   if(q<3){ c.reps=0; c.interval=1; }
   else{ c.reps+=1; c.interval=c.reps===1?1:c.reps===2?6:Math.round(c.interval*c.ef); c.ef=Math.max(1.3,c.ef+(0.1-(5-q)*(0.08+(5-q)*0.02))); }
   c.due=Date.now()+c.interval*86400000; return c;
 }
-function dueCards(lang){
-  const now=Date.now();
-  return (CARDS[lang]||[]).map(p=>({p,key:`${lang}:${p[0]}`})).filter(x=>!S.cards[x.key]||S.cards[x.key].due<=now);
+function allCards(lang){
+  const out=[], seen=new Set();
+  const add=(f,b)=>{ if(!seen.has(f)){ seen.add(f); out.push({f,b}); } };
+  (CARDS[lang]||[]).forEach(c=>{ const t=(TR[lang]&&TR[lang][c[0]])||[c[1],c[1]]; add(c[0],{uk:c[1],ru:t[0],en:t[1]}); });
+  for(const k of Object.keys(S.passed)){
+    const [l,level,u,i]=k.split("-"); if(l!==lang) continue;
+    const v=vocabLesson(level,+u,+i); if(!v||staticHasLesson(lang,level,+u,+i)) continue;
+    v.w.forEach(r=>add(wordOf(r,lang),{uk:r[0],ru:r[1],en:r[2]}));
+  }
+  return out;
 }
+function dueCards(lang){ const now=Date.now(); return allCards(lang).filter(c=>{ const s=S.cards[`${lang}:${c.f}`]; return !s||s.due<=now; }); }
 
-// Рахуємо лише уроки, доступні на поточному тарифі, щоб наступний рівень не блокувався назавжди
 function levelLessonCount(lang,level){ let n=0; for(let u=1;u<=UNIT_COUNT;u++) if(allowed(level,u)) for(let i=1;i<=LESSONS_PER_UNIT;i++) if(hasLesson(lang,level,u,i)) n++; return n; }
 function levelDone(lang,level){ let n=0; for(let u=1;u<=UNIT_COUNT;u++) if(allowed(level,u)) for(let i=1;i<=LESSONS_PER_UNIT;i++) if(hasLesson(lang,level,u,i)&&S.passed[lessonKey(lang,level,u,i)]) n++; return n; }
 function levelUnlocked(level){
   const i=LEVELS.indexOf(level); if(i<=0) return true;
   const prev=LEVELS[i-1], total=levelLessonCount(S.lang,prev);
-  return levelUnlocked(prev) && total>0 && levelDone(S.lang,prev)>=total;
+  return levelUnlocked(prev)&&total>0&&levelDone(S.lang,prev)>=total;
 }
 function unitStats(level,unit){
   let total=0,done=0;
@@ -982,19 +1788,14 @@ function unitStats(level,unit){
   return {total,done};
 }
 function canOpen(level,unit,idx){
-  return levelUnlocked(level) && allowed(level,unit) && hasLesson(S.lang,level,unit,idx)
-    && (idx===1 || !!S.passed[lessonKey(S.lang,level,unit,idx-1)]);
+  if(!levelUnlocked(level)||!allowed(level,unit)||!hasLesson(S.lang,level,unit,idx)) return false;
+  for(let p=idx-1;p>=1;p--) if(hasLesson(S.lang,level,unit,p)) return !!S.passed[lessonKey(S.lang,level,unit,p)];
+  return true;
 }
-function allLessonsInOrder(){
-  const out=[]; for(const L of LEVELS) for(let u=1;u<=UNIT_COUNT;u++) for(let i=1;i<=LESSONS_PER_UNIT;i++) out.push([L,u,i]); return out;
-}
-function currentLesson(){
-  for(const [L,u,i] of allLessonsInOrder()) if(canOpen(L,u,i) && !S.passed[lessonKey(S.lang,L,u,i)]) return {level:L,unit:u,idx:i};
-  return null;
-}
+function allLessonsInOrder(){ const out=[]; for(const L of LEVELS) for(let u=1;u<=UNIT_COUNT;u++) for(let i=1;i<=LESSONS_PER_UNIT;i++) out.push([L,u,i]); return out; }
+function currentLesson(){ for(const [L,u,i] of allLessonsInOrder()) if(canOpen(L,u,i)&&!S.passed[lessonKey(S.lang,L,u,i)]) return {level:L,unit:u,idx:i}; return null; }
 function nextAfter(level,unit,idx){
-  const all=allLessonsInOrder(); let seen=false;
-  for(const [L,u,i] of all){ if(seen && canOpen(L,u,i)) return {level:L,unit:u,idx:i}; if(L===level&&u===unit&&i===idx) seen=true; }
+  let seen=false; for(const [L,u,i] of allLessonsInOrder()){ if(seen&&canOpen(L,u,i)) return {level:L,unit:u,idx:i}; if(L===level&&u===unit&&i===idx) seen=true; }
   return null;
 }
 function touchStreak(){
@@ -1003,7 +1804,7 @@ function touchStreak(){
   S.streak=(S.lastDay===y)?S.streak+1:1; S.lastDay=day;
 }
 
-// ================= Telegram, тема, звук =================
+// ================= Telegram і тема =================
 const tg=window.Telegram&&window.Telegram.WebApp;
 const inTg=!!(tg&&tg.initData);
 function applyTheme(){
@@ -1018,30 +1819,55 @@ if(tg){ try{ tg.ready(); tg.expand(); tg.onEvent&&tg.onEvent("themeChanged",appl
 function syncBack(){ try{ if(!inTg||!tg.BackButton) return; if(view!=="home") tg.BackButton.show(); else tg.BackButton.hide(); }catch(e){} }
 function haptic(kind){ try{ tg&&tg.HapticFeedback&&tg.HapticFeedback.notificationOccurred(kind||"success"); }catch(e){} }
 
-let VOICES=[];
-function loadVoices(){ try{ VOICES=speechSynthesis.getVoices()||[]; }catch(e){ VOICES=[]; } }
-if("speechSynthesis" in window){ loadVoices(); speechSynthesis.onvoiceschanged=loadVoices; }
-function pickVoice(bcp){
-  const pre=bcp.split("-")[0].toLowerCase();
-  const score=v=>(/natural|neural|premium|enhanced|wavenet/i.test(v.name)?6:0)+(/google|microsoft/i.test(v.name)?3:0)+(v.localService===false?1:0)+(v.lang.toLowerCase()===bcp.toLowerCase()?2:0);
-  return VOICES.filter(v=>v.lang.toLowerCase().startsWith(pre)).sort((a,b)=>score(b)-score(a))[0]||null;
+// ================= Голос =================
+// 1) записані файли audio/<мова>/<хеш>.mp3, якщо вони є на сайті (працюють і в Telegram на Android);
+// 2) інакше синтез мовлення пристрою з найприроднішим жіночим голосом.
+let VOICES=[], AUDIO_INDEX=null;
+function loadVoices(){ try{ VOICES=(window.speechSynthesis&&speechSynthesis.getVoices())||[]; }catch(e){ VOICES=[]; } }
+if("speechSynthesis" in window){ loadVoices(); speechSynthesis.onvoiceschanged=()=>{ loadVoices(); if(view==="pickVoice") render(); }; }
+try{ fetch("audio/index.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(j=>{ AUDIO_INDEX=j; }).catch(()=>{}); }catch(e){}
+function hashText(s){ let h=0x811c9dc5; for(const ch of s){ h^=ch.codePointAt(0); h=Math.imul(h,0x01000193)>>>0; } return h.toString(16).padStart(8,"0"); }
+function audioUrl(text,lang){ const h=hashText(text); const set=AUDIO_INDEX&&AUDIO_INDEX[lang]; return set&&(Array.isArray(set)?set.includes(h):set[h])?`audio/${lang}/${h}.mp3`:null; }
+const FEMALE=/female|woman|frau|zira|hedda|katja|amala|anna|petra|marlene|vicki|zosia|ewa|paulina|agnieszka|zofia|maja|zuzana|iveta|vlasta|anu|everita|ona\b|kate|serena|samantha|karen|moira|tessa|susan|hazel|libby|sonia|martha|alice|federica|paola|elsa|isabella|monica|marisol|helena|laura|elvira|lucia|carmen|elena|julia|sara|google (deutsch|polski|italiano|eesti)/i;
+const MALE=/\bmale\b|\bmann\b|stefan|markus|yannick|conrad|jacek|adam|antonin|kert|nils|leonas|diego|luca|cosimo|jorge|pablo|alvaro|daniel|arthur|george|ryan|thomas|oliver|rishi|giorgio|benigno|reed|fred|rocko|grandpa|eddy/i;
+function voicesFor(lang){ const bcp=SPEECH[lang]||"en-GB", pre=bcp.split("-")[0].toLowerCase(); return VOICES.filter(v=>v.lang&&v.lang.toLowerCase().replace("_","-").startsWith(pre)); }
+function voiceScore(v,bcp){
+  return (FEMALE.test(v.name)?5:0)-(MALE.test(v.name)?6:0)+(/natural|neural|premium|enhanced|wavenet|online/i.test(v.name)?6:0)
+    +(/google|microsoft|siri/i.test(v.name)?2:0)+(v.lang.toLowerCase().replace("_","-")===bcp.toLowerCase()?2:0);
 }
-function speak(text,lang,btn){
-  if(!S.sound||!("speechSynthesis" in window)) return;
-  try{
-    speechSynthesis.cancel();
-    const code=SPEECH[lang]||"en-GB", u=new SpeechSynthesisUtterance(text);
-    u.lang=code; u.rate=0.88; u.pitch=1.02;
-    const v=pickVoice(code); if(v) u.voice=v;
-    if(btn){ btn.classList.add("playing"); u.onend=u.onerror=()=>btn.classList.remove("playing"); }
-    speechSynthesis.speak(u);
-  }catch(e){}
+function pickVoice(lang){
+  const list=voicesFor(lang); if(!list.length) return null;
+  const chosen=S.voices[lang]&&list.find(v=>v.voiceURI===S.voices[lang]); if(chosen) return chosen;
+  const bcp=SPEECH[lang]||"en-GB"; return list.slice().sort((a,b)=>voiceScore(b,bcp)-voiceScore(a,bcp))[0];
+}
+function canVoice(lang){ return !!((AUDIO_INDEX&&AUDIO_INDEX[lang])||("speechSynthesis" in window&&voicesFor(lang).length)); }
+let currentAudio=null;
+function stopSpeech(){ try{ window.speechSynthesis&&speechSynthesis.cancel(); }catch(e){} try{ currentAudio&&currentAudio.pause(); }catch(e){} currentAudio=null; }
+// Повертає проміс, що завершується, коли фраза дозвучала
+function say(text,lang,btn){
+  return new Promise(resolve=>{
+    if(!S.sound||!text) return resolve(false);
+    let done=false; const finish=ok=>{ if(done) return; done=true; if(btn) btn.classList.remove("playing"); resolve(ok); };
+    const guard=setTimeout(()=>finish(true),Math.min(12000,1500+text.length*120));
+    if(btn) btn.classList.add("playing");
+    stopSpeech();
+    const url=audioUrl(text,lang);
+    if(url){ try{ const a=new Audio(url); currentAudio=a; a.onended=()=>{ clearTimeout(guard); finish(true); }; a.onerror=()=>{ clearTimeout(guard); finish(false); }; a.play().catch(()=>{ clearTimeout(guard); finish(false); }); return; }catch(e){} }
+    if(!("speechSynthesis" in window)){ clearTimeout(guard); toast(T("noVoice")); return finish(false); }
+    try{
+      const code=SPEECH[lang]||"en-GB", u=new SpeechSynthesisUtterance(text), v=pickVoice(lang);
+      u.lang=v?v.lang:code; if(v) u.voice=v; u.rate=0.9; u.pitch=1.05;
+      u.onend=()=>{ clearTimeout(guard); finish(true); }; u.onerror=()=>{ clearTimeout(guard); finish(false); };
+      speechSynthesis.speak(u);
+    }catch(e){ clearTimeout(guard); finish(false); }
+  });
 }
 let toastTimer=null;
-function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),2200); }
+function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),2400); }
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
 // ================= Екрани =================
-let tab="learn", view="home", session=null, deck=[], deckLang=null, flipped=false, unitShown="auto";
+let tab="learn", view="home", session=null, deck=[], deckLang=null, flipped=false, unitShown="auto", autoplay=null;
 
 function render(){
   const app=document.getElementById("app"), nav=document.getElementById("nav");
@@ -1050,6 +1876,7 @@ function render(){
   if(!S.ui) html=onboardUi();
   else if(!S.lang||view==="pickLang") html=pickLangView();
   else if(view==="pickUi") html=pickUiView();
+  else if(view==="pickVoice") html=pickVoiceView();
   else if(view==="lesson"&&session) html=lessonView();
   else html= tab==="cards"?cardsView(): tab==="profile"?profileView(): learnView();
   app.classList.toggle("full",view==="lesson");
@@ -1076,8 +1903,7 @@ function onboardUi(){
 function backBtn(){ return `<button class="iconbtn" data-action="back" aria-label="${T("back")}" style="margin-left:-10px">${ic("chevLeft")}</button>`; }
 function pickLangView(){
   const changing=!!S.lang;
-  return `<section class="stack">
-    ${changing?backBtn():""}
+  return `<section class="stack">${changing?backBtn():""}
     <div class="onb-hero" style="align-items:flex-start;text-align:left">${changing?"":owl(72)}<h1>${T("chooseLang")}</h1><p class="meta">${T("chooseLangSub")}</p></div>
     <div class="list">${LANG_ORDER.map(c=>`<button class="row ${S.lang===c?"on":""}" data-action="setLang" data-arg="${c}" aria-pressed="${S.lang===c}">
       <span class="code">${c.toUpperCase()}</span><span class="grow"><span class="title">${langName(c)}</span></span>${S.lang===c?ic("check","check"):ic("chev","chev")}</button>`).join("")}</div>
@@ -1088,13 +1914,24 @@ function pickUiView(){
     <div class="list">${["uk","ru","en"].map(c=>`<button class="row ${S.ui===c?"on":""}" data-action="setUi" data-arg="${c}" lang="${c}" aria-pressed="${S.ui===c}">
       <span class="code">${UI_CODES[c]}</span><span class="grow"><span class="title">${UI_NAMES[c]}</span></span>${S.ui===c?ic("check","check"):""}</button>`).join("")}</div></section>`;
 }
+function pickVoiceView(){
+  const list=voicesFor(S.lang), bcp=SPEECH[S.lang], cur=S.voices[S.lang]||"";
+  const sorted=list.slice().sort((a,b)=>voiceScore(b,bcp)-voiceScore(a,bcp));
+  const row=(uri,label,sub)=>`<div class="row ${cur===uri?"on":""}"><button class="grow voice-pick" data-action="setVoice" data-arg="${esc(uri)}" aria-pressed="${cur===uri}">
+      <span class="title">${esc(label)}</span>${sub?`<span class="sub">${esc(sub)}</span>`:""}</button>
+      <button class="mini" data-action="testVoice" data-arg="${esc(uri)}" aria-label="${T("voiceTest")}">${ic("volume","sm")}</button>${cur===uri?ic("check","check"):""}</div>`;
+  return `<section class="stack">${backBtn()}<div><h1>${T("voice")}</h1><p class="meta" style="margin-top:6px">${langName(S.lang)}</p></div>
+    ${list.length?`<div class="list">${row("",T("voiceAuto"),sorted[0]?sorted[0].name:"")}${sorted.map(v=>row(v.voiceURI,v.name,v.lang)).join("")}</div>`
+      :`<div class="list"><div class="row"><span class="grow"><span class="sub">${T("voiceNone")}</span></span></div></div>`}
+  </section>`;
+}
 
 function openUnitKey(){ if(unitShown!=="auto") return unitShown; const c=currentLesson(); return c?`${c.level}-${c.unit}`:null; }
 function learnView(){
   const due=dueCards(S.lang).length, cur=currentLesson();
   const started=Object.keys(S.passed).some(k=>k.startsWith(S.lang+"-"));
   const msg=started&&due?T("msgDue"):started?T("msgGo"):T("msgStart");
-  const openKey=openUnitKey(), names=unitNames();
+  const openKey=openUnitKey();
   let h=`<div class="top">
       <button class="pill" data-action="pickLang"><span class="code">${S.lang.toUpperCase()}</span>${langName(S.lang)}${ic("chevDown","sm")}</button>
       <div class="streak ${S.streak?"":"zero"}" aria-label="${T("streak")}: ${S.streak}">${ic("flame","sm")}<span class="num">${S.streak}</span></div></div>
@@ -1102,17 +1939,19 @@ function learnView(){
     ${due?`<button class="review" data-action="review">${ic("cards")}<span class="grow">${T("reviewDue")}</span><span class="num">${due}</span>${ic("chev","sm")}</button>`:""}`;
   LEVELS.forEach((L,li)=>{
     const unlocked=levelUnlocked(L), total=levelLessonCount(S.lang,L), dn=levelDone(S.lang,L), finished=total>0&&dn>=total;
-    h+=`<section class="level ${unlocked?"":"locked"}" style="--lv:var(--lv-${L})"><div class="level-head">
+    const planLocked=![1,2,3,4,5].some(u=>allowed(L,u));
+    h+=`<section class="level ${unlocked&&!planLocked?"":"locked"}" style="--lv:var(--lv-${L})"><div class="level-head">
       <span class="lv-badge">${L}</span><div class="grow"><h2>${lvName(L)}</h2>
-      ${unlocked?(total?`<p class="meta num">${T("lessonsCount",{d:dn,t:total})}</p><div class="lvbar"><i style="width:${Math.round(dn/total*100)}%"></i></div>`:`<p class="meta">${T("soon")}</p>`)
+      ${planLocked?`<p class="meta">${T("plusOnly")}</p>`
+        :unlocked?(total?`<p class="meta num">${T("lessonsCount",{d:dn,t:total})}</p><div class="lvbar"><i style="width:${Math.round(dn/total*100)}%"></i></div>`:`<p class="meta">${T("soon")}</p>`)
         :`<p class="meta">${T("levelLocked",{lv:LEVELS[li-1]})}</p>`}
-      </div><span class="state">${unlocked?(finished?ic("checkCircle"):""):ic("lock")}</span></div>`;
-    if(unlocked){
+      </div><span class="state">${planLocked||!unlocked?ic("lock"):(finished?ic("checkCircle"):"")}</span></div>`;
+    if(unlocked&&!planLocked){
       h+=`<ol class="route">`;
-      names.forEach((title,ui)=>{
+      unitNames(L).forEach((title,ui)=>{
         const u=ui+1, isOpen=allowed(L,u), st=unitStats(L,u), avail=st.total>0, key=`${L}-${u}`;
         const done=isOpen&&avail&&st.done>=st.total, expanded=isOpen&&avail&&openKey===key;
-        const cls=[(!isOpen||!avail)?"closed":"", done?"done":"", (!done&&st.done>0)?"started":"", expanded?"open":""].join(" ");
+        const cls=[(!isOpen||!avail)?"closed":"",done?"done":"",(!done&&st.done>0)?"started":"",expanded?"open":""].join(" ");
         const meta=!isOpen?`${ic("lock","xs")}${T("plusOnly")}`:!avail?T("soon"):T("lessonsCount",{d:st.done,t:st.total});
         const action=isOpen&&avail?`data-action="unit" data-arg="${key}" aria-expanded="${expanded}"`:!isOpen?`data-action="plusOnly"`:`data-action="soon"`;
         h+=`<li class="stop ${cls}"><button class="stop-btn" ${action}>
@@ -1126,71 +1965,90 @@ function learnView(){
     }
     h+=`</section>`;
   });
-  h+=`<p class="plusnote">${ic("crown","sm")}<span>${T("plusNote")}</span></p>`;
+  if(PLAN!=="pro") h+=`<p class="plusnote">${ic("crown","sm")}<span>${T("plusNote")}</span></p>`;
   return h;
 }
 function unitPanel(L,u,cur){
   let nextIdx=null;
-  const stops=[1,2,3,4].map(i=>{
+  const stops=[1,2,3,4,5].map(i=>{
     const k=lessonKey(S.lang,L,u,i), has=hasLesson(S.lang,L,u,i), done=!!S.passed[k], ok=canOpen(L,u,i);
     const isCur=cur&&cur.level===L&&cur.unit===u&&cur.idx===i;
     if(nextIdx===null&&ok&&!done) nextIdx=i;
-    const cls=done?"done":isCur?"cur":(!ok?"locked":"");
-    const label=has?esc(lessonBody(k).title):"";
-    return `<button class="les ${cls}" data-action="lesson" data-arg="${L}|${u}|${i}" aria-label="${label}" ${has?"":"disabled"}>${done?ic("check","sm"):i}</button>`;
+    const cls=[done?"done":isCur?"cur":(!ok?"locked":""), i===LESSONS_PER_UNIT?"rev":""].join(" ");
+    const label=has?esc(lessonTitle(S.lang,L,u,i)):"";
+    const inner=done?ic("check","sm"):(i===LESSONS_PER_UNIT?ic("refresh","sm"):i);
+    return `<button class="les ${cls}" data-action="lesson" data-arg="${L}|${u}|${i}" aria-label="${label}" ${has?"":"disabled"}>${inner}</button>`;
   }).join("");
-  const next=nextIdx?`<div class="upnext"><p class="meta">${T("upNext",{title:`<b>${esc(lessonBody(lessonKey(S.lang,L,u,nextIdx)).title)}</b>`})}</p>
+  const next=nextIdx?`<div class="upnext"><p class="meta">${T("upNext",{title:`<b>${esc(lessonTitle(S.lang,L,u,nextIdx))}</b>`})}</p>
       <button class="btn" data-action="lesson" data-arg="${L}|${u}|${nextIdx}">${T("startLesson")}${ic("arrowRight","sm")}</button></div>`
     :`<p class="meta">${T("unitDone")}</p>`;
   return `<div class="unit-panel"><div class="stops">${stops}</div>${next}</div>`;
 }
 
+// ---- Картки ----
 function intervalLabel(q){
-  const key=S.lang+":"+deck[0][0], base=S.cards[key]?JSON.parse(JSON.stringify(S.cards[key])):null;
+  const key=S.lang+":"+deck[0].f, base=S.cards[key]?JSON.parse(JSON.stringify(S.cards[key])):null;
   return T("days",{n:sm2(base,q).interval});
 }
 function cardActions(){
-  if(!flipped) return `<p class="hint">${T("tapFlip")}</p><button class="btn" data-action="flip">${T("showAnswer")}</button>`;
+  if(autoplay&&autoplay.on) return `<button class="btn quiet" data-action="stopAutoplay">${ic("close","sm")}${T("stop")}</button>`;
+  const play=`<button class="btn quiet" data-action="autoplay">${ic("play","sm")}${T("autoplay")}</button>`;
+  if(!flipped) return `<p class="hint">${T("tapFlip")}</p><button class="btn" data-action="flip">${T("showAnswer")}</button>${play}`;
   return `<div class="rate">
     <button class="r0" data-action="rate" data-arg="0">${T("dontKnow")}<small>${T("now")}</small></button>
     <button class="r3" data-action="rate" data-arg="3">${T("hard")}<small class="num">${intervalLabel(3)}</small></button>
-    <button class="r5" data-action="rate" data-arg="5">${T("easy")}<small class="num">${intervalLabel(5)}</small></button></div>`;
+    <button class="r5" data-action="rate" data-arg="5">${T("easy")}<small class="num">${intervalLabel(5)}</small></button></div>${play}`;
+}
+function cardFaces(c){
+  return `<span class="face front"><span class="code corner">${S.lang.toUpperCase()}</span><span class="word" lang="${S.lang}">${esc(c.f)}</span></span>
+    <span class="face back"><span class="code corner">${UI_CODES[S.ui]}</span><span class="word">${esc(c.b[S.ui]||c.b.uk)}</span><span class="small" lang="${S.lang}">${esc(c.f)}</span></span>`;
 }
 function cardsView(){
   if(deckLang!==S.lang){ deck=[]; deckLang=S.lang; }
-  if(!deck.length){ deck=dueCards(S.lang).map(x=>x.p); flipped=false; }
+  if(!deck.length){ deck=dueCards(S.lang); flipped=false; }
   if(!deck.length) return `<div class="screen-head"><h1>${T("cards")}</h1></div>
     <div class="empty">${owl(110,"happy")}<h2>${T("deckDone")}</h2><p class="meta">${T("deckDoneSub")}</p>
     <button class="btn quiet" data-action="tab" data-arg="learn" style="max-width:280px">${T("toRoute")}</button></div>`;
-  const card=deck[0], front=card[0], back=backFor(S.lang,card);
   return `<div class="screen-head"><h1>${T("cards")}</h1><span class="meta num">${T("cardsLeft",{n:deck.length})}</span></div>
     <div class="flash-wrap">
-      <button class="flash ${flipped?"turned":""}" id="flash" data-action="flip" aria-label="${T("showAnswer")}">
-        <span class="face front"><span class="code corner">${S.lang.toUpperCase()}</span><span class="word" lang="${S.lang}">${esc(front)}</span></span>
-        <span class="face back"><span class="code corner">${UI_CODES[S.ui]}</span><span class="word">${esc(back)}</span><span class="small" lang="${S.lang}">${esc(front)}</span></span>
-      </button>
+      <button class="flash ${flipped?"turned":""}" id="flash" data-action="flip" aria-label="${T("showAnswer")}">${cardFaces(deck[0])}</button>
       <button class="speak" data-action="listenCard" aria-label="${T("listen")}">${ic("volume")}</button>
     </div>
+    ${canVoice(S.lang)?"":`<p class="hint">${T("noVoiceHint")}</p>`}
     <div id="cardActions">${cardActions()}</div>`;
 }
-function flipCard(){
-  flipped=!flipped;
-  const f=document.getElementById("flash"), a=document.getElementById("cardActions");
-  if(f) f.classList.toggle("turned",flipped);
-  if(a) a.innerHTML=cardActions();
-}
+function setFlip(on){ flipped=on; const f=document.getElementById("flash"), a=document.getElementById("cardActions"); if(f) f.classList.toggle("turned",flipped); if(a) a.innerHTML=cardActions(); }
 function rateCard(q){
   if(!deck.length) return;
-  const key=S.lang+":"+deck[0][0];
+  const key=S.lang+":"+deck[0].f;
   S.cards[key]=sm2(S.cards[key],q); touchStreak(); save();
   if(q===0){ deck.push(deck.shift()); haptic("warning"); } else { deck.shift(); haptic("success"); }
   flipped=false; render();
 }
+// Режим прослуховування: слово → пауза → переклад → наступна картка
+async function runAutoplay(){
+  if(!canVoice(S.lang)){ toast(T("noVoice")); return; }
+  autoplay={on:true}; flipped=false; render();
+  let i=0;
+  while(autoplay&&autoplay.on&&deck.length&&tab==="cards"&&view==="home"){
+    const c=deck[i%deck.length];
+    const f=document.getElementById("flash"); if(f){ f.classList.remove("turned"); f.innerHTML=cardFaces(c); }
+    flipped=false;
+    await say(c.f,S.lang); if(!autoplay||!autoplay.on) break;
+    await sleep(700); if(!autoplay||!autoplay.on) break;
+    const f2=document.getElementById("flash"); if(f2) f2.classList.add("turned"); flipped=true;
+    await say(c.b[S.ui]||c.b.uk,S.ui); if(!autoplay||!autoplay.on) break;
+    await sleep(1200); i++;
+  }
+  autoplay=null; flipped=false; if(tab==="cards"&&view==="home") render();
+}
+function stopAutoplay(){ if(autoplay) autoplay.on=false; stopSpeech(); }
 
 function profileView(){
   const learned=Object.keys(S.cards).filter(k=>k.startsWith(S.lang+":")&&S.cards[k].reps>=1).length;
   const lessonsDone=Object.keys(S.passed).filter(k=>k.startsWith(S.lang+"-")).length;
   const stat=(label,val)=>`<div class="row"><span class="grow"><span class="title">${label}</span></span><span class="stat-val num">${val}</span></div>`;
+  const v=pickVoice(S.lang);
   return `<div class="screen-head"><h1>${T("profile")}</h1></div>
   <div class="stack">
     <div class="group"><h2 class="group-title">${T("progress")} · ${langName(S.lang)}</h2><div class="list">
@@ -1199,7 +2057,8 @@ function profileView(){
       <button class="row" data-action="pickUi">${ic("globe")}<span class="grow"><span class="title">${T("uiLang")}</span></span><span class="value">${UI_NAMES[S.ui]}</span>${ic("chev","chev")}</button>
       <button class="row" data-action="pickLang">${ic("book")}<span class="grow"><span class="title">${T("learnLang")}</span></span><span class="value">${langName(S.lang)}</span>${ic("chev","chev")}</button>
       <button class="row" data-action="toggleSound" role="switch" aria-checked="${S.sound}">${ic("volume")}<span class="grow"><span class="title">${T("sound")}</span></span><span class="switch ${S.sound?"on":""}"></span></button>
-      <div class="row">${ic("crown")}<span class="grow"><span class="title">${T("plan")}: ${T("free")}</span><span class="sub">${T("plusNote")}</span></span></div>
+      <button class="row" data-action="pickVoice">${ic("mic")}<span class="grow"><span class="title">${T("voice")}</span><span class="sub">${esc(v?v.name:T("voiceNone"))}</span></span>${ic("chev","chev")}</button>
+      <div class="row">${ic("crown")}<span class="grow"><span class="title">${T("plan")}: ${planName()}</span>${PLAN!=="pro"?`<span class="sub">${T("plusNote")}</span>`:""}</span></div>
     </div></div>
     <div class="list"><button class="row danger" data-action="reset">${T("reset")}</button></div>
   </div>`;
@@ -1207,14 +2066,15 @@ function profileView(){
 
 // ================= Урок =================
 function startLesson(L,u,i){
+  stopAutoplay();
   const key=lessonKey(S.lang,L,u,i), body=lessonBody(key);
-  if(!body) return toast(T("soon"));
+  if(!body||!body.steps.length) return toast(T("soon"));
   session={key,level:L,unit:u,idx:i,body,step:0,chosen:null,ok:null,correct:0,total:0,orders:{},results:[],finished:false,passed:false};
   view="lesson"; render(); window.scrollTo(0,0);
 }
 function orderFor(step){
   const s=session;
-  if(!s.orders[s.step]){ const a=step.options.map((_,i)=>i); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } s.orders[s.step]=a; }
+  if(!s.orders[s.step]){ s.orders[s.step]=shuffle(step.options.map((_,i)=>i)); }
   return s.orders[s.step];
 }
 function correctOrig(step){ return step.type==="quiz"?step.answer:step.options.findIndex(o=>o.ok); }
@@ -1228,17 +2088,23 @@ function lessonView(){
     body=`${s.step===0?`<div><h1>${esc(b.title)}</h1><p class="meta" style="margin-top:6px">${esc(b.goal)}</p></div>`:`<h1>${T("explain")}</h1>`}
       <div class="explain">${owl(56)}<div class="bubble">${esc(step.text)}</div></div>`;
     foot=`<button class="btn" data-action="cont">${T("cont")}</button>`;
+  } else if(step.type==="words"){
+    body=`<div><h1>${esc(b.title)}</h1><p class="meta" style="margin-top:6px">${T("wordsHint")}</p></div>
+      <div class="list words">${step.items.map((it,k)=>`<div class="row"><span class="grow"><span class="title" lang="${S.lang}">${esc(it.w)}</span><span class="sub">${esc(it.g)}</span></span>
+        <button class="mini" data-action="sayWord" data-arg="${k}" aria-label="${T("listen")}">${ic("volume","sm")}</button></div>`).join("")}</div>`;
+    foot=`<button class="btn" data-action="cont">${T("cont")}</button>`;
   } else {
     const order=orderFor(step), right=correctOrig(step);
     const texts=step.type==="quiz"?step.options:step.options.map(o=>o.text);
     const opts=order.map((orig,d)=>{
-      let cls="";
-      if(s.chosen!==null){ cls= orig===right?"right": d===s.chosen?"wrong":"dim"; }
+      let cls=""; if(s.chosen!==null){ cls=orig===right?"right":d===s.chosen?"wrong":"dim"; }
       const t=texts[orig];
       return `<button class="opt ${cls}" data-action="answer" data-arg="${d}" ${s.chosen!==null?"disabled":""} ${(step.optionsLocalized||step.uiOpts||hasCyr(t))?"":`lang="${S.lang}"`}>
         <span class="key">${"ABCD"[d]}</span><span>${esc(t)}</span></button>`;
     }).join("");
-    if(step.type==="quiz") body=`<h1>${esc(step.question)}</h1><div class="opts">${opts}</div>`;
+    if(step.type==="quiz"&&step.listen) body=`<h1>${esc(step.question)}</h1>
+      <button class="listen-big" data-action="sayStep" aria-label="${T("playAgain")}">${ic("volume")}<span>${T("playAgain")}</span></button><div class="opts">${opts}</div>`;
+    else if(step.type==="quiz") body=`<h1>${esc(step.question)}</h1><div class="opts">${opts}</div>`;
     else{
       body=`<h1>${T("situation")}</h1><div class="scene">${ic("chat")}<span>${esc(step.scene)}</span></div><div class="opts">${opts}</div>`;
       if(s.chosen!==null&&s.ok){
@@ -1249,14 +2115,12 @@ function lessonView(){
     }
     if(s.chosen===null) foot=`<p class="meta" style="text-align:center">${T("pick")}</p>`;
     else{
-      const ok=s.ok;
-      let note="";
-      if(step.type==="quiz") note=step.explain;
-      else if(!ok) note=step.options[order[s.chosen]].reply;
-      const rightText=texts[right], canListen=!step.optionsLocalized&&!step.uiOpts&&!hasCyr(rightText)&&step.type==="quiz";
+      const ok=s.ok; let note="";
+      if(step.type==="quiz") note=step.explain; else if(!ok) note=step.options[order[s.chosen]].reply;
+      const sayText=step.say||(!step.optionsLocalized&&!step.uiOpts&&!hasCyr(texts[right])&&step.type==="quiz"?texts[right]:null);
       foot=`<div class="fb ${ok?"ok":"bad"}"><div class="fb-head">${ic(ok?"checkCircle":"xCircle")}${ok?T("correct"):T("wrong")}</div>
         ${note?`<p>${esc(note)}</p>`:""}
-        <div class="fb-row">${canListen?`<button class="mini" data-action="listenAnswer" aria-label="${T("listen")}">${ic("volume")}</button>`:""}
+        <div class="fb-row">${sayText?`<button class="mini" data-action="sayAnswer" aria-label="${T("listen")}">${ic("volume")}</button>`:""}
         <button class="btn ${ok?"ok":"bad"}" data-action="cont">${T("cont")}</button></div></div>`;
     }
   }
@@ -1284,15 +2148,17 @@ function answer(d){
   const s=session; if(!s||s.chosen!==null) return;
   const step=s.body.steps[s.step], orig=orderFor(step)[d];
   s.chosen=d; s.ok=orig===correctOrig(step); s.total++; if(s.ok) s.correct++; s.results.push(s.ok);
+  // Слово з квізу потрапляє в картки з оцінкою за відповіддю
+  if(step.say&&s.body.kind){ const key=S.lang+":"+step.say; S.cards[key]=sm2(S.cards[key],s.ok?4:1); save(); }
   haptic(s.ok?"success":"error"); render();
 }
 function cont(){
   const s=session; if(!s) return;
   const step=s.body.steps[s.step];
-  if(step.type!=="explain"&&s.chosen===null) return;
+  if(step.type!=="explain"&&step.type!=="words"&&s.chosen===null) return;
   s.step++; s.chosen=null; s.ok=null;
   if(s.step>=s.body.steps.length){
-    s.finished=true; s.passed=s.total===0||s.correct>=s.total*0.5;
+    s.finished=true; s.passed=s.total===0||s.correct>=s.total*0.6;
     if(s.passed){
       const wasDone=levelDone(S.lang,s.level)>=levelLessonCount(S.lang,s.level);
       S.passed[s.key]=true; haptic("success");
@@ -1302,11 +2168,13 @@ function cont(){
     touchStreak(); save();
   }
   render(); window.scrollTo(0,0);
+  const nxt=!s.finished&&s.body.steps[s.step];
+  if(nxt&&nxt.listen) say(nxt.say,S.lang); // натискання «Продовжити» дозволяє браузеру одразу відтворити звук
 }
 function closeLesson(){ session=null; view="home"; tab="learn"; unitShown="auto"; render(); window.scrollTo(0,0); }
-function goBack(){ if(view==="lesson") return closeLesson(); if(view==="pickUi"||view==="pickLang"){ view="home"; render(); } }
+function goBack(){ if(view==="lesson") return closeLesson(); if(["pickUi","pickLang","pickVoice"].includes(view)){ view="home"; render(); } }
 function confirmReset(){
-  const doReset=()=>{ S={...defaults,ui:S.ui,lang:S.lang,sound:S.sound}; save(); deck=[]; unitShown="auto"; render(); toast(T("resetOk")); };
+  const doReset=()=>{ S={...defaults,ui:S.ui,lang:S.lang,sound:S.sound,voices:S.voices}; save(); deck=[]; unitShown="auto"; render(); toast(T("resetOk")); };
   try{ if(inTg&&tg.showConfirm&&tg.isVersionAtLeast&&tg.isVersionAtLeast("6.2")) return tg.showConfirm(T("resetQ"),ok=>{ if(ok) doReset(); }); }catch(e){}
   try{ if(window.confirm(T("resetQ"))) doReset(); }catch(e){}
 }
@@ -1317,10 +2185,12 @@ document.addEventListener("click",(e)=>{
   const a=el.dataset.action, arg=el.dataset.arg;
   switch(a){
     case "setUi": S.ui=arg; save(); if(view==="pickUi"){ view="home"; tab="profile"; } return render();
-    case "setLang": S.lang=arg; save(); view="home"; tab="learn"; deck=[]; unitShown="auto"; render(); return window.scrollTo(0,0);
-    case "tab": tab=arg; view="home"; deck=[]; flipped=false; render(); return window.scrollTo(0,0);
-    case "pickLang": view="pickLang"; render(); return window.scrollTo(0,0);
-    case "pickUi": view="pickUi"; render(); return window.scrollTo(0,0);
+    case "setLang": stopAutoplay(); S.lang=arg; save(); view="home"; tab="learn"; deck=[]; unitShown="auto"; render(); return window.scrollTo(0,0);
+    case "tab": stopAutoplay(); tab=arg; view="home"; deck=[]; flipped=false; render(); return window.scrollTo(0,0);
+    case "pickLang": case "pickUi": case "pickVoice": stopAutoplay(); view=a; render(); return window.scrollTo(0,0);
+    case "setVoice": if(arg) S.voices[S.lang]=arg; else delete S.voices[S.lang]; save(); render(); return say(allCards(S.lang)[0]?allCards(S.lang)[0].f:"",S.lang);
+    case "testVoice": { const prev=S.voices[S.lang]; if(arg) S.voices[S.lang]=arg; else delete S.voices[S.lang];
+      const p=say(allCards(S.lang)[0]?allCards(S.lang)[0].f:"",S.lang,el); if(prev) S.voices[S.lang]=prev; else delete S.voices[S.lang]; return p; }
     case "back": return goBack();
     case "unit": unitShown= openUnitKey()===arg?null:arg; return render();
     case "plusOnly": return toast(T("plusOnly"));
@@ -1328,17 +2198,21 @@ document.addEventListener("click",(e)=>{
     case "lesson": { const [L,u,i]=arg.split("|"); if(!levelUnlocked(L)) return toast(T("levelLocked",{lv:LEVELS[LEVELS.indexOf(L)-1]}));
       if(!canOpen(L,+u,+i)) return toast(T("lockedLesson")); return startLesson(L,+u,+i); }
     case "review": tab="cards"; deck=[]; flipped=false; render(); return window.scrollTo(0,0);
-    case "flip": return flipCard();
-    case "listenCard": return deck.length&&speak(deck[0][0],S.lang,el);
+    case "flip": if(autoplay&&autoplay.on) return; return setFlip(!flipped);
+    case "listenCard": return deck.length&&say(deck[0].f,S.lang,el);
     case "rate": return rateCard(+arg);
+    case "autoplay": return runAutoplay();
+    case "stopAutoplay": return stopAutoplay();
     case "answer": return answer(+arg);
     case "cont": return cont();
-    case "listenAnswer": { const st=session.body.steps[session.step-0]; return speak(st.options[st.answer],S.lang,el); }
-    case "listenReply": { const st=session.body.steps[session.step], o=orderFor(st)[session.chosen]; return speak(st.options[o].reply,S.lang,el); }
+    case "sayWord": { const st=session.body.steps[session.step]; return say(st.items[+arg].w,S.lang,el); }
+    case "sayStep": { const st=session.body.steps[session.step]; return say(st.say,S.lang,el); }
+    case "sayAnswer": { const st=session.body.steps[session.step]; return say(st.say||st.options[st.answer],S.lang,el); }
+    case "listenReply": { const st=session.body.steps[session.step], o=orderFor(st)[session.chosen]; return say(st.options[o].reply,S.lang,el); }
     case "closeLesson": return closeLesson();
     case "retry": return startLesson(session.level,session.unit,session.idx);
     case "nextLesson": { const n=nextAfter(session.level,session.unit,session.idx); return n?startLesson(n.level,n.unit,n.idx):closeLesson(); }
-    case "toggleSound": S.sound=!S.sound; save(); try{ if(!S.sound) speechSynthesis.cancel(); }catch(err){} return render();
+    case "toggleSound": S.sound=!S.sound; save(); if(!S.sound) stopSpeech(); return render();
     case "reset": return confirmReset();
   }
 });
