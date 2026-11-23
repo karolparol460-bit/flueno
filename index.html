@@ -69,12 +69,12 @@ h2,.h2{font-weight:800;font-size:18px;line-height:1.3;margin:0;text-wrap:balance
 .btn.quiet{background:var(--surface-2);color:var(--text)}
 .link{color:var(--accent-ink);font-weight:700}
 
-/* ---------- Маскот Flueno ---------- */
+/* ---------- Сова ---------- */
 .owl{display:block;flex:0 0 auto}
-.owl .lid{transform-box:fill-box;transform-origin:center top;transform:scaleY(0);animation:blink 4.5s infinite}
-@keyframes blink{0%,92%,100%{transform:scaleY(0)}94%{transform:scaleY(1)}}
-.owl.cheer{animation:bounce .8s var(--ease) 2}
-@keyframes bounce{0%,100%{transform:translateY(0) scale(1)}35%{transform:translateY(-12px) scale(1.05)}65%{transform:translateY(0) scale(.97)}}
+.owl .lid{transform-box:fill-box;transform-origin:center top;transform:scaleY(0);animation:blink 5s infinite}
+@keyframes blink{0%,93%,100%{transform:scaleY(0)}95%{transform:scaleY(1)}}
+.owl.cheer{animation:hop .9s var(--ease) 2}
+@keyframes hop{0%,100%{transform:translateY(0)}30%{transform:translateY(-14px) rotate(-4deg)}60%{transform:translateY(0) rotate(3deg)}}
 
 /* ---------- Онбординг ---------- */
 .onb{display:flex;flex-direction:column;gap:var(--s6);padding-top:var(--s6)}
@@ -200,7 +200,7 @@ h2,.h2{font-weight:800;font-size:18px;line-height:1.3;margin:0;text-wrap:balance
 .segs{flex:1;display:flex;gap:4px}
 .segs i{flex:1;height:8px;border-radius:99px;background:var(--surface-2);transition:background .4s var(--ease)}
 .segs i.on{background:var(--accent)}
-.lesson-body{flex:1;padding:var(--s4) var(--s4) var(--s6);display:flex;flex-direction:column;gap:var(--s5);position:relative}
+.lesson-body{flex:1;padding:var(--s4) var(--s4) var(--s6);display:flex;flex-direction:column;gap:var(--s5)}
 .lesson-body h1{font-family:var(--font-ui);font-weight:800;font-size:22px;line-height:1.3}
 .explain{display:flex;gap:var(--s3);align-items:flex-start}
 .explain .bubble{font-weight:500;font-size:17px;line-height:1.6;box-shadow:none;border-radius:6px var(--r-lg) var(--r-lg) var(--r-lg)}
@@ -267,63 +267,31 @@ h2,.h2{font-weight:800;font-size:18px;line-height:1.3;margin:0;text-wrap:balance
 .listen-big .ic{width:40px;height:40px;color:var(--accent-ink)}
 #cardActions .btn+.btn{margin-top:var(--s2)}
 #cardActions .rate+.btn{margin-top:var(--s3)}
+
+/* ---------- Подписки ---------- */
+.sub-plans{display:flex;flex-direction:column;gap:var(--s3)}
+.sub-card{position:relative;background:var(--surface);border-radius:var(--r-lg);padding:var(--s5);border:2px solid var(--line);transition:border-color .2s,transform .18s var(--ease)}
+.sub-card:active{transform:scale(.98)}
+.sub-card.current{border-color:var(--ok);background:color-mix(in oklab,var(--ok) 8%,var(--surface))}
+.sub-card.recommended{border-color:var(--accent)}
+.sub-card-head{display:flex;align-items:center;justify-content:space-between;gap:var(--s2);margin-bottom:var(--s3)}
+.sub-card-name{font-family:var(--font-display);font-weight:700;font-size:20px}
+.sub-badge{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.sub-badge.best{background:var(--accent);color:var(--on-accent)}
+.sub-badge.popular{background:color-mix(in oklab,var(--accent) 20%,var(--surface));color:var(--accent-ink)}
+.sub-badge.active{background:var(--ok);color:var(--on-state)}
+.sub-features{font-size:14px;color:var(--text-2);line-height:1.6;margin-bottom:var(--s4)}
+.sub-price{display:flex;align-items:baseline;gap:var(--s2);margin-bottom:var(--s3)}
+.sub-price .amount{font-family:var(--font-display);font-weight:700;font-size:28px}
+.sub-price .period{font-size:14px;color:var(--text-2)}
+.sub-price .stars-icon{width:20px;height:20px;vertical-align:middle}
+.sub-toggle{display:flex;background:var(--surface-2);border-radius:var(--r-md);padding:3px;margin-bottom:var(--s4)}
+.sub-toggle button{flex:1;padding:var(--s2) var(--s3);border-radius:calc(var(--r-md) - 3px);font-weight:700;font-size:14px;transition:background .2s,color .2s}
+.sub-toggle button.on{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.sub-compare{font-size:13px;color:var(--text-3);text-align:center;margin-top:var(--s2)}
 .credit{display:inline-flex;align-items:center;gap:4px;margin-top:2px;font-size:11px;color:var(--text-3);text-decoration:underline;text-underline-offset:2px;text-align:left}
 .face .credit{margin-top:var(--s2)}
 [hidden]{display:none !important}
-/* ---------- Нові типи вправ ---------- */
-/* Складання фрази з плиток */
-.build-area{min-height:56px;padding:var(--s3);border-radius:var(--r-md);border:2px dashed var(--line);display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center;margin-bottom:var(--s3);transition:border-color .2s}
-.build-area.active{border-color:var(--accent)}
-.build-area.correct{border-color:var(--ok);background:color-mix(in oklab,var(--ok) 8%,transparent)}
-.build-area.wrong{border-color:var(--bad);background:color-mix(in oklab,var(--bad) 8%,transparent)}
-.tiles{display:flex;flex-wrap:wrap;gap:var(--s2);justify-content:center}
-.tile{display:inline-flex;align-items:center;justify-content:center;min-width:48px;height:44px;padding:0 var(--s3);
-  border-radius:var(--r-sm);background:var(--surface);border:2px solid var(--line);font-weight:700;font-size:15px;
-  cursor:pointer;user-select:none;transition:transform .15s var(--ease),opacity .15s,border-color .2s}
-.tile:active{transform:scale(.94)}
-.tile.used{opacity:.3;pointer-events:none}
-.tile.placed{background:color-mix(in oklab,var(--accent) 16%,var(--surface));border-color:var(--accent);cursor:pointer}
-.tile.placed:active{transform:scale(.9)}
-
-/* З'єднання пар (match) */
-.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3)}
-.match-col{display:flex;flex-direction:column;gap:var(--s2)}
-.match-btn{display:flex;align-items:center;justify-content:center;min-height:52px;padding:var(--s2) var(--s3);
-  border-radius:var(--r-md);background:var(--surface);border:2px solid var(--line);font-weight:600;font-size:15px;
-  text-align:center;transition:border-color .2s,background .2s,transform .15s var(--ease)}
-.match-btn:active{transform:scale(.97)}
-.match-btn.selected{border-color:var(--accent);background:color-mix(in oklab,var(--accent) 14%,var(--surface))}
-.match-btn.matched{border-color:var(--ok);background:color-mix(in oklab,var(--ok) 14%,var(--surface));opacity:.6;pointer-events:none}
-.match-btn.wrong-flash,.match-btn.wrong{border-color:var(--bad);background:color-mix(in oklab,var(--bad) 12%,var(--surface));animation:shake .4s var(--ease)}
-@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-
-/* Введення тексту */
-.type-input{margin-bottom:var(--s3)}
-.type-input input{width:100%;min-height:52px;padding:var(--s3) var(--s4);border-radius:var(--r-md);border:2px solid var(--line);
-  background:var(--surface);color:var(--text);font:inherit;font-size:17px;font-weight:600;transition:border-color .2s}
-.type-input input:focus{border-color:var(--accent);outline:none}
-
-/* Серця (життя в уроці) */
-.hearts{display:flex;gap:4px;align-items:center}
-.hearts .heart{width:22px;height:22px;color:var(--bad);transition:opacity .3s}
-.hearts .heart.lost{opacity:.2}
-
-/* XP */
-.xp-badge{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 var(--s3);border-radius:999px;
-  background:color-mix(in oklab,var(--accent) 18%,var(--surface));font-weight:800;font-size:13px;color:var(--accent-ink)}
-.xp-badge.big{height:40px;padding:0 var(--s4);font-size:18px;margin-bottom:var(--s3)}
-.xp-fly{position:fixed;z-index:10;font-weight:800;font-size:18px;color:var(--accent-ink);pointer-events:none;
-  animation:flyUp .8s var(--ease) forwards}
-@keyframes flyUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
-
-/* Підказка маскота */
-.mascot-hint{position:absolute;top:var(--s2);right:var(--s2);z-index:3;display:flex;align-items:center;justify-content:center;
-  width:44px;height:44px;border-radius:50%;background:color-mix(in oklab,var(--accent) 15%,var(--surface));
-  border:2px solid var(--accent);cursor:pointer;animation:bounce .6s var(--ease);
-  transition:transform .15s var(--ease)}
-.mascot-hint:active{transform:scale(.9)}
-.mascot-hint .owl{width:28px;height:28px}
-
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
 </style>
 </head>
@@ -342,7 +310,7 @@ h2,.h2{font-weight:800;font-size:18px;line-height:1.3;margin:0;text-wrap:balance
 const UI={
  uk:{welcome:"Вивчайте мову для життя за кордоном",chooseUi:"Мова застосунку",chooseLang:"Яку мову вивчаєте?",chooseLangSub:"Мову можна змінити будь-коли в профілі.",
   learn:"Маршрут",cards:"Картки",profile:"Профіль",soon:"Уроки скоро з'являться",plusOnly:"Доступно в Plus і Pro",
-  plusNote:"Більше рівнів — у тарифах Plus (A1–B1) і Pro (A1–C1). Оформити можна в боті командою /plans.",
+  plusNote:"Більше рівнів у тарифах Plus і Pro. Натисніть, щоб відкрити.",
   explain:"Пояснення",cont:"Продовжити",correct:"Правильно!",wrong:"Не зовсім",situation:"Ситуація",pick:"Оберіть відповідь",
   dontKnow:"Не знаю",hard:"Важко",easy:"Легко",showAnswer:"Показати переклад",tapFlip:"Торкніться картки, щоб перевернути",
   deckDone:"На сьогодні все!",deckDoneSub:"Нові картки з'являться, коли настане час повторення.",toRoute:"До маршруту",
@@ -360,6 +328,13 @@ const UI={
   buildHint:"Натисніть на слова, щоб скласти фразу",typeHint:"Введіть переклад",checkAnswer:"Перевірити",
   hearts:"Життя",xpEarned:"+{n} XP",hintLabel:"Підказка",noHints:"Підказок більше немає",
   mascotHints:"Натисни на мене, якщо потрібна підказка!",
+  subTitle:"Преміум",subDesc:"Відкрийте всі рівні та вправи",subLifetime:"Назавжди",subMonthly:"Щомісяця",
+  subBuy:"Придбати за {n} Stars",subCurrent:"Ваш тариф",subActive:"Активний",subExpires:"Діє до {d}",
+  subFeaturesFree:"A1 (розділи 1–2)",subFeaturesPlus:"A1 — B1 (усі розділи)",subFeaturesPro:"A1 — C1 (усі рівні)",
+  subBest:"Найвигідніше",subPopular:"Популярний",subRestore:"Відновити покупку",
+  subFreeFeats:"10 уроків · Картки · Базові вправи",subPlusFeats:"Всі рівні A1–B1 · Усі типи вправ · Безлімітні серця",
+  subProFeats:"Всі рівні A1–C1 · Усі типи вправ · Безлімітні серця · Пріоритетна підтримка",
+  subSuccess:"Підписку оформлено!",subError:"Не вдалося оплатити. Спробуйте ще.",
   playAgain:"Ще раз",autoplay:"Слухати картки",stop:"Зупинити",noVoice:"На цьому пристрої немає голосу для цієї мови",
   noVoiceHint:"На цьому пристрої немає голосу для цієї мови, тому картки показуються без звуку.",
   recTitle:"Вимова живих людей",recSub:"Слова озвучують носії мови: записи з Wikimedia Commons і Вікісловника. Автор і ліцензія вказані під кожним словом.",
@@ -367,7 +342,7 @@ const UI={
   levels:{A1:"Початковий",A2:"Елементарний",B1:"Середній",B2:"Вище середнього",C1:"Просунутий"}},
  ru:{welcome:"Учите язык для жизни за границей",chooseUi:"Язык приложения",chooseLang:"Какой язык учите?",chooseLangSub:"Язык можно сменить в любой момент в профиле.",
   learn:"Маршрут",cards:"Карточки",profile:"Профиль",soon:"Уроки скоро появятся",plusOnly:"Доступно в Plus и Pro",
-  plusNote:"Больше уровней — в тарифах Plus (A1–B1) и Pro (A1–C1). Оформить можно в боте командой /plans.",
+  plusNote:"Больше уровней в тарифах Plus и Pro. Нажмите, чтобы открыть.",
   explain:"Объяснение",cont:"Продолжить",correct:"Верно!",wrong:"Не совсем",situation:"Ситуация",pick:"Выберите ответ",
   dontKnow:"Не знаю",hard:"Трудно",easy:"Легко",showAnswer:"Показать перевод",tapFlip:"Коснитесь карточки, чтобы перевернуть",
   deckDone:"На сегодня всё!",deckDoneSub:"Новые карточки появятся, когда придёт время повторения.",toRoute:"К маршруту",
@@ -382,9 +357,16 @@ const UI={
   review:"Повторение",reviewGoal:"Закрепите слова и фразы из этого раздела.",vocabGoal:"Новых слов: {n}",newWords:"Новые слова",
   wordsHint:"Послушайте каждое слово и запомните перевод.",qMeaning:"Что значит «{w}»?",qSay:"Как будет «{g}»?",qListen:"Послушайте и выберите слово",
   qBuild:"Составьте фразу",qType:"Напишите перевод",qMatch:"Соедините пары",qTranslate:"Переведите предложение",
-  buildHint:"Нажмите на слова, чтобы составить фразу",typeHint:"Введите перевод",checkAnswer:"Проверить",
+  buildHint:"Нажимайте на слова, чтобы составить фразу",typeHint:"Введите перевод",checkAnswer:"Проверить",
   hearts:"Жизни",xpEarned:"+{n} XP",hintLabel:"Подсказка",noHints:"Подсказок больше нет",
   mascotHints:"Нажми на меня, если нужна подсказка!",
+  subTitle:"Премиум",subDesc:"Откройте все уровни и упражнения",subLifetime:"Навсегда",subMonthly:"Ежемесячно",
+  subBuy:"Купить за {n} Stars",subCurrent:"Ваш тариф",subActive:"Активен",subExpires:"Действует до {d}",
+  subFeaturesFree:"A1 (разделы 1–2)",subFeaturesPlus:"A1 — B1 (все разделы)",subFeaturesPro:"A1 — C1 (все уровни)",
+  subBest:"Выгоднее всего",subPopular:"Популярный",subRestore:"Восстановить покупку",
+  subFreeFeats:"10 уроков · Карточки · Базовые упражнения",subPlusFeats:"Все уровни A1–B1 · Все типы упражнений · Безлимитные сердца",
+  subProFeats:"Все уровни A1–C1 · Все типы упражнений · Безлимитные сердца · Приоритетная поддержка",
+  subSuccess:"Подписка оформлена!",subError:"Не удалось оплатить. Попробуйте ещё.",
   playAgain:"Ещё раз",autoplay:"Слушать карточки",stop:"Остановить",noVoice:"На этом устройстве нет голоса для этого языка",
   noVoiceHint:"На этом устройстве нет голоса для этого языка, поэтому карточки показываются без звука.",
   recTitle:"Произношение живых людей",recSub:"Слова озвучивают носители языка: записи из Wikimedia Commons и Викисловаря. Автор и лицензия указаны под каждым словом.",
@@ -392,7 +374,7 @@ const UI={
   levels:{A1:"Начальный",A2:"Элементарный",B1:"Средний",B2:"Выше среднего",C1:"Продвинутый"}},
  en:{welcome:"Learn a language for life abroad",chooseUi:"App language",chooseLang:"Which language are you learning?",chooseLangSub:"You can change it any time in your profile.",
   learn:"Path",cards:"Cards",profile:"Profile",soon:"Lessons coming soon",plusOnly:"Available in Plus and Pro",
-  plusNote:"More levels come with Plus (A1–B1) and Pro (A1–C1). Get them in the bot with /plans.",
+  plusNote:"More levels in Plus and Pro plans. Tap to unlock.",
   explain:"Explanation",cont:"Continue",correct:"Correct!",wrong:"Not quite",situation:"Situation",pick:"Choose an answer",
   dontKnow:"Don't know",hard:"Hard",easy:"Easy",showAnswer:"Show translation",tapFlip:"Tap the card to flip it",
   deckDone:"All done for today!",deckDoneSub:"New cards will appear when it's time to review.",toRoute:"Back to path",
@@ -405,12 +387,19 @@ const UI={
   now:"now",days:"{n} d",close:"Close",back:"Back",lockedLesson:"Finish the previous lesson first",
   msgStart:"Hi! I'm Flueno. Shall we start with the first lesson?",msgGo:"You're doing great! Let's keep going.",msgDue:"Time to review your words while they're fresh.",msgLevel:"New level unlocked!",
   review:"Review",reviewGoal:"Practise the words and phrases from this unit.",vocabGoal:"New words: {n}",newWords:"New words",
-  wordsHint:”Listen to each word and remember its translation.”,qMeaning:”What does “{w}” mean?”,qSay:”How do you say “{g}”?”,qListen:”Listen and choose the word”,
-  qBuild:”Build the phrase”,qType:”Type the translation”,qMatch:”Match the pairs”,qTranslate:”Translate the sentence”,
-  buildHint:”Tap the words to build the phrase”,typeHint:”Type the translation”,checkAnswer:”Check”,
-  hearts:”Lives”,xpEarned:”+{n} XP”,hintLabel:”Hint”,noHints:”No more hints”,
-  mascotHints:”Tap me if you need a hint!”,
-  playAgain:”Play again”,autoplay:”Listen to cards”,stop:”Stop”,noVoice:”This device has no voice for this language”,
+  wordsHint:"Listen to each word and remember its translation.",qMeaning:"What does \u00ab{w}\u00bb mean?",qSay:"How do you say \u00ab{g}\u00bb?",qListen:"Listen and choose the word",
+  qBuild:"Build the phrase",qType:"Type the translation",qMatch:"Match the pairs",qTranslate:"Translate the sentence",
+  buildHint:"Tap the words to build the phrase",typeHint:"Type the translation",checkAnswer:"Check",
+  hearts:"Lives",xpEarned:"+{n} XP",hintLabel:"Hint",noHints:"No more hints",
+  mascotHints:"Tap me if you need a hint!",
+  subTitle:"Premium",subDesc:"Unlock all levels and exercises",subLifetime:"Lifetime",subMonthly:"Monthly",
+  subBuy:"Buy for {n} Stars",subCurrent:"Your plan",subActive:"Active",subExpires:"Active until {d}",
+  subFeaturesFree:"A1 (units 1\u20132)",subFeaturesPlus:"A1 \u2014 B1 (all units)",subFeaturesPro:"A1 \u2014 C1 (all levels)",
+  subBest:"Best value",subPopular:"Popular",subRestore:"Restore purchase",
+  subFreeFeats:"10 lessons \u00b7 Flashcards \u00b7 Basic exercises",subPlusFeats:"All levels A1\u2013B1 \u00b7 All exercise types \u00b7 Unlimited hearts",
+  subProFeats:"All levels A1\u2013C1 \u00b7 All exercise types \u00b7 Unlimited hearts \u00b7 Priority support",
+  subSuccess:"Subscription activated!",subError:"Payment failed. Please try again.",
+  playAgain:"Play again",autoplay:"Listen to cards",stop:"Stop",noVoice:"This device has no voice for this language",
   noVoiceHint:"This device has no voice for this language, so cards are shown without sound.",
   recTitle:"Real human pronunciation",recSub:"Words are spoken by native speakers: recordings from Wikimedia Commons and Wiktionary. The author and licence are shown under each word.",
   voice:"Synthetic voice",voiceAuto:"Automatic: best female voice",voiceTest:"Listen",voiceNone:"This device has no voices for this language.",
@@ -429,7 +418,34 @@ const LANG_NAMES={
 };
 const LEVELS=["A1","A2","B1","B2","C1"];
 const UNIT_COUNT=5, LESSONS_PER_UNIT=5; // 4 уроки + повторення в кожному розділі
-const PLAN=(()=>{ try{ const p=new URLSearchParams(location.search).get("plan"); return ["free","plus","pro"].includes(p)?p:"free"; }catch(e){ return "free"; } })();
+// Plan: stored in localStorage, can be upgraded via Telegram Stars
+let PLAN=(()=>{
+  try{
+    // URL param overrides (for bot links)
+    const p=new URLSearchParams(location.search).get("plan");
+    if(["plus","pro"].includes(p)){ localStorage.setItem("flueno-plan",p); return p; }
+    return localStorage.getItem("flueno-plan")||"free";
+  }catch(e){ return "free"; }
+})();
+function setPlan(p){ PLAN=p; try{ localStorage.setItem("flueno-plan",p); }catch(e){} }
+
+// Telegram Stars pricing (1 Star ≈ $0.013)
+const PRICES={
+  plus:{ stars:249, monthly:49, label:"Plus" },   // ~$3.24 one-time, or ~$0.64/mo
+  pro:{ stars:499, monthly:99, label:"Pro" }       // ~$6.49 one-time, or ~$1.29/mo
+};
+// Subscription check
+function checkSubscription(){
+  try{
+    const sub=JSON.parse(localStorage.getItem("flueno-sub")||"null");
+    if(!sub) return;
+    if(sub.type==="lifetime"){ setPlan(sub.plan); return; }
+    if(sub.type==="monthly"&&sub.until&&new Date(sub.until)>new Date()){ setPlan(sub.plan); return; }
+    // expired monthly
+    if(sub.type==="monthly"&&sub.until&&new Date(sub.until)<=new Date()){ setPlan("free"); }
+  }catch(e){}
+}
+checkSubscription();
 
 // ================= Картки (SM-2 інтервальні повторення) =================
 // Формат: [слово, переклад, озвучка(необов'язково)]
@@ -589,9 +605,9 @@ const LESSON_TR={
    {question:"Как будет «Добрый день» по-немецки?",explain:"Guten Tag — обычное приветствие днём. Gute Nacht значит «спокойной ночи»."},
    {scene:"Вы встретили нового соседа в подъезде. Как поздороваться?",replies:["Guten Tag! Sehr gut. Ich heiße Jan.","Gute Nacht — это на ночь. Днём лучше Guten Tag.","Tschüss — это «пока». Для знакомства скажите Guten Tag."]}]},
   en:{title:"Greetings",goal:"Say hello and tell du from Sie.",steps:[
-   {text:"German has two ways to say “you”: du with friends, Sie with strangers and in formal situations. During the day people say Guten Tag."},
-   {question:"How do you say “Good afternoon” in German?",explain:"Guten Tag is the usual daytime greeting. Gute Nacht means “good night”."},
-   {scene:"You meet a new neighbour in the stairwell. How do you greet them?",replies:["Guten Tag! Sehr gut. Ich heiße Jan.","Gute Nacht is for the night. During the day use Guten Tag.","Tschüss means “bye”. To introduce yourself say Guten Tag."]}]}},
+   {text:"German has two ways to say \u201cyou\u201d: du with friends, Sie with strangers and in formal situations. During the day people say Guten Tag."},
+   {question:"How do you say \u201cGood afternoon\u201d in German?",explain:"Guten Tag is the usual daytime greeting. Gute Nacht means \u201cgood night\u201d."},
+   {scene:"You meet a new neighbour in the stairwell. How do you greet them?",replies:["Guten Tag! Sehr gut. Ich heiße Jan.","Gute Nacht is for the night. During the day use Guten Tag.","Tschüss means \u201cbye\u201d. To introduce yourself say Guten Tag."]}]}},
  "de-A1-1-2":{
   ru:{title:"Как вас зовут",goal:"Представиться и спросить имя собеседника.",steps:[
    {text:"Чтобы представиться, скажите Ich heiße ... или Ich bin ... Вежливо о происхождении спрашивают: Woher kommen Sie?"},
@@ -600,8 +616,8 @@ const LESSON_TR={
    {scene:"Преподаватель спрашивает: Wie heißen Sie? Как ответить?",replies:["Sehr schön, Olena! Woher kommen Sie?","Это про жильё. Сначала назовите имя: Ich heiße ...","Спасибо — хорошо, но на вопрос об имени отвечайте Ich heiße ..."]}]},
   en:{title:"What's your name",goal:"Introduce yourself and ask someone's name.",steps:[
    {text:"To introduce yourself, say Ich heiße ... or Ich bin ... To politely ask where someone is from: Woher kommen Sie?"},
-   {question:"Choose the phrase “My name is Irina”.",explain:"Ich bin means “I am” and is used here to introduce yourself."},
-   {question:"How do you politely ask “Where are you from?”",explain:"Woher kommen Sie? is the polite question about where someone is from."},
+   {question:"Choose the phrase \u201cMy name is Irina\u201d.",explain:"Ich bin means \u201cI am\u201d and is used here to introduce yourself."},
+   {question:"How do you politely ask \u201cWhere are you from?\u201d",explain:"Woher kommen Sie? is the polite question about where someone is from."},
    {scene:"The teacher asks: Wie heißen Sie? How do you answer?",replies:["Sehr schön, Olena! Woher kommen Sie?","That's about where you live. First say your name: Ich heiße ...","Thanks is nice, but answer a name question with Ich heiße ..."]}]}},
  "de-A1-1-3":{
   ru:{title:"Числа и цены",goal:"Назвать числа от 1 до 10 и спросить цену.",steps:[
@@ -611,8 +627,8 @@ const LESSON_TR={
    {scene:"Вы в магазине. Как спросить цену?",replies:["Das kostet drei Euro. Nehmen Sie es?","Это вопрос о вокзале. Для цены: Wie viel kostet das?","Это имя. Для цены скажите Wie viel kostet das?"]}]},
   en:{title:"Numbers and prices",goal:"Count from 1 to 10 and ask the price.",steps:[
    {text:"Numbers 1 to 10: eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, zehn. To ask the price: Wie viel kostet das?"},
-   {question:"How do you say “seven” in German?",explain:"sieben is seven. acht is eight, sechs is six, neun is nine."},
-   {question:"Choose the phrase “How much does this cost?”",explain:"Wie viel kostet das? literally means “How much does this cost?”."},
+   {question:"How do you say \u201cseven\u201d in German?",explain:"sieben is seven. acht is eight, sechs is six, neun is nine."},
+   {question:"Choose the phrase \u201cHow much does this cost?\u201d",explain:"Wie viel kostet das? literally means \u201cHow much does this cost?\u201d."},
    {scene:"You're in a shop. How do you ask the price?",replies:["Das kostet drei Euro. Nehmen Sie es?","That asks about the station. For the price: Wie viel kostet das?","That's a name. For the price say Wie viel kostet das?"]}]}},
  "de-A1-1-4":{
   ru:{title:"Рассказ о себе",goal:"Сказать, где вы живёте и чем занимаетесь.",steps:[
@@ -621,10 +637,10 @@ const LESSON_TR={
    {question:"Как будет «Я немного говорю по-немецки»?",explain:"sprechen — говорить."},
    {scene:"Знакомый спрашивает, где вы живёте. Что ответить?",replies:["Lviv ist schön! Sprechen Sie Deutsch?","Ich bin значит «я нахожусь». Чтобы сказать, где живёте: Ich wohne in ...","Ich heiße — это имя. Для жилья: Ich wohne in ..."]}]},
   en:{title:"About yourself",goal:"Say where you live and what you do.",steps:[
-   {text:"To say where you live, use Ich wohne in ... For example: Ich wohne in Berlin. Ich spreche ein bisschen Deutsch means “I speak a little German”."},
-   {question:"Choose the phrase “I live in Berlin”.",explain:"wohnen means to live. Ich bin in Berlin means “I am in Berlin right now”."},
-   {question:"How do you say “I speak a little German”?",explain:"sprechen means to speak."},
-   {scene:"A friend asks where you live. What do you say?",replies:["Lviv ist schön! Sprechen Sie Deutsch?","Ich bin means “I am (somewhere)”. To say where you live: Ich wohne in ...","Ich heiße is for your name. For where you live: Ich wohne in ..."]}]}},
+   {text:"To say where you live, use Ich wohne in ... For example: Ich wohne in Berlin. Ich spreche ein bisschen Deutsch means \u201cI speak a little German\u201d."},
+   {question:"Choose the phrase \u201cI live in Berlin\u201d.",explain:"wohnen means to live. Ich bin in Berlin means \u201cI am in Berlin right now\u201d."},
+   {question:"How do you say \u201cI speak a little German\u201d?",explain:"sprechen means to speak."},
+   {scene:"A friend asks where you live. What do you say?",replies:["Lviv ist schön! Sprechen Sie Deutsch?","Ich bin means \u201cI am (somewhere)\u201d. To say where you live: Ich wohne in ...","Ich heiße is for your name. For where you live: Ich wohne in ..."]}]}},
  "de-A1-2-1":{
   ru:{title:"Продукты",goal:"Назвать основные продукты и попросить их.",steps:[
    {text:"Артикль зависит от рода: der Apfel (яблоко, мужской род), die Milch (молоко, женский), das Brot (хлеб, средний). Запоминайте слово вместе с артиклем."},
@@ -633,8 +649,8 @@ const LESSON_TR={
    {scene:"Вы в супермаркете. Продавец спрашивает: Was darf es sein? Что ответить?",replies:["Bitte schön! Sonst noch etwas?","Ich heiße — это имя. Для покупки: Ich möchte ...","Это про жильё. Для покупки скажите Ich möchte ..."]}]},
   en:{title:"Groceries",goal:"Name basic foods and ask for them.",steps:[
    {text:"The article depends on gender: der Apfel (apple, masculine), die Milch (milk, feminine), das Brot (bread, neuter). Learn each word together with its article."},
-   {question:"How do you say “bread” in German?",explain:"das Brot is neuter. Learn the article together with the word."},
-   {question:"Choose the phrase “I'd like milk, please”.",explain:"Ich möchte means “I would like”. It's the polite form for shopping."},
+   {question:"How do you say \u201cbread\u201d in German?",explain:"das Brot is neuter. Learn the article together with the word."},
+   {question:"Choose the phrase \u201cI'd like milk, please\u201d.",explain:"Ich möchte means \u201cI would like\u201d. It's the polite form for shopping."},
    {scene:"You're at the supermarket. The assistant asks: Was darf es sein? What do you say?",replies:["Bitte schön! Sonst noch etwas?","Ich heiße is for your name. To buy something: Ich möchte ...","That's about where you live. To buy something say Ich möchte ..."]}]}},
  "de-A1-2-2":{
   ru:{title:"Цена и оплата",goal:"Спросить цену и расплатиться.",steps:[
@@ -643,10 +659,10 @@ const LESSON_TR={
    {question:"Как будет «Я плачу картой»?",explain:"zahlen — платить. mit Karte — картой."},
    {scene:"Кассир говорит: Das macht zehn Euro. Как расплатиться картой?",replies:["Danke! Hier ist Ihr Beleg.","Ich bin — это «я есть». Для оплаты: Ich zahle mit Karte.","Ich heiße — имя. Для оплаты скажите Ich zahle mit Karte."]}]},
   en:{title:"Price and payment",goal:"Ask the price and pay.",steps:[
-   {text:"To find out the price: Was kostet das? To pay: Ich zahle mit Karte means “I'll pay by card”, and bar means “in cash”."},
-   {question:"What's another way to ask “How much is it?”",explain:"Was kostet das? is another way to ask the price besides Wie viel kostet das?"},
-   {question:"How do you say “I'll pay by card”?",explain:"zahlen means to pay. mit Karte means by card."},
-   {scene:"The cashier says: Das macht zehn Euro. How do you pay by card?",replies:["Danke! Hier ist Ihr Beleg.","Ich bin means “I am”. To pay: Ich zahle mit Karte.","Ich heiße is for your name. To pay say Ich zahle mit Karte."]}]}},
+   {text:"To find out the price: Was kostet das? To pay: Ich zahle mit Karte means \u201cI'll pay by card\u201d, and bar means \u201cin cash\u201d."},
+   {question:"What's another way to ask \u201cHow much is it?\u201d",explain:"Was kostet das? is another way to ask the price besides Wie viel kostet das?"},
+   {question:"How do you say \u201cI'll pay by card\u201d?",explain:"zahlen means to pay. mit Karte means by card."},
+   {scene:"The cashier says: Das macht zehn Euro. How do you pay by card?",replies:["Danke! Hier ist Ihr Beleg.","Ich bin means \u201cI am\u201d. To pay: Ich zahle mit Karte.","Ich heiße is for your name. To pay say Ich zahle mit Karte."]}]}},
  "de-A1-2-3":{
   ru:{title:"Кафе",goal:"Заказать напиток.",steps:[
    {text:"В кафе говорят Ich hätte gern ... — я бы хотел. Например: Ich hätte gern einen Kaffee. Слово einen здесь значит «один»."},
@@ -654,9 +670,9 @@ const LESSON_TR={
    {question:"Как будет «с молоком»?",explain:"mit — с, ohne — без. mit Milch — с молоком."},
    {scene:"Бариста спрашивает: Was möchten Sie trinken? Что заказать?",replies:["Kommt sofort! Möchten Sie auch einen Kuchen?","Brot — это хлеб, а не напиток. Скажите: Ich hätte gern einen Kaffee.","Это не про жильё. Скажите: Ich hätte gern einen Kaffee."]}]},
   en:{title:"At the café",goal:"Order a drink.",steps:[
-   {text:"In a café people say Ich hätte gern ..., meaning “I would like”. For example: Ich hätte gern einen Kaffee. Here einen means “a”."},
-   {question:"Choose the phrase “I'd like a tea”.",explain:"Ich hätte gern is a polite “I would like”. einen Tee means a tea."},
-   {question:"How do you say “with milk”?",explain:"mit means with, ohne means without. mit Milch means with milk."},
+   {text:"In a café people say Ich hätte gern ..., meaning \u201cI would like\u201d. For example: Ich hätte gern einen Kaffee. Here einen means \u201ca\u201d."},
+   {question:"Choose the phrase \u201cI'd like a tea\u201d.",explain:"Ich hätte gern is a polite \u201cI would like\u201d. einen Tee means a tea."},
+   {question:"How do you say \u201cwith milk\u201d?",explain:"mit means with, ohne means without. mit Milch means with milk."},
    {scene:"The barista asks: Was möchten Sie trinken? What do you order?",replies:["Kommt sofort! Möchten Sie auch einen Kuchen?","Brot is bread, not a drink. Say: Ich hätte gern einen Kaffee.","That's not about housing. Say: Ich hätte gern einen Kaffee."]}]}},
  "de-A1-2-4":{
   ru:{title:"Рассказ о покупках",goal:"Сказать, что вы купили и сколько.",steps:[
@@ -666,8 +682,8 @@ const LESSON_TR={
    {scene:"Продавец спрашивает: Sonst noch etwas? Что ответить, если больше ничего не нужно?",replies:["Das macht fünf Euro. Schönen Tag noch!","Ich heiße — имя. Скажите: Nein, danke. Das ist alles.","Это про жильё. Скажите: Nein, danke. Das ist alles."]}]},
   en:{title:"Talking about shopping",goal:"Say what you bought and how many.",steps:[
    {text:"To say what you're buying, use Ich kaufe ... (I buy). Numbers: zwei Äpfel means two apples, drei Bananen means three bananas."},
-   {question:"How do you say “I'm buying two apples”?",explain:"Äpfel is the plural of Apfel. Ich kaufe means I buy."},
-   {question:"Choose the phrase “That's all, thanks”.",explain:"Das ist alles means that's all. It's how you finish shopping."},
+   {question:"How do you say \u201cI'm buying two apples\u201d?",explain:"Äpfel is the plural of Apfel. Ich kaufe means I buy."},
+   {question:"Choose the phrase \u201cThat's all, thanks\u201d.",explain:"Das ist alles means that's all. It's how you finish shopping."},
    {scene:"The assistant asks: Sonst noch etwas? What do you say if you need nothing else?",replies:["Das macht fünf Euro. Schönen Tag noch!","Ich heiße is for your name. Say: Nein, danke. Das ist alles.","That's about housing. Say: Nein, danke. Das ist alles."]}]}},
  "de-A1-3-1":{
   ru:{title:"Как доехать?",goal:"Спросить, как дойти или доехать до места.",steps:[
@@ -676,9 +692,9 @@ const LESSON_TR={
    {question:"Как будет «остановка»?",explain:"die Haltestelle — женский род."},
    {scene:"Вы на улице. Как спросить прохожего, где автобусная остановка?",replies:["Dort drüben, links. Sie ist nur fünf Minuten zu Fuß.","Так вы рассказываете, а не спрашиваете. Спросите: Entschuldigung, wo ist die Bushaltestelle?","Это не имеет смысла. Спросите: Entschuldigung, wo ist die Bushaltestelle?"]}]},
   en:{title:"How do I get there?",goal:"Ask how to get somewhere.",steps:[
-   {text:"To ask the way, say Wie komme ich zum/zur ...?, meaning “how do I get to ...?”. For example: Wie komme ich zum Bahnhof? Words: der Bahnhof (station), die Haltestelle (stop), der Bus (bus)."},
-   {question:"How do you ask “How do I get to the station?”",explain:"Wie komme ich zum ...? is the standard way to ask for directions. zum Bahnhof means to the station."},
-   {question:"How do you say “stop” (as in bus stop)?",explain:"die Haltestelle is feminine."},
+   {text:"To ask the way, say Wie komme ich zum/zur ...?, meaning \u201chow do I get to ...?\u201d. For example: Wie komme ich zum Bahnhof? Words: der Bahnhof (station), die Haltestelle (stop), der Bus (bus)."},
+   {question:"How do you ask \u201cHow do I get to the station?\u201d",explain:"Wie komme ich zum ...? is the standard way to ask for directions. zum Bahnhof means to the station."},
+   {question:"How do you say \u201cstop\u201d (as in bus stop)?",explain:"die Haltestelle is feminine."},
    {scene:"You're on the street. How do you ask a passer-by where the bus stop is?",replies:["Dort drüben, links. Sie ist nur fünf Minuten zu Fuß.","That's telling, not asking. Ask: Entschuldigung, wo ist die Bushaltestelle?","That makes no sense. Ask: Entschuldigung, wo ist die Bushaltestelle?"]}]}},
  "de-A1-3-2":{
   ru:{title:"Билет и поездка",goal:"Купить билет и спросить, когда отправляется поезд.",steps:[
@@ -687,9 +703,9 @@ const LESSON_TR={
    {question:"Выберите вопрос «Когда идёт поезд?»",explain:"Wann — когда. fahren — ехать."},
    {scene:"Вы в кассе. Кассир спрашивает: Wohin möchten Sie fahren? Что ответить?",replies:["Das macht zwanzig Euro. Hier ist Ihr Fahrschein.","Это про жильё. Скажите, куда едете: Einen Fahrschein nach ..., bitte.","Спасибо — хорошо, но попросите билет: Einen Fahrschein nach ..., bitte."]}]},
   en:{title:"Tickets and travel",goal:"Buy a ticket and ask when the train leaves.",steps:[
-   {text:"Ticket: die Fahrkarte or der Fahrschein. To buy one: Einen Fahrschein nach Berlin, bitte. When? Wann fährt der Zug? means “when does the train leave?”"},
-   {question:"How do you say “A ticket to Berlin, please”?",explain:"Einen Fahrschein is a ticket (masculine, accusative: einen). nach Berlin means to Berlin."},
-   {question:"Choose the question “When does the train leave?”",explain:"Wann means when. fahren means to go or travel."},
+   {text:"Ticket: die Fahrkarte or der Fahrschein. To buy one: Einen Fahrschein nach Berlin, bitte. When? Wann fährt der Zug? means \u201cwhen does the train leave?\u201d"},
+   {question:"How do you say \u201cA ticket to Berlin, please\u201d?",explain:"Einen Fahrschein is a ticket (masculine, accusative: einen). nach Berlin means to Berlin."},
+   {question:"Choose the question \u201cWhen does the train leave?\u201d",explain:"Wann means when. fahren means to go or travel."},
    {scene:"You're at the ticket desk. The cashier asks: Wohin möchten Sie fahren? What do you say?",replies:["Das macht zwanzig Euro. Hier ist Ihr Fahrschein.","That's about where you live. Say where you're going: Einen Fahrschein nach ..., bitte.","Thanks is nice, but ask for the ticket: Einen Fahrschein nach ..., bitte."]}]}},
  "de-A1-3-3":{
   ru:{title:"Расписание и время",goal:"Понимать время отправления и прибытия.",steps:[
@@ -699,8 +715,8 @@ const LESSON_TR={
    {scene:"Вы на вокзале. Спросите, с какой платформы поезд.",replies:["Gleis drei. Er fährt in fünf Minuten.","Это вопрос о цене. Для платформы: Auf welchem Gleis fährt der Zug?","Ich heiße — имя. Спросите: Auf welchem Gleis fährt der Zug?"]}]},
   en:{title:"Timetable and time",goal:"Understand departure and arrival times.",steps:[
    {text:"Time: Es ist neun Uhr means it's nine o'clock. Departure: Abfahrt, arrival: Ankunft. The train at ten: Der Zug fährt um zehn Uhr."},
-   {question:"How do you say “The train leaves at ten”?",explain:"fahren means to leave or travel. um zehn Uhr means at ten."},
-   {question:"What does “Ankunft” mean?",options:["arrival","departure","ticket","station"],explain:"Ankunft means arrival. Abfahrt means departure."},
+   {question:"How do you say \u201cThe train leaves at ten\u201d?",explain:"fahren means to leave or travel. um zehn Uhr means at ten."},
+   {question:"What does \u201cAnkunft\u201d mean?",options:["arrival","departure","ticket","station"],explain:"Ankunft means arrival. Abfahrt means departure."},
    {scene:"You're at the station. Ask which platform the train leaves from.",replies:["Gleis drei. Er fährt in fünf Minuten.","That asks about the price. For the platform: Auf welchem Gleis fährt der Zug?","Ich heiße is for your name. Ask: Auf welchem Gleis fährt der Zug?"]}]}},
  "de-A1-3-4":{
   ru:{title:"Такси",goal:"Сказать таксисту, куда ехать, и попросить остановиться.",steps:[
@@ -709,8 +725,8 @@ const LESSON_TR={
    {question:"Как попросить остановиться здесь?",explain:"Hier, bitte. — здесь, пожалуйста. Короткая и вежливая фраза."},
    {scene:"Таксист спрашивает: Wohin möchten Sie? Что ответить?",replies:["Gut. Das macht zehn Euro.","Таксист спрашивает, куда ехать. Скажите: Zum Bahnhof, bitte.","Ich heiße — имя. Скажите: Zum Bahnhof, bitte."]}]},
   en:{title:"Taxi",goal:"Tell the driver where to go and ask to stop.",steps:[
-   {text:"To tell the driver where to go: Zum Hotel, bitte. To ask them to stop: Hier, bitte., meaning “here, please”."},
-   {question:"How do you tell a taxi driver “To the hotel, please”?",explain:"zum Hotel means to the hotel. bitte means please."},
+   {text:"To tell the driver where to go: Zum Hotel, bitte. To ask them to stop: Hier, bitte., meaning \u201chere, please\u201d."},
+   {question:"How do you tell a taxi driver \u201cTo the hotel, please\u201d?",explain:"zum Hotel means to the hotel. bitte means please."},
    {question:"How do you ask to stop here?",explain:"Hier, bitte. means here, please. Short and polite."},
    {scene:"The driver asks: Wohin möchten Sie? What do you say?",replies:["Gut. Das macht zehn Euro.","The driver is asking where to go. Say: Zum Bahnhof, bitte.","Ich heiße is for your name. Say: Zum Bahnhof, bitte."]}]}}
 };
@@ -848,21 +864,21 @@ const LIVE_CAP_UI={pl:{uk:"Я живу у Варшаві",ru:"Я живу в В�
   lt:{uk:"Я живу у Вільнюсі",ru:"Я живу в Вильнюсе",en:"I live in Vilnius"},en:{uk:"Я живу в Лондоні",ru:"Я живу в Лондоне",en:"I live in London"},
   it:{uk:"Я живу в Римі",ru:"Я живу в Риме",en:"I live in Rome"},es:{uk:"Я живу в Мадриді",ru:"Я живу в Мадриде",en:"I live in Madrid"}};
 const GEN_NOTES={
- pl:{formal:{uk:"До незнайомих звертаються ввічливо: pan — до чоловіка, pani — до жінки.",ru:"К незнакомым обращаются вежливо: pan — к мужчине, pani — к женщине.",en:"With strangers use pan (to a man) or pani (to a woman) as a polite “you”."},
+ pl:{formal:{uk:"До незнайомих звертаються ввічливо: pan — до чоловіка, pani — до жінки.",ru:"К незнакомым обращаются вежливо: pan — к мужчине, pani — к женщине.",en:"With strangers use pan (to a man) or pani (to a woman) as a polite \u201cyou\u201d."},
   gender:{uk:"Артиклів у польській немає, але є рід: chleb — чоловічий, woda — жіночий, mleko — середній.",ru:"Артиклей в польском нет, но есть род: chleb — мужской, woda — женский, mleko — средний.",en:"Polish has no articles but has gender: chleb is masculine, woda feminine, mleko neuter."}},
- cs:{formal:{uk:"З незнайомими говорять на «ви» (vykání), з друзями — на «ти» (tykání).",ru:"С незнакомыми говорят на «вы» (vykání), с друзьями — на «ты» (tykání).",en:"Use the polite “vy” (vykání) with strangers and “ty” (tykání) with friends."},
+ cs:{formal:{uk:"З незнайомими говорять на «ви» (vykání), з друзями — на «ти» (tykání).",ru:"С незнакомыми говорят на «вы» (vykání), с друзьями — на «ты» (tykání).",en:"Use the polite \u201cvy\u201d (vykání) with strangers and \u201cty\u201d (tykání) with friends."},
   gender:{uk:"Артиклів у чеській немає, але є рід: chléb — чоловічий, voda — жіночий, mléko — середній.",ru:"Артиклей в чешском нет, но есть род: chléb — мужской, voda — женский, mléko — средний.",en:"Czech has no articles but has gender: chléb is masculine, voda feminine, mléko neuter."}},
- et:{formal:{uk:"З незнайомими кажуть teie (ви), з друзями — sina (ти).",ru:"С незнакомыми говорят teie (вы), с друзьями — sina (ты).",en:"Use teie (polite “you”) with strangers and sina with friends."},
+ et:{formal:{uk:"З незнайомими кажуть teie (ви), з друзями — sina (ти).",ru:"С незнакомыми говорят teie (вы), с друзьями — sina (ты).",en:"Use teie (polite \u201cyou\u201d) with strangers and sina with friends."},
   gender:{uk:"В естонській немає ні артиклів, ні роду, тож нові слова запам'ятовувати простіше.",ru:"В эстонском нет ни артиклей, ни рода, поэтому новые слова запоминать проще.",en:"Estonian has neither articles nor gender, which makes new words easier to learn."}},
- lv:{formal:{uk:"З незнайомими кажуть jūs (ви), з друзями — tu (ти).",ru:"С незнакомыми говорят jūs (вы), с друзьями — tu (ты).",en:"Use jūs (polite “you”) with strangers and tu with friends."},
+ lv:{formal:{uk:"З незнайомими кажуть jūs (ви), з друзями — tu (ти).",ru:"С незнакомыми говорят jūs (вы), с друзьями — tu (ты).",en:"Use jūs (polite \u201cyou\u201d) with strangers and tu with friends."},
   gender:{uk:"Артиклів у латиській немає, а родів лише два: maize — жіночий, piens — чоловічий.",ru:"Артиклей в латышском нет, а родов только два: maize — женский, piens — мужской.",en:"Latvian has no articles and only two genders: maize is feminine, piens masculine."}},
- lt:{formal:{uk:"З незнайомими кажуть jūs (ви), з друзями — tu (ти).",ru:"С незнакомыми говорят jūs (вы), с друзьями — tu (ты).",en:"Use jūs (polite “you”) with strangers and tu with friends."},
+ lt:{formal:{uk:"З незнайомими кажуть jūs (ви), з друзями — tu (ти).",ru:"С незнакомыми говорят jūs (вы), с друзьями — tu (ты).",en:"Use jūs (polite \u201cyou\u201d) with strangers and tu with friends."},
   gender:{uk:"Артиклів у литовській немає, а родів лише два: duona — жіночий, pienas — чоловічий.",ru:"Артиклей в литовском нет, а родов только два: duona — женский, pienas — мужской.",en:"Lithuanian has no articles and only two genders: duona is feminine, pienas masculine."}},
- en:{formal:{uk:"Окремого ввічливого «Ви» в англійській немає: ввічливість передають словами please і thank you.",ru:"Отдельного вежливого «Вы» в английском нет: вежливость передают словами please и thank you.",en:"English has no separate polite “you”: politeness comes from please and thank you."},
+ en:{formal:{uk:"Окремого ввічливого «Ви» в англійській немає: ввічливість передають словами please і thank you.",ru:"Отдельного вежливого «Вы» в английском нет: вежливость передают словами please и thank you.",en:"English has no separate polite \u201cyou\u201d: politeness comes from please and thank you."},
   gender:{uk:"Роду в англійській немає, але перед словами, які можна порахувати, ставлять a або an: an apple, a banana.",ru:"Рода в английском нет, но перед словами, которые можно посчитать, ставят a или an: an apple, a banana.",en:"English has no gender, but countable nouns take a or an: an apple, a banana."}},
- it:{formal:{uk:"До незнайомих звертаються на Lei (ви), до друзів — на tu (ти).",ru:"К незнакомым обращаются на Lei (вы), к друзьям — на tu (ты).",en:"Use Lei (polite “you”) with strangers and tu with friends."},
+ it:{formal:{uk:"До незнайомих звертаються на Lei (ви), до друзів — на tu (ти).",ru:"К незнакомым обращаются на Lei (вы), к друзьям — на tu (ты).",en:"Use Lei (polite \u201cyou\u201d) with strangers and tu with friends."},
   gender:{uk:"Кожне слово має рід і артикль: il pane — чоловічий, la mela — жіночий. Вчіть слово разом з артиклем.",ru:"У каждого слова есть род и артикль: il pane — мужской, la mela — женский. Учите слово вместе с артиклем.",en:"Every noun has a gender and an article: il pane is masculine, la mela feminine. Learn each word with its article."}},
- es:{formal:{uk:"До незнайомих звертаються на usted (ви), до друзів — на tú (ти).",ru:"К незнакомым обращаются на usted (вы), к друзьям — на tú (ты).",en:"Use usted (polite “you”) with strangers and tú with friends."},
+ es:{formal:{uk:"До незнайомих звертаються на usted (ви), до друзів — на tú (ти).",ru:"К незнакомым обращаются на usted (вы), к друзьям — на tú (ты).",en:"Use usted (polite \u201cyou\u201d) with strangers and tú with friends."},
   gender:{uk:"Кожне слово має рід і артикль: el pan — чоловічий, la leche — жіночий. Вчіть слово разом з артиклем.",ru:"У каждого слова есть род и артикль: el pan — мужской, la leche — женский. Учите слово вместе с артиклем.",en:"Every noun has a gender and an article: el pan is masculine, la leche feminine. Learn each word with its article."}}
 };
 const GEN_TXT={
@@ -920,30 +936,30 @@ const GEN_TXT={
    sc:"Продавец спрашивает: «{anythingElse}» Вам больше ничего не нужно.",w1:"Так вы просите ещё хлеб. Если больше ничего не нужно: {noThatsAll}",w2:"Это имя. Скажите: {noThatsAll}"}},
  en:{titles:["Greetings","What's your name","Numbers and prices","About yourself","Groceries","Price and payment","At the café","Shopping"],
   goals:["Say hello and goodbye politely.","Introduce yourself and ask someone's name.","Count from 1 to 10 and ask the price.","Say where you live and where you're from.","Name basic foods and ask for them.","Pay by card or in cash.","Order a drink at a café.","Say how many and finish shopping."],
-  l1:{explain:"The casual greeting is {hi}; the polite one is {goodDay}. To say goodbye: {bye}. To thank someone: {thanks}. {noteFormal}",q1:"How do you greet someone politely during the day?",q1x:"{goodDay} is the polite greeting. {bye} means “goodbye”.",
-   q2:"What does “{bye}” mean?",q2o:["Goodbye","Hello","Thank you","Please"],q2x:"{bye} is the polite way to say goodbye.",
-   sc:"You meet a new neighbour in the stairwell. How do you greet them?",w1:"{bye} means “goodbye”. To greet someone say {goodDay}.",w2:"{thanks} means “thank you”. To greet someone say {goodDay}."},
+  l1:{explain:"The casual greeting is {hi}; the polite one is {goodDay}. To say goodbye: {bye}. To thank someone: {thanks}. {noteFormal}",q1:"How do you greet someone politely during the day?",q1x:"{goodDay} is the polite greeting. {bye} means \u201cgoodbye\u201d.",
+   q2:"What does \u201c{bye}\u201d mean?",q2o:["Goodbye","Hello","Thank you","Please"],q2x:"{bye} is the polite way to say goodbye.",
+   sc:"You meet a new neighbour in the stairwell. How do you greet them?",w1:"{bye} means \u201cgoodbye\u201d. To greet someone say {goodDay}.",w2:"{thanks} means \u201cthank you\u201d. To greet someone say {goodDay}."},
   l2:{explain:"To introduce yourself, say {myNameX} To politely ask someone's name: {askName} To ask where they're from: {whereFromQ} To talk about yourself: {iAmFromUkraine}",
-   q1:"Choose the phrase “My name is Iryna”.",q1x:"{nameIryna} is how you introduce yourself.",q2:"How do you politely ask “Where are you from?”",q2x:"{whereFromQ} is the polite question about where someone is from.",
-   sc:"The teacher asks: “{askName}” How do you answer?",w1:"That says where you're from. First give your name: {myNameX}",w2:"That means “thank you”. Answer a name question with: {myNameX}"},
-  l3:{explain:"Numbers 1 to 10: {nList}. To ask the price: {howMuch}",q1:"How do you say “seven”?",q1x:"{n7} is seven, {n8} is eight, {n6} is six, {n9} is nine.",
-   q2:"Choose the phrase “How much does this cost?”",q2x:"{howMuch} is how you ask the price.",sc:"You're in a shop and want to know the price. What do you say?",
+   q1:"Choose the phrase \u201cMy name is Iryna\u201d.",q1x:"{nameIryna} is how you introduce yourself.",q2:"How do you politely ask \u201cWhere are you from?\u201d",q2x:"{whereFromQ} is the polite question about where someone is from.",
+   sc:"The teacher asks: \u201c{askName}\u201d How do you answer?",w1:"That says where you're from. First give your name: {myNameX}",w2:"That means \u201cthank you\u201d. Answer a name question with: {myNameX}"},
+  l3:{explain:"Numbers 1 to 10: {nList}. To ask the price: {howMuch}",q1:"How do you say \u201cseven\u201d?",q1x:"{n7} is seven, {n8} is eight, {n6} is six, {n9} is nine.",
+   q2:"Choose the phrase \u201cHow much does this cost?\u201d",q2x:"{howMuch} is how you ask the price.",sc:"You're in a shop and want to know the price. What do you say?",
    w1:"That asks where the toilet is. To ask the price: {howMuch}",w2:"That's a name. To ask the price say: {howMuch}"},
-  l4:{explain:"To say where you live: {liveCapital} Where you're from: {iAmFromUkraine} If the language is still new to you: {iSpeakLittle}",q1:"Choose the phrase “{liveCapUI}”.",
-   q1x:"{liveCapital} means “{liveCapUI}”. {whereLive} is the question “Where do you live?”.",q2:"How do you say “I speak a little {langAdv}”?",q2x:"{iSpeakLittle} comes in handy while the language is still new.",
-   sc:"A friend asks: “{whereLive}” What do you answer?",w1:"That asks the price. To say where you live: {liveCapital}",w2:"You're asking their name. Say where you live: {liveCapital}"},
-  l5:{explain:"Basic foods: {bread} means bread, {milk} milk, {water} water, {apple} an apple. To ask for something in a shop: {wantBread} {noteGender}",q1:"How do you say “bread”?",
+  l4:{explain:"To say where you live: {liveCapital} Where you're from: {iAmFromUkraine} If the language is still new to you: {iSpeakLittle}",q1:"Choose the phrase \u201c{liveCapUI}\u201d.",
+   q1x:"{liveCapital} means \u201c{liveCapUI}\u201d. {whereLive} is the question \u201cWhere do you live?\u201d.",q2:"How do you say \u201cI speak a little {langAdv}\u201d?",q2x:"{iSpeakLittle} comes in handy while the language is still new.",
+   sc:"A friend asks: \u201c{whereLive}\u201d What do you answer?",w1:"That asks the price. To say where you live: {liveCapital}",w2:"You're asking their name. Say where you live: {liveCapital}"},
+  l5:{explain:"Basic foods: {bread} means bread, {milk} milk, {water} water, {apple} an apple. To ask for something in a shop: {wantBread} {noteGender}",q1:"How do you say \u201cbread\u201d?",
    q1x:"{bread} is bread, {milk} is milk, {water} is water.",q2:"How do you ask for milk?",q2x:"{wantMilk} is how you ask for milk.",
-   sc:"The shop assistant asks: “{whatWould}” Ask for bread.",w1:"That's a name. To ask for bread: {wantBread}",w2:"That means “goodbye”. Say: {wantBread}"},
-  l6:{explain:"To pay by card: {payCard} In cash: {payCash} The word for cash is {cashWord}.",q1:"How do you say “I'll pay by card”?",q1x:"{payCard} is by card, {payCash} is in cash.",
-   q2:"What does “{cashWord}” mean?",q2o:["cash","card","receipt","price"],q2x:"{cashWord} means cash.",sc:"At the till you hear: “{makes10}” Pay by card.",
+   sc:"The shop assistant asks: \u201c{whatWould}\u201d Ask for bread.",w1:"That's a name. To ask for bread: {wantBread}",w2:"That means \u201cgoodbye\u201d. Say: {wantBread}"},
+  l6:{explain:"To pay by card: {payCard} In cash: {payCash} The word for cash is {cashWord}.",q1:"How do you say \u201cI'll pay by card\u201d?",q1x:"{payCard} is by card, {payCash} is in cash.",
+   q2:"What does \u201c{cashWord}\u201d mean?",q2o:["cash","card","receipt","price"],q2x:"{cashWord} means cash.",sc:"At the till you hear: \u201c{makes10}\u201d Pay by card.",
    w1:"You've already been told the price. To pay by card: {payCard}",w2:"That asks where the toilet is. Say: {payCard}"},
   l7:{explain:"To order a drink: {wantTea} With milk is {withMilk}; without sugar is {withoutSugar}.",q1:"How do you order a tea?",q1x:"{wantTea} is how you order tea.",
-   q2:"How do you say “with milk”?",q2x:"{withMilk} is with milk, {withoutMilk} without milk, {withSugar} with sugar.",sc:"The barista asks: “{whatDrink}” Order a coffee with milk.",
+   q2:"How do you say \u201cwith milk\u201d?",q2x:"{withMilk} is with milk, {withoutMilk} without milk, {withSugar} with sugar.",sc:"The barista asks: \u201c{whatDrink}\u201d Order a coffee with milk.",
    w1:"Bread isn't a drink. Say: {wantCoffeeMilk}",w2:"That's about paying. First order: {wantCoffeeMilk}"},
-  l8:{explain:"Quantities: {oneApple} is one apple, {twoApples} two apples, {threeApples} three apples. To finish shopping: {thatsAll}",q1:"How do you say “two apples”?",
-   q1x:"{twoApples} is two apples, {twoBananas} two bananas.",q2:"Choose the phrase “That's all, thanks”.",q2x:"{thatsAll} is how you finish shopping. {anythingElse} is the question “Anything else?”.",
-   sc:"The assistant asks: “{anythingElse}” You don't need anything else.",w1:"That asks for more bread. If you need nothing else: {noThatsAll}",w2:"That's a name. Say: {noThatsAll}"}}
+  l8:{explain:"Quantities: {oneApple} is one apple, {twoApples} two apples, {threeApples} three apples. To finish shopping: {thatsAll}",q1:"How do you say \u201ctwo apples\u201d?",
+   q1x:"{twoApples} is two apples, {twoBananas} two bananas.",q2:"Choose the phrase \u201cThat's all, thanks\u201d.",q2x:"{thatsAll} is how you finish shopping. {anythingElse} is the question \u201cAnything else?\u201d.",
+   sc:"The assistant asks: \u201c{anythingElse}\u201d You don't need anything else.",w1:"That asks for more bread. If you need nothing else: {noThatsAll}",w2:"That's a name. Say: {noThatsAll}"}}
 };
 function buildGeneratedLessons(){
   for(const c of Object.keys(PH)){
@@ -1715,50 +1731,26 @@ function ic(name,cls){ return `<svg class="ic ${cls||""}" viewBox="0 0 24 24" ar
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 const hasCyr=s=>/[А-Яа-яЁёІіЇїЄєҐґ]/.test(s);
 
-// ================= Талісман Flueno =================
-// Персонаж: дружелюбная капля-компаньон с книжкой. Не сова, не птица.
-// Янтарно-золотой цвет, крупные глаза, мягкая форма.
+// ================= Маскот Flueno =================
 let owlN=0;
 function owl(size,mood,cls){
-  const id="fm"+(++owlN);
-  const happy=mood==="happy";
-  const eyes = happy
-    ? `<path d="M40 52q5-7 10 0" stroke="#2D1B00" stroke-width="3" fill="none" stroke-linecap="round"/>
-       <path d="M70 52q5-7 10 0" stroke="#2D1B00" stroke-width="3" fill="none" stroke-linecap="round"/>`
-    : `<ellipse cx="45" cy="50" rx="5.5" ry="6" fill="#2D1B00"/>
-       <ellipse cx="75" cy="50" rx="5.5" ry="6" fill="#2D1B00"/>
-       <circle cx="47" cy="47.5" r="2" fill="#fff"/><circle cx="77" cy="47.5" r="2" fill="#fff"/>
-       <rect class="lid" x="32" y="38" width="56" height="24" rx="12" fill="url(#${id}a)"/>`;
-  const mouth = happy
-    ? `<path d="M52 62q8 8 16 0" stroke="#2D1B00" stroke-width="2.5" fill="none" stroke-linecap="round"/>`
-    : `<path d="M55 62q5 4 10 0" stroke="#2D1B00" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+  const id="og"+(++owlN), ink="#1A1F33";
+  const eyes = mood==="happy"
+    ? `<path d="M36 57q8-9 16 0M68 57q8-9 16 0" stroke="${ink}" stroke-width="4" fill="none" stroke-linecap="round"/>`
+    : `<circle cx="46" cy="56" r="7" fill="${ink}"/><circle cx="78" cy="56" r="7" fill="${ink}"/>
+       <circle cx="48.5" cy="53.5" r="2.4" fill="#fff"/><circle cx="80.5" cy="53.5" r="2.4" fill="#fff"/>
+       <rect class="lid" x="29" y="39" width="62" height="31" rx="15.5" fill="url(#${id})"/>`;
   return `<svg class="owl ${cls||""}" width="${size}" height="${size}" viewBox="0 0 120 120" aria-hidden="true">
-    <defs>
-      <linearGradient id="${id}a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD24A"/><stop offset="1" stop-color="#F0A030"/></linearGradient>
-      <linearGradient id="${id}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6CB8FF"/><stop offset="1" stop-color="#4A8FD9"/></linearGradient>
-    </defs>
-    <!-- Тело — мягкая капля -->
-    <path d="M60 12C38 12 18 34 18 60c0 28 16 48 42 48s42-20 42-48C102 34 82 12 60 12z" fill="url(#${id}a)"/>
-    <!-- Блик -->
-    <ellipse cx="48" cy="28" rx="16" ry="8" fill="#FFE88A" opacity=".45"/>
-    <!-- Щёчки -->
-    <circle cx="32" cy="58" r="7" fill="#F0A030" opacity=".35"/>
-    <circle cx="88" cy="58" r="7" fill="#F0A030" opacity=".35"/>
-    <!-- Глаза -->
-    <circle cx="45" cy="50" r="12" fill="#fff"/><circle cx="75" cy="50" r="12" fill="#fff"/>
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD866"/><stop offset="1" stop-color="#F0A23A"/></linearGradient></defs>
+    <path d="M30 42L27 13l23 17zM90 42l3-29-23 17z" fill="#E08E2B"/>
+    <ellipse cx="60" cy="66" rx="40" ry="42" fill="url(#${id})"/>
+    <path d="M22 66q-7 20 11 34q-3-18 1-32zM98 66q7 20-11 34q3-18-1-32z" fill="#E08E2B"/>
+    <ellipse cx="60" cy="84" rx="24" ry="20" fill="#FFF4DA"/>
+    <path d="M50 80q4 4 8 0M62 80q4 4 8 0M56 90q4 4 8 0" stroke="#F2C27A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <circle cx="44" cy="54" r="15" fill="#fff"/><circle cx="76" cy="54" r="15" fill="#fff"/>
     ${eyes}
-    <!-- Рот -->
-    ${mouth}
-    <!-- Ручки -->
-    <path d="M22 68q-4 6-1 12" stroke="#E89520" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <path d="M98 68q4 6 1 12" stroke="#E89520" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <!-- Книжка в правой ручке -->
-    <rect x="96" y="72" width="14" height="18" rx="2" fill="url(#${id}b)" transform="rotate(15,103,81)"/>
-    <rect x="98" y="75" width="10" height="1.5" rx=".75" fill="#fff" opacity=".5" transform="rotate(15,103,81)"/>
-    <rect x="98" y="79" width="7" height="1.5" rx=".75" fill="#fff" opacity=".35" transform="rotate(15,103,81)"/>
-    <!-- Ножки -->
-    <ellipse cx="47" cy="106" rx="8" ry="4" fill="#E89520"/>
-    <ellipse cx="73" cy="106" rx="8" ry="4" fill="#E89520"/>
+    <path d="M54 65h12l-6 10z" fill="#FF7A6B"/>
+    <path d="M47 107h9M64 107h9" stroke="#FF7A6B" stroke-width="5" stroke-linecap="round"/>
   </svg>`;
 }
 
@@ -1809,36 +1801,11 @@ function unitWords(level,unit){
 function wordQuizzes(rows,poolRows,withListen){
   const lang=S.lang, ui=uiIdx(), steps=[];
   const poolW=poolRows.map(r=>wordOf(r,lang)), poolG=poolRows.map(r=>r[ui]);
-  // Різноманітні вправи в стилі Duolingo
   rows.forEach((r,k)=>{
     const w=wordOf(r,lang), g=r[ui];
-    const exType=k%5; // чергуємо типи вправ
-    if(exType===0){
-      // Класичний квіз: що означає слово?
-      steps.push({type:"quiz",question:T("qMeaning",{w}),options:[g,...pickDistractors(g,poolG,3)],answer:0,explain:`${w} — ${g}`,uiOpts:true,say:w});
-    } else if(exType===1){
-      // Квіз: як буде переклад?
-      steps.push({type:"quiz",question:T("qSay",{g}),options:[w,...pickDistractors(w,poolW,3)],answer:0,explain:`${w} — ${g}`,say:w});
-    } else if(exType===2){
-      // Build: скласти слово/фразу з літер-плиток
-      const letters=w.split("");
-      const extra=["а","е","и","о","у","к","н","с","т","р","l","e","a","s","t","n"];
-      const distractors=shuffle(extra.filter(l=>!letters.includes(l))).slice(0,Math.min(3,Math.max(1,Math.floor(letters.length*0.4))));
-      steps.push({type:"build",question:T("qTranslate")+" — "+g,answer:w,tiles:shuffle([...letters,...distractors]),explain:`${w} — ${g}`,say:w});
-    } else if(exType===3){
-      // Type: написати переклад
-      steps.push({type:"type",question:T("qType")+" — "+g,answer:w,explain:`${w} — ${g}`,say:w});
-    } else {
-      // Квіз: як буде переклад (зворотній)
-      steps.push({type:"quiz",question:T("qSay",{g}),options:[w,...pickDistractors(w,poolW,3)],answer:0,explain:`${w} — ${g}`,say:w});
-    }
+    if(k%2===0) steps.push({type:"quiz",question:T("qMeaning",{w}),options:[g,...pickDistractors(g,poolG,3)],answer:0,explain:`${w} — ${g}`,uiOpts:true,say:w});
+    else steps.push({type:"quiz",question:T("qSay",{g}),options:[w,...pickDistractors(w,poolW,3)],answer:0,explain:`${w} — ${g}`,say:w});
   });
-  // Match pairs — якщо достатньо слів
-  if(rows.length>=4){
-    const matchRows=shuffle(rows).slice(0,4);
-    const pairs=matchRows.map(r=>({w:wordOf(r,lang),g:r[ui]}));
-    steps.push({type:"match",pairs,explain:pairs.map(p=>`${p.w} — ${p.g}`).join(", ")});
-  }
   if(withListen){
     shuffle(rows.filter(r=>canSayWord(wordOf(r,lang),lang))).slice(0,2).forEach(r=>{ const w=wordOf(r,lang), g=r[ui];
       steps.push({type:"quiz",listen:true,question:T("qListen"),options:[w,...pickDistractors(w,poolW,3)],answer:0,explain:`${w} — ${g}`,say:w}); });
@@ -1857,7 +1824,7 @@ function buildReviewBody(level,unit){
   if(rows.length){
     // Спершу слова, які ви знаєте найгірше або ще не повторювали
     const score=r=>{ const c=S.cards[S.lang+":"+wordOf(r,S.lang)]; return c?(c.ef||2.5)+(c.reps||0)*0.3:0; };
-    const pick=shuffle(rows).sort((a,b)=>score(a)-score(b)).slice(0,10);
+    const pick=shuffle(rows).sort((a,b)=>score(a)-score(b)).slice(0,8);
     steps.push(...wordQuizzes(pick,rows,canVoice(S.lang)));
   }
   // Питання з уроків фраз цього розділу
@@ -2022,6 +1989,57 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 // ================= Екрани =================
 let tab="learn", view="home", session=null, deck=[], deckLang=null, flipped=false, unitShown="auto", autoplay=null;
 
+// ================= Telegram Stars Payment =================
+function buyPlan(planId){
+  const price=PRICES[planId];
+  if(!price) return;
+
+  // Telegram WebApp invoice
+  if(typeof Telegram!=="undefined"&&Telegram.WebApp&&Telegram.WebApp.openInvoice){
+    // Build invoice URL - this needs a bot backend to create the invoice
+    // For now, we use the simulated flow with Telegram.WebApp.openInvoice
+    const invoiceUrl=buildInvoiceUrl(planId,price.stars);
+    try{
+      Telegram.WebApp.openInvoice(invoiceUrl,function(status){
+        if(status==="paid"){
+          setPlan(planId);
+          localStorage.setItem("flueno-sub",JSON.stringify({plan:planId,type:"lifetime",date:new Date().toISOString()}));
+          toast(T("subSuccess"));
+          view="home"; tab="profile"; render();
+        } else if(status==="cancelled"){
+          // user cancelled, do nothing
+        } else {
+          toast(T("subError"));
+        }
+      });
+    }catch(e){
+      // Fallback: direct deep link to bot
+      buyPlanFallback(planId);
+    }
+  } else {
+    // Not in Telegram or no invoice support
+    buyPlanFallback(planId);
+  }
+}
+
+function buildInvoiceUrl(planId,stars){
+  // Invoice URL format for Telegram Stars
+  // The bot needs to handle /pay_{planId} command and return an invoice link
+  // This creates a standard Telegram Stars invoice URL
+  const botUsername="flueno_bot";
+  return `https://t.me/$/${botUsername}/stars_${planId}_${stars}`;
+}
+
+function buyPlanFallback(planId){
+  // Deep link to bot for payment
+  const url=`https://t.me/flueno_bot?start=buy_${planId}`;
+  if(typeof Telegram!=="undefined"&&Telegram.WebApp&&Telegram.WebApp.openTelegramLink){
+    Telegram.WebApp.openTelegramLink(url);
+  } else {
+    window.open(url,"_blank");
+  }
+}
+
 function render(){
   const app=document.getElementById("app"), nav=document.getElementById("nav");
   document.documentElement.lang=S.ui||"uk";
@@ -2030,6 +2048,7 @@ function render(){
   else if(!S.lang||view==="pickLang") html=pickLangView();
   else if(view==="pickUi") html=pickUiView();
   else if(view==="pickVoice") html=pickVoiceView();
+  else if(view==="subscription") html=subscriptionView();
   else if(view==="lesson"&&session) html=lessonView();
   else html= tab==="cards"?cardsView(): tab==="profile"?profileView(): learnView();
   app.classList.toggle("full",view==="lesson");
@@ -2118,7 +2137,7 @@ function learnView(){
     }
     h+=`</section>`;
   });
-  if(PLAN!=="pro") h+=`<p class="plusnote">${ic("crown","sm")}<span>${T("plusNote")}</span></p>`;
+  if(PLAN!=="pro") h+=`<button class="plusnote" data-action="openSub" style="cursor:pointer;background:none;border:none;width:100%;text-align:left">${ic("crown","sm")}<span>${T("plusNote")}</span></button>`;
   return h;
 }
 function unitPanel(L,u,cur){
@@ -2212,9 +2231,47 @@ function profileView(){
       <button class="row" data-action="toggleSound" role="switch" aria-checked="${S.sound}">${ic("volume")}<span class="grow"><span class="title">${T("sound")}</span></span><span class="switch ${S.sound?"on":""}"></span></button>
       <button class="row" data-action="pickVoice">${ic("mic")}<span class="grow"><span class="title">${T("voice")}</span><span class="sub">${esc(v?v.name:T("voiceNone"))}</span></span>${ic("chev","chev")}</button>
       <button class="row" data-action="openLink" data-arg="https://commons.wikimedia.org/wiki/Category:Pronunciation">${ic("mic")}<span class="grow"><span class="title">${T("recTitle")}</span><span class="sub">${T("recSub")}</span></span>${ic("chev","chev")}</button>
-      <div class="row">${ic("crown")}<span class="grow"><span class="title">${T("plan")}: ${planName()}</span>${PLAN!=="pro"?`<span class="sub">${T("plusNote")}</span>`:""}</span></div>
+      <button class="row" data-action="openSub">${ic("crown")}<span class="grow"><span class="title">${T("plan")}: ${planName()}</span>${PLAN!=="pro"?`<span class="sub">${T("subDesc")}</span>`:""}</span>${ic("chev","chev")}</button>
     </div></div>
     <div class="list"><button class="row danger" data-action="reset">${T("reset")}</button></div>
+  </div>`;
+}
+
+function subscriptionView(){
+  const sub=JSON.parse(localStorage.getItem("flueno-sub")||"null");
+  const isLifetime=sub&&sub.type==="lifetime";
+  const isMonthly=sub&&sub.type==="monthly"&&sub.until&&new Date(sub.until)>new Date();
+  const currentPlan=PLAN;
+
+  const starSvg=`<svg class="stars-icon" viewBox="0 0 24 24" fill="var(--accent)"><polygon points="12,2 15,9 22,9 17,14 19,22 12,18 5,22 7,14 2,9 9,9"/></svg>`;
+
+  function planCard(id,label,feats,price,badge){
+    const isCurrent=currentPlan===id;
+    const cls=isCurrent?"sub-card current":id==="pro"?"sub-card recommended":"sub-card";
+    const badgeHtml=isCurrent?`<span class="sub-badge active">${T("subActive")}</span>`:
+      badge?`<span class="sub-badge ${badge==="best"?"best":"popular"}">${T(badge==="best"?"subBest":"subPopular")}</span>`:"";
+    const priceHtml=id==="free"?"":`<div class="sub-price"><span class="amount">${starSvg} ${price}</span><span class="period">Stars</span></div>`;
+    const btn=isCurrent||id==="free"?"":
+      `<button class="btn" data-action="buyPlan" data-arg="${id}">${T("subBuy",{n:price})}</button>`;
+    return `<div class="${cls}">
+      <div class="sub-card-head"><span class="sub-card-name">${label}</span>${badgeHtml}</div>
+      <div class="sub-features">${feats}</div>
+      ${priceHtml}${btn}
+    </div>`;
+  }
+
+  const statusLine=isLifetime?`<p class="meta" style="text-align:center;margin-bottom:var(--s3)">${T("subCurrent")}: ${PRICES[currentPlan]?.label||"Pro"} (${T("subLifetime")})</p>`:
+    isMonthly?`<p class="meta" style="text-align:center;margin-bottom:var(--s3)">${T("subExpires",{d:new Date(sub.until).toLocaleDateString()})}</p>`:"";
+
+  return `<div class="screen-head">${backBtn()}<h1>${T("subTitle")}</h1></div>
+  <div class="stack">
+    <p class="meta" style="text-align:center">${T("subDesc")}</p>
+    ${statusLine}
+    <div class="sub-plans">
+      ${planCard("free","Free",T("subFreeFeats"),"0",null)}
+      ${planCard("plus","Plus",T("subPlusFeats"),PRICES.plus.stars,"popular")}
+      ${planCard("pro","Pro",T("subProFeats"),PRICES.pro.stars,"best")}
+    </div>
   </div>`;
 }
 
@@ -2223,8 +2280,7 @@ function startLesson(L,u,i){
   stopAutoplay();
   const key=lessonKey(S.lang,L,u,i), body=lessonBody(key);
   if(!body||!body.steps.length) return toast(T("soon"));
-  session={key,level:L,unit:u,idx:i,body,step:0,chosen:null,ok:null,correct:0,total:0,orders:{},results:[],finished:false,passed:false,
-    hearts:3,xp:0,buildBuf:[],matchState:null,typeVal:"",hintUsed:false};
+  session={key,level:L,unit:u,idx:i,body,step:0,chosen:null,ok:null,correct:0,total:0,orders:{},results:[],finished:false,passed:false};
   view="lesson"; render(); window.scrollTo(0,0);
 }
 function orderFor(step){
@@ -2248,70 +2304,6 @@ function lessonView(){
       <div class="list words">${step.items.map((it,k)=>`<div class="row"><span class="grow"><span class="title" lang="${S.lang}">${esc(it.w)}</span><span class="sub">${esc(it.g)}</span>${recCredit(it.w,S.lang)}</span>
         <button class="mini" data-action="sayWord" data-arg="${k}" aria-label="${T("listen")}">${ic("volume","sm")}</button></div>`).join("")}</div>`;
     foot=`<button class="btn" data-action="cont">${T("cont")}</button>`;
-  } else if(step.type==="build"){
-    // Build phrase from tiles
-    if(!s.buildBuf) s.buildBuf=[];
-    const tiles=step.tiles||[];
-    const usedIdxs=new Set(s.buildBuf.map(b=>b.idx));
-    const builtWord=s.buildBuf.map(b=>b.ch).join("");
-    body=`<h1>${esc(step.question)}</h1>
-      <div class="build-area" data-action="buildTapArea">
-        ${s.buildBuf.length?s.buildBuf.map((b,i)=>`<span class="tile placed" data-action="buildRemove" data-arg="${i}">${esc(b.ch)}</span>`).join("")
-          :`<span class="meta">${T("buildHint")}</span>`}
-      </div>
-      <div class="tiles">${tiles.map((ch,i)=>
-        `<button class="tile ${usedIdxs.has(i)?"used":""}" data-action="buildAdd" data-arg="${i}" ${usedIdxs.has(i)||s.chosen!==null?"disabled":""}>${esc(ch)}</button>`
-      ).join("")}</div>`;
-    if(s.chosen!==null){
-      const ok=s.ok;
-      foot=`<div class="fb ${ok?"ok":"bad"}"><div class="fb-head">${ic(ok?"checkCircle":"xCircle")}${ok?T("correct"):T("wrong")}</div>
-        ${step.explain?`<p>${esc(step.explain)}</p>`:""}
-        <div class="fb-row">${step.say?`<button class="mini" data-action="sayAnswer" aria-label="${T("listen")}">${ic("volume")}</button>`:""}
-        <button class="btn ${ok?"ok":"bad"}" data-action="cont">${T("cont")}</button></div></div>`;
-    } else {
-      foot=`<button class="btn" data-action="checkBuild" ${builtWord.length===0?"disabled":""}>${T("checkAnswer")}</button>`;
-    }
-  } else if(step.type==="match"){
-    // Match pairs
-    if(!s.matchState) s.matchState={selected:null,matched:[],wrong:null};
-    const ms=s.matchState;
-    const left=step.pairs.map(p=>p.w), right=step.pairs.map(p=>p.g);
-    if(!s._matchOrder) s._matchOrder=shuffle(right.map((_,i)=>i));
-    const rOrder=s._matchOrder;
-    body=`<h1>${T("qMatch")}</h1><div class="match-grid">
-      <div class="match-col">${left.map((w,i)=>{
-        const done=ms.matched.includes(i);
-        const sel=ms.selected&&ms.selected.side==="left"&&ms.selected.idx===i;
-        return `<button class="match-btn ${done?"matched":""} ${sel?"selected":""} ${ms.wrong&&ms.wrong.includes("l"+i)?"wrong":""}"
-          data-action="matchPick" data-arg="l${i}" ${done||s.chosen!==null?"disabled":""} lang="${S.lang}">${esc(w)}</button>`;
-      }).join("")}</div>
-      <div class="match-col">${rOrder.map(ri=>{
-        const done=ms.matched.includes(ri);
-        const sel=ms.selected&&ms.selected.side==="right"&&ms.selected.idx===ri;
-        return `<button class="match-btn ${done?"matched":""} ${sel?"selected":""} ${ms.wrong&&ms.wrong.includes("r"+ri)?"wrong":""}"
-          data-action="matchPick" data-arg="r${ri}" ${done||s.chosen!==null?"disabled":""}>${esc(right[ri])}</button>`;
-      }).join("")}</div></div>`;
-    if(s.chosen!==null){
-      foot=`<div class="fb ok"><div class="fb-head">${ic("checkCircle")}${T("correct")}</div>
-        ${step.explain?`<p>${esc(step.explain)}</p>`:""}
-        <div class="fb-row"><button class="btn ok" data-action="cont">${T("cont")}</button></div></div>`;
-    } else {
-      foot=`<p class="meta" style="text-align:center">${T("buildHint").replace(T("buildHint"),T("qMatch"))}</p>`;
-    }
-  } else if(step.type==="type"){
-    // Type the answer
-    body=`<h1>${esc(step.question)}</h1>
-      <div class="type-input"><input type="text" id="typeInput" placeholder="${T("typeHint")}" value="${esc(s.typeVal||"")}"
-        ${s.chosen!==null?"disabled":""} autocomplete="off" autocorrect="off" spellcheck="false" lang="${S.lang}"/></div>`;
-    if(s.chosen!==null){
-      const ok=s.ok;
-      foot=`<div class="fb ${ok?"ok":"bad"}"><div class="fb-head">${ic(ok?"checkCircle":"xCircle")}${ok?T("correct"):T("wrong")}</div>
-        ${step.explain?`<p>${esc(step.explain)}</p>`:""}
-        <div class="fb-row">${step.say?`<button class="mini" data-action="sayAnswer" aria-label="${T("listen")}">${ic("volume")}</button>`:""}
-        <button class="btn ${ok?"ok":"bad"}" data-action="cont">${T("cont")}</button></div></div>`;
-    } else {
-      foot=`<button class="btn" data-action="checkType">${T("checkAnswer")}</button>`;
-    }
   } else {
     const order=orderFor(step), right=correctOrig(step);
     const texts=step.type==="quiz"?step.options:step.options.map(o=>o.text);
@@ -2343,27 +2335,18 @@ function lessonView(){
         <button class="btn ${ok?"ok":"bad"}" data-action="cont">${T("cont")}</button></div></div>`;
     }
   }
-  // Hearts display
-  const heartsHtml=`<div class="hearts">${[0,1,2].map(i=>`<span class="heart ${i<s.hearts?"":"lost"}">${ic("flame","xs")}</span>`).join("")}</div>`;
-  // XP badge
-  const xpHtml=s.xp>0?`<span class="xp-badge">+${s.xp} XP</span>`:"";
-  // Mascot hint (рідко — тільки якщо ще не використана і крок > 2)
-  const canHint=!s.hintUsed&&s.step>2&&s.chosen===null&&step.explain&&step.type!=="explain"&&step.type!=="words";
-  const hintBtn=canHint?`<button class="mascot-hint" data-action="useHint" aria-label="${T("hintLabel")}">${owl(36)}</button>`:"";
   return `<div class="lesson">
     <div class="lesson-top"><button class="iconbtn" data-action="closeLesson" aria-label="${T("close")}">${ic("close")}</button>
-      <div class="segs" aria-hidden="true">${segs}</div>${xpHtml}${heartsHtml}<span class="code">${s.level}</span></div>
-    <div class="lesson-body">${hintBtn}${body}</div>
+      <div class="segs" aria-hidden="true">${segs}</div><span class="code">${s.level}</span></div>
+    <div class="lesson-body">${body}</div>
     <div class="lesson-foot">${foot}</div></div>`;
 }
 function finishView(){
   const s=session, next=s.passed?nextAfter(s.level,s.unit,s.idx):null;
-  const xpTotal=s.xp||0;
   return `<div class="lesson"><div class="lesson-top"><button class="iconbtn" data-action="closeLesson" aria-label="${T("close")}">${ic("close")}</button>
       <div class="segs" aria-hidden="true">${s.body.steps.map(()=>`<i class="on"></i>`).join("")}</div><span class="code">${s.level}</span></div>
     <div class="finish">${owl(130,s.passed?"happy":"",s.passed?"cheer":"")}
       <h1>${s.passed?T("lessonDone"):T("lessonRetry")}</h1><p class="meta">${esc(s.body.title)}</p>
-      ${xpTotal>0?`<div class="xp-badge big">${T("xpEarned",{n:xpTotal})}</div>`:""}
       ${s.results.length?`<div class="marks" aria-hidden="true">${s.results.map(r=>`<span class="mark ${r?"ok":"bad"}">${ic(r?"check":"close","xs")}</span>`).join("")}</div>`:""}
       <p class="meta num">${T("scoreLine",{c:s.correct,t:s.total})}</p>
       <div class="actions">
@@ -2375,95 +2358,16 @@ function finishView(){
 function answer(d){
   const s=session; if(!s||s.chosen!==null) return;
   const step=s.body.steps[s.step], orig=orderFor(step)[d];
-  s.chosen=d; s.ok=orig===correctOrig(step); s.total++; if(s.ok){ s.correct++; s.xp+=10; } else { s.hearts=Math.max(0,s.hearts-1); }
-  s.results.push(s.ok);
+  s.chosen=d; s.ok=orig===correctOrig(step); s.total++; if(s.ok) s.correct++; s.results.push(s.ok);
+  // Слово з квізу потрапляє в картки з оцінкою за відповіддю
   if(step.say&&s.body.kind){ const key=S.lang+":"+step.say; S.cards[key]=sm2(S.cards[key],s.ok?4:1); save(); }
-  haptic(s.ok?"success":"error");
-  if(s.hearts<=0){ s.finished=true; s.passed=false; touchStreak(); save(); }
-  render();
-}
-// Build: додати плитку
-function buildAdd(idx){
-  const s=session; if(!s||s.chosen!==null) return;
-  const step=s.body.steps[s.step]; if(step.type!=="build") return;
-  if(!s.buildBuf) s.buildBuf=[];
-  const ch=step.tiles[idx];
-  s.buildBuf.push({ch,idx:parseInt(idx)}); haptic("light"); render();
-}
-// Build: прибрати плитку
-function buildRemove(idx){
-  const s=session; if(!s||s.chosen!==null) return;
-  if(!s.buildBuf) return;
-  s.buildBuf.splice(parseInt(idx),1); render();
-}
-// Build: перевірити
-function checkBuild(){
-  const s=session; if(!s||s.chosen!==null) return;
-  const step=s.body.steps[s.step]; if(step.type!=="build") return;
-  const built=s.buildBuf.map(b=>b.ch).join("");
-  s.ok=built.toLowerCase()===step.answer.toLowerCase();
-  s.chosen=0; s.total++; if(s.ok){ s.correct++; s.xp+=15; } else { s.hearts=Math.max(0,s.hearts-1); }
-  s.results.push(s.ok);
-  if(step.say&&s.body.kind){ const key=S.lang+":"+step.say; S.cards[key]=sm2(S.cards[key],s.ok?4:1); save(); }
-  haptic(s.ok?"success":"error");
-  if(s.hearts<=0){ s.finished=true; s.passed=false; touchStreak(); save(); }
-  render();
-}
-// Match: вибрати елемент
-function matchPick(arg){
-  const s=session; if(!s||s.chosen!==null) return;
-  const step=s.body.steps[s.step]; if(step.type!=="match") return;
-  if(!s.matchState) s.matchState={selected:null,matched:[],wrong:null};
-  const ms=s.matchState;
-  const side=arg[0]==="l"?"left":"right", idx=parseInt(arg.slice(1));
-  if(ms.matched.includes(idx)&&side==="left") return;
-  if(ms.matched.includes(idx)&&side==="right") return;
-  ms.wrong=null;
-  if(!ms.selected){ ms.selected={side,idx}; haptic("light"); render(); return; }
-  if(ms.selected.side===side){ ms.selected={side,idx}; haptic("light"); render(); return; }
-  // Перевірка пари
-  const leftIdx=side==="left"?idx:ms.selected.idx;
-  const rightIdx=side==="right"?idx:ms.selected.idx;
-  if(leftIdx===rightIdx){
-    // Правильна пара!
-    ms.matched.push(leftIdx); ms.selected=null; haptic("success"); s.xp+=5;
-    if(ms.matched.length===step.pairs.length){
-      // Всі пари знайдено
-      s.ok=true; s.chosen=0; s.total++; s.correct++; s.results.push(true); s.xp+=10;
-    }
-  } else {
-    ms.wrong=["l"+leftIdx,"r"+rightIdx]; ms.selected=null; haptic("error");
-    setTimeout(()=>{ if(s.matchState) s.matchState.wrong=null; render(); },600);
-  }
-  render();
-}
-// Type: перевірити
-function checkType(){
-  const s=session; if(!s||s.chosen!==null) return;
-  const step=s.body.steps[s.step]; if(step.type!=="type") return;
-  const inp=document.getElementById("typeInput");
-  const val=(inp?inp.value:s.typeVal||"").trim();
-  s.typeVal=val;
-  s.ok=val.toLowerCase()===step.answer.toLowerCase();
-  s.chosen=0; s.total++; if(s.ok){ s.correct++; s.xp+=20; } else { s.hearts=Math.max(0,s.hearts-1); }
-  s.results.push(s.ok);
-  if(step.say&&s.body.kind){ const key=S.lang+":"+step.say; S.cards[key]=sm2(S.cards[key],s.ok?4:1); save(); }
-  haptic(s.ok?"success":"error");
-  if(s.hearts<=0){ s.finished=true; s.passed=false; touchStreak(); save(); }
-  render();
-}
-// Mascot hint
-function useHint(){
-  const s=session; if(!s||s.hintUsed) return;
-  const step=s.body.steps[s.step]; if(!step.explain) return;
-  s.hintUsed=true;
-  toast(step.explain,3000); haptic("light"); render();
+  haptic(s.ok?"success":"error"); render();
 }
 function cont(){
   const s=session; if(!s) return;
   const step=s.body.steps[s.step];
   if(step.type!=="explain"&&step.type!=="words"&&s.chosen===null) return;
-  s.step++; s.chosen=null; s.ok=null; s.buildBuf=[]; s.matchState=null; s.typeVal=""; s.hintUsed=false; s._matchOrder=null;
+  s.step++; s.chosen=null; s.ok=null;
   if(s.step>=s.body.steps.length){
     s.finished=true; s.passed=s.total===0||s.correct>=s.total*0.6;
     if(s.passed){
@@ -2479,7 +2383,7 @@ function cont(){
   if(nxt&&nxt.listen) say(nxt.say,S.lang); // натискання «Продовжити» дозволяє браузеру одразу відтворити звук
 }
 function closeLesson(){ session=null; view="home"; tab="learn"; unitShown="auto"; render(); window.scrollTo(0,0); }
-function goBack(){ if(view==="lesson") return closeLesson(); if(["pickUi","pickLang","pickVoice"].includes(view)){ view="home"; render(); } }
+function goBack(){ if(view==="lesson") return closeLesson(); if(["pickUi","pickLang","pickVoice","subscription"].includes(view)){ view="home"; render(); } }
 function confirmReset(){
   const doReset=()=>{ S={...defaults,ui:S.ui,lang:S.lang,sound:S.sound,voices:S.voices}; save(); deck=[]; unitShown="auto"; render(); toast(T("resetOk")); };
   try{ if(inTg&&tg.showConfirm&&tg.isVersionAtLeast&&tg.isVersionAtLeast("6.2")) return tg.showConfirm(T("resetQ"),ok=>{ if(ok) doReset(); }); }catch(e){}
@@ -2500,7 +2404,9 @@ document.addEventListener("click",(e)=>{
       const p=say(allCards(S.lang)[0]?allCards(S.lang)[0].f:"",S.lang,el); if(prev) S.voices[S.lang]=prev; else delete S.voices[S.lang]; return p; }
     case "back": return goBack();
     case "unit": unitShown= openUnitKey()===arg?null:arg; return render();
-    case "plusOnly": return toast(T("plusOnly"));
+    case "plusOnly": view="subscription"; render(); return window.scrollTo(0,0);
+    case "openSub": view="subscription"; render(); return window.scrollTo(0,0);
+    case "buyPlan": return buyPlan(arg);
     case "soon": return toast(T("soon"));
     case "lesson": { const [L,u,i]=arg.split("|"); if(!levelUnlocked(L)) return toast(T("levelLocked",{lv:LEVELS[LEVELS.indexOf(L)-1]}));
       if(!canOpen(L,+u,+i)) return toast(T("lockedLesson")); return startLesson(L,+u,+i); }
@@ -2512,12 +2418,6 @@ document.addEventListener("click",(e)=>{
     case "stopAutoplay": return stopAutoplay();
     case "answer": return answer(+arg);
     case "cont": return cont();
-    case "buildAdd": return buildAdd(arg);
-    case "buildRemove": return buildRemove(arg);
-    case "checkBuild": return checkBuild();
-    case "matchPick": return matchPick(arg);
-    case "checkType": return checkType();
-    case "useHint": return useHint();
     case "sayWord": { const st=session.body.steps[session.step]; return say(st.items[+arg].w,S.lang,el); }
     case "sayStep": { const st=session.body.steps[session.step]; return say(st.say,S.lang,el); }
     case "sayAnswer": { const st=session.body.steps[session.step]; return say(st.say||st.options[st.answer],S.lang,el); }
@@ -2529,13 +2429,6 @@ document.addEventListener("click",(e)=>{
     case "reset": return confirmReset();
     case "openLink": try{ if(inTg&&tg.openLink) return tg.openLink(arg); }catch(err){} try{ window.open(arg,"_blank","noopener"); }catch(err){} return;
   }
-});
-// Input events for type exercise
-document.addEventListener("input",(e)=>{
-  if(e.target.id==="typeInput"&&session) session.typeVal=e.target.value;
-});
-document.addEventListener("keydown",(e)=>{
-  if(e.key==="Enter"&&e.target.id==="typeInput"&&session&&session.chosen===null) checkType();
 });
 // Хостинг може додати свою закріплену смужку внизу. Не ховаємо її, а піднімаємо свої нижні елементи над нею.
 function measureHostBar(){
