@@ -346,7 +346,7 @@ const UI={
   buildHint:"Натисніть на слова, щоб скласти фразу",typeHint:"Введіть переклад",checkAnswer:"Перевірити",
   hearts:"Життя",xpEarned:"+{n} XP",hintLabel:"Підказка",noHints:"Підказок більше немає",
   mascotHints:"Натисни на мене, якщо потрібна підказка!",
-  gameOverTitle:"Життя закінчились!",gameOverDesc:"У тебе не залишилось спроб. Оформи підписку для безлімітних життів або спробуй ще раз.",gameOverRetry:"Спробувати ще",gameOverSub:"Безлімітні життя",
+  gameOverTitle:"Життя закінчились!",gameOverDesc:"У тебе не залишилось спроб. Оформи підписку для безлімітних життів або зачекай поки відновляться.",gameOverRetry:"Спробувати ще",gameOverSub:"Безлімітні життя",gameOverWait:"Нове життя через {m} хв",
   subTitle:"Преміум",subDesc:"Відкрийте всі рівні та вправи",subLifetime:"Назавжди",subMonthly:"Щомісяця",
   subBuy:"Придбати за {n} Stars",subCurrent:"Ваш тариф",subActive:"Активний",subExpires:"Діє до {d}",
   subFeaturesFree:"A1 (розділи 1–2)",subFeaturesPlus:"A1 — B1 (усі розділи)",subFeaturesPro:"A1 — C1 (усі рівні)",
@@ -379,7 +379,7 @@ const UI={
   buildHint:"Нажимайте на слова, чтобы составить фразу",typeHint:"Введите перевод",checkAnswer:"Проверить",
   hearts:"Жизни",xpEarned:"+{n} XP",hintLabel:"Подсказка",noHints:"Подсказок больше нет",
   mascotHints:"Нажми на меня, если нужна подсказка!",
-  gameOverTitle:"Жизни закончились!",gameOverDesc:"У тебя не осталось попыток. Оформи подписку для безлимитных жизней или попробуй ещё раз.",gameOverRetry:"Попробовать ещё",gameOverSub:"Безлимитные жизни",
+  gameOverTitle:"Жизни закончились!",gameOverDesc:"У тебя не осталось попыток. Оформи подписку для безлимитных жизней или подожди восстановления.",gameOverRetry:"Попробовать ещё",gameOverSub:"Безлимитные жизни",gameOverWait:"Новая жизнь через {m} мин",
   subTitle:"Премиум",subDesc:"Откройте все уровни и упражнения",subLifetime:"Навсегда",subMonthly:"Ежемесячно",
   subBuy:"Купить за {n} Stars",subCurrent:"Ваш тариф",subActive:"Активен",subExpires:"Действует до {d}",
   subFeaturesFree:"A1 (разделы 1–2)",subFeaturesPlus:"A1 — B1 (все разделы)",subFeaturesPro:"A1 — C1 (все уровни)",
@@ -412,7 +412,7 @@ const UI={
   buildHint:"Tap the words to build the phrase",typeHint:"Type the translation",checkAnswer:"Check",
   hearts:"Lives",xpEarned:"+{n} XP",hintLabel:"Hint",noHints:"No more hints",
   mascotHints:"Tap me if you need a hint!",
-  gameOverTitle:"Out of lives!",gameOverDesc:"You have no attempts left. Get a subscription for unlimited lives or try again.",gameOverRetry:"Try again",gameOverSub:"Unlimited lives",
+  gameOverTitle:"Out of lives!",gameOverDesc:"You have no attempts left. Get a subscription for unlimited lives or wait for them to refill.",gameOverRetry:"Try again",gameOverSub:"Unlimited lives",gameOverWait:"Next life in {m} min",
   subTitle:"Premium",subDesc:"Unlock all levels and exercises",subLifetime:"Lifetime",subMonthly:"Monthly",
   subBuy:"Buy for {n} Stars",subCurrent:"Your plan",subActive:"Active",subExpires:"Active until {d}",
   subFeaturesFree:"A1 (units 1\u20132)",subFeaturesPlus:"A1 \u2014 B1 (all units)",subFeaturesPro:"A1 \u2014 C1 (all levels)",
@@ -2315,12 +2315,34 @@ function subscriptionView(){
 }
 
 // ================= Урок =================
+// --- Глобальний пул сердець із таймером відновлення ---
+const MAX_HEARTS=3, HEART_REFILL_MS=30*60*1000; // 30 хв на 1 серце
+function getHearts(){
+  if(PLAN==="plus"||PLAN==="pro") return {hearts:Infinity,ts:0};
+  try{
+    const d=JSON.parse(localStorage.getItem("flueno-hearts")||"null");
+    if(!d) return {hearts:MAX_HEARTS,ts:Date.now()};
+    let h=d.hearts, ts=d.ts||Date.now();
+    if(h<MAX_HEARTS){ const elapsed=Date.now()-ts; const refilled=Math.floor(elapsed/HEART_REFILL_MS); if(refilled>0){ h=Math.min(MAX_HEARTS,h+refilled); ts=Date.now(); } }
+    return {hearts:h,ts};
+  }catch(e){ return {hearts:MAX_HEARTS,ts:Date.now()}; }
+}
+function saveHearts(h){
+  if(PLAN==="plus"||PLAN==="pro") return;
+  try{ localStorage.setItem("flueno-hearts",JSON.stringify({hearts:h,ts:Date.now()})); }catch(e){}
+}
+function loseHeart(){
+  const d=getHearts(); if(d.hearts===Infinity) return Infinity;
+  const n=Math.max(0,d.hearts-1); saveHearts(n); return n;
+}
 function startLesson(L,u,i){
   stopAutoplay();
   const key=lessonKey(S.lang,L,u,i), body=lessonBody(key);
   if(!body||!body.steps.length) return toast(T("soon"));
-  const maxH=(PLAN==="plus"||PLAN==="pro")?Infinity:3;
-  session={key,level:L,unit:u,idx:i,body,step:0,chosen:null,ok:null,correct:0,total:0,orders:{},results:[],finished:false,passed:false,hearts:maxH,maxHearts:maxH,gameOver:false};
+  const unlim=(PLAN==="plus"||PLAN==="pro");
+  const hd=getHearts(), curH=unlim?Infinity:hd.hearts;
+  if(!unlim&&curH<=0){ toast(T("gameOverTitle")); return; }
+  session={key,level:L,unit:u,idx:i,body,step:0,chosen:null,ok:null,correct:0,total:0,orders:{},results:[],finished:false,passed:false,hearts:curH,maxHearts:unlim?Infinity:MAX_HEARTS,gameOver:false};
   view="lesson"; render(); window.scrollTo(0,0);
 }
 function orderFor(step){
@@ -2406,15 +2428,23 @@ function heartsBar(){
 }
 function gameOverModal(){
   const s=session; if(!s||!s.gameOver) return "";
+  const hd=getHearts(), canRetry=hd.hearts>0;
+  let waitLine="";
+  if(!canRetry){
+    const elapsed=Date.now()-hd.ts;
+    const left=Math.max(1,Math.ceil((HEART_REFILL_MS-elapsed)/60000));
+    waitLine=`<p class="meta" style="color:var(--accent-ink)">${T("gameOverWait",{m:left})}</p>`;
+  }
   return `<div class="game-over-overlay" data-action="closeGameOver">
     <div class="game-over-card" onclick="event.stopPropagation()">
       <div class="hearts-big">${heartIcon(false)}${heartIcon(false)}${heartIcon(false)}</div>
       ${owl(100)}
       <h2>${T("gameOverTitle")}</h2>
       <p class="meta">${T("gameOverDesc")}</p>
+      ${waitLine}
       <div class="actions">
         <button class="btn" data-action="openSub">${T("gameOverSub")} ${ic("arrowRight","sm")}</button>
-        <button class="btn quiet" data-action="retryAfterGameOver">${T("gameOverRetry")}</button>
+        <button class="btn quiet" data-action="retryAfterGameOver" ${canRetry?"":"disabled"}>${T("gameOverRetry")}</button>
       </div>
     </div>
   </div>`;
@@ -2423,7 +2453,7 @@ function answer(d){
   const s=session; if(!s||s.chosen!==null||s.gameOver) return;
   const step=s.body.steps[s.step], orig=orderFor(step)[d];
   s.chosen=d; s.ok=orig===correctOrig(step); s.total++; if(s.ok) s.correct++; s.results.push(s.ok);
-  if(!s.ok&&s.hearts!==Infinity){ s.hearts--; if(s.hearts<=0){ s.gameOver=true; haptic("error"); render(); return; } }
+  if(!s.ok&&s.hearts!==Infinity){ s.hearts=loseHeart(); if(s.hearts<=0){ s.gameOver=true; haptic("error"); render(); return; } }
   // Слово з квізу потрапляє в картки з оцінкою за відповіддю
   if(step.say&&s.body.kind){ const key=S.lang+":"+step.say; S.cards[key]=sm2(S.cards[key],s.ok?4:1); save(); }
   haptic(s.ok?"success":"error"); render();
