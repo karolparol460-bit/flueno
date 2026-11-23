@@ -69,12 +69,12 @@ h2,.h2{font-weight:800;font-size:18px;line-height:1.3;margin:0;text-wrap:balance
 .btn.quiet{background:var(--surface-2);color:var(--text)}
 .link{color:var(--accent-ink);font-weight:700}
 
-/* ---------- Сова ---------- */
+/* ---------- Маскот Flueno ---------- */
 .owl{display:block;flex:0 0 auto}
-.owl .lid{transform-box:fill-box;transform-origin:center top;transform:scaleY(0);animation:blink 5s infinite}
-@keyframes blink{0%,93%,100%{transform:scaleY(0)}95%{transform:scaleY(1)}}
-.owl.cheer{animation:hop .9s var(--ease) 2}
-@keyframes hop{0%,100%{transform:translateY(0)}30%{transform:translateY(-14px) rotate(-4deg)}60%{transform:translateY(0) rotate(3deg)}}
+.owl .lid{transform-box:fill-box;transform-origin:center top;transform:scaleY(0);animation:blink 4.5s infinite}
+@keyframes blink{0%,92%,100%{transform:scaleY(0)}94%{transform:scaleY(1)}}
+.owl.cheer{animation:bounce .8s var(--ease) 2}
+@keyframes bounce{0%,100%{transform:translateY(0) scale(1)}35%{transform:translateY(-12px) scale(1.05)}65%{transform:translateY(0) scale(.97)}}
 
 /* ---------- Онбординг ---------- */
 .onb{display:flex;flex-direction:column;gap:var(--s6);padding-top:var(--s6)}
@@ -200,7 +200,7 @@ h2,.h2{font-weight:800;font-size:18px;line-height:1.3;margin:0;text-wrap:balance
 .segs{flex:1;display:flex;gap:4px}
 .segs i{flex:1;height:8px;border-radius:99px;background:var(--surface-2);transition:background .4s var(--ease)}
 .segs i.on{background:var(--accent)}
-.lesson-body{flex:1;padding:var(--s4) var(--s4) var(--s6);display:flex;flex-direction:column;gap:var(--s5)}
+.lesson-body{flex:1;padding:var(--s4) var(--s4) var(--s6);display:flex;flex-direction:column;gap:var(--s5);position:relative}
 .lesson-body h1{font-family:var(--font-ui);font-weight:800;font-size:22px;line-height:1.3}
 .explain{display:flex;gap:var(--s3);align-items:flex-start}
 .explain .bubble{font-weight:500;font-size:17px;line-height:1.6;box-shadow:none;border-radius:6px var(--r-lg) var(--r-lg) var(--r-lg)}
@@ -270,6 +270,60 @@ h2,.h2{font-weight:800;font-size:18px;line-height:1.3;margin:0;text-wrap:balance
 .credit{display:inline-flex;align-items:center;gap:4px;margin-top:2px;font-size:11px;color:var(--text-3);text-decoration:underline;text-underline-offset:2px;text-align:left}
 .face .credit{margin-top:var(--s2)}
 [hidden]{display:none !important}
+/* ---------- Нові типи вправ ---------- */
+/* Складання фрази з плиток */
+.build-area{min-height:56px;padding:var(--s3);border-radius:var(--r-md);border:2px dashed var(--line);display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center;margin-bottom:var(--s3);transition:border-color .2s}
+.build-area.active{border-color:var(--accent)}
+.build-area.correct{border-color:var(--ok);background:color-mix(in oklab,var(--ok) 8%,transparent)}
+.build-area.wrong{border-color:var(--bad);background:color-mix(in oklab,var(--bad) 8%,transparent)}
+.tiles{display:flex;flex-wrap:wrap;gap:var(--s2);justify-content:center}
+.tile{display:inline-flex;align-items:center;justify-content:center;min-width:48px;height:44px;padding:0 var(--s3);
+  border-radius:var(--r-sm);background:var(--surface);border:2px solid var(--line);font-weight:700;font-size:15px;
+  cursor:pointer;user-select:none;transition:transform .15s var(--ease),opacity .15s,border-color .2s}
+.tile:active{transform:scale(.94)}
+.tile.used{opacity:.3;pointer-events:none}
+.tile.placed{background:color-mix(in oklab,var(--accent) 16%,var(--surface));border-color:var(--accent);cursor:pointer}
+.tile.placed:active{transform:scale(.9)}
+
+/* З'єднання пар (match) */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3)}
+.match-col{display:flex;flex-direction:column;gap:var(--s2)}
+.match-btn{display:flex;align-items:center;justify-content:center;min-height:52px;padding:var(--s2) var(--s3);
+  border-radius:var(--r-md);background:var(--surface);border:2px solid var(--line);font-weight:600;font-size:15px;
+  text-align:center;transition:border-color .2s,background .2s,transform .15s var(--ease)}
+.match-btn:active{transform:scale(.97)}
+.match-btn.selected{border-color:var(--accent);background:color-mix(in oklab,var(--accent) 14%,var(--surface))}
+.match-btn.matched{border-color:var(--ok);background:color-mix(in oklab,var(--ok) 14%,var(--surface));opacity:.6;pointer-events:none}
+.match-btn.wrong-flash,.match-btn.wrong{border-color:var(--bad);background:color-mix(in oklab,var(--bad) 12%,var(--surface));animation:shake .4s var(--ease)}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+/* Введення тексту */
+.type-input{margin-bottom:var(--s3)}
+.type-input input{width:100%;min-height:52px;padding:var(--s3) var(--s4);border-radius:var(--r-md);border:2px solid var(--line);
+  background:var(--surface);color:var(--text);font:inherit;font-size:17px;font-weight:600;transition:border-color .2s}
+.type-input input:focus{border-color:var(--accent);outline:none}
+
+/* Серця (життя в уроці) */
+.hearts{display:flex;gap:4px;align-items:center}
+.hearts .heart{width:22px;height:22px;color:var(--bad);transition:opacity .3s}
+.hearts .heart.lost{opacity:.2}
+
+/* XP */
+.xp-badge{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 var(--s3);border-radius:999px;
+  background:color-mix(in oklab,var(--accent) 18%,var(--surface));font-weight:800;font-size:13px;color:var(--accent-ink)}
+.xp-badge.big{height:40px;padding:0 var(--s4);font-size:18px;margin-bottom:var(--s3)}
+.xp-fly{position:fixed;z-index:10;font-weight:800;font-size:18px;color:var(--accent-ink);pointer-events:none;
+  animation:flyUp .8s var(--ease) forwards}
+@keyframes flyUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
+
+/* Підказка маскота */
+.mascot-hint{position:absolute;top:var(--s2);right:var(--s2);z-index:3;display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:50%;background:color-mix(in oklab,var(--accent) 15%,var(--surface));
+  border:2px solid var(--accent);cursor:pointer;animation:bounce .6s var(--ease);
+  transition:transform .15s var(--ease)}
+.mascot-hint:active{transform:scale(.9)}
+.mascot-hint .owl{width:28px;height:28px}
+
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
 </style>
 </head>
@@ -299,9 +353,13 @@ const UI={
   upNext:"Далі: {title}",startLesson:"Почати урок",unitDone:"Розділ пройдено. Можна повторити будь-який урок.",
   lessonDone:"Урок пройдено!",lessonRetry:"Майже вийшло",scoreLine:"Правильних відповідей: {c} з {t}",nextLesson:"Наступний урок",retry:"Пройти ще раз",
   now:"зараз",days:"{n} дн.",close:"Закрити",back:"Назад",lockedLesson:"Спершу пройдіть попередній урок",
-  msgStart:"Привіт! Я Лінго. Почнемо з першого уроку?",msgGo:"Чудово йдеш! Продовжуймо.",msgDue:"Час повторити слова, поки вони свіжі.",msgLevel:"Новий рівень відкрито!",
+  msgStart:"Привіт! Я Flueno. Почнемо з першого уроку?",msgGo:"Чудово йдеш! Продовжуймо.",msgDue:"Час повторити слова, поки вони свіжі.",msgLevel:"Новий рівень відкрито!",
   review:"Повторення",reviewGoal:"Закріпіть слова і фрази з цього розділу.",vocabGoal:"Нових слів: {n}",newWords:"Нові слова",
   wordsHint:"Послухайте кожне слово і запам'ятайте переклад.",qMeaning:"Що означає «{w}»?",qSay:"Як буде «{g}»?",qListen:"Послухайте й оберіть слово",
+  qBuild:"Складіть фразу",qType:"Напишіть переклад",qMatch:"З'єднайте пари",qTranslate:"Перекладіть речення",
+  buildHint:"Натисніть на слова, щоб скласти фразу",typeHint:"Введіть переклад",checkAnswer:"Перевірити",
+  hearts:"Життя",xpEarned:"+{n} XP",hintLabel:"Підказка",noHints:"Підказок більше немає",
+  mascotHints:"Натисни на мене, якщо потрібна підказка!",
   playAgain:"Ще раз",autoplay:"Слухати картки",stop:"Зупинити",noVoice:"На цьому пристрої немає голосу для цієї мови",
   noVoiceHint:"На цьому пристрої немає голосу для цієї мови, тому картки показуються без звуку.",
   recTitle:"Вимова живих людей",recSub:"Слова озвучують носії мови: записи з Wikimedia Commons і Вікісловника. Автор і ліцензія вказані під кожним словом.",
@@ -320,9 +378,13 @@ const UI={
   upNext:"Дальше: {title}",startLesson:"Начать урок",unitDone:"Раздел пройден. Можно повторить любой урок.",
   lessonDone:"Урок пройден!",lessonRetry:"Почти получилось",scoreLine:"Правильных ответов: {c} из {t}",nextLesson:"Следующий урок",retry:"Пройти ещё раз",
   now:"сейчас",days:"{n} дн.",close:"Закрыть",back:"Назад",lockedLesson:"Сначала пройдите предыдущий урок",
-  msgStart:"Привет! Я Линго. Начнём с первого урока?",msgGo:"Отлично идёшь! Продолжаем.",msgDue:"Пора повторить слова, пока они свежие.",msgLevel:"Новый уровень открыт!",
+  msgStart:"Привет! Я Flueno. Начнём с первого урока?",msgGo:"Отлично идёшь! Продолжаем.",msgDue:"Пора повторить слова, пока они свежие.",msgLevel:"Новый уровень открыт!",
   review:"Повторение",reviewGoal:"Закрепите слова и фразы из этого раздела.",vocabGoal:"Новых слов: {n}",newWords:"Новые слова",
   wordsHint:"Послушайте каждое слово и запомните перевод.",qMeaning:"Что значит «{w}»?",qSay:"Как будет «{g}»?",qListen:"Послушайте и выберите слово",
+  qBuild:"Составьте фразу",qType:"Напишите перевод",qMatch:"Соедините пары",qTranslate:"Переведите предложение",
+  buildHint:"Нажмите на слова, чтобы составить фразу",typeHint:"Введите перевод",checkAnswer:"Проверить",
+  hearts:"Жизни",xpEarned:"+{n} XP",hintLabel:"Подсказка",noHints:"Подсказок больше нет",
+  mascotHints:"Нажми на меня, если нужна подсказка!",
   playAgain:"Ещё раз",autoplay:"Слушать карточки",stop:"Остановить",noVoice:"На этом устройстве нет голоса для этого языка",
   noVoiceHint:"На этом устройстве нет голоса для этого языка, поэтому карточки показываются без звука.",
   recTitle:"Произношение живых людей",recSub:"Слова озвучивают носители языка: записи из Wikimedia Commons и Викисловаря. Автор и лицензия указаны под каждым словом.",
@@ -341,10 +403,14 @@ const UI={
   upNext:"Up next: {title}",startLesson:"Start lesson",unitDone:"Unit complete. You can replay any lesson.",
   lessonDone:"Lesson complete!",lessonRetry:"Almost there",scoreLine:"Correct answers: {c} of {t}",nextLesson:"Next lesson",retry:"Try again",
   now:"now",days:"{n} d",close:"Close",back:"Back",lockedLesson:"Finish the previous lesson first",
-  msgStart:"Hi! I'm Lingo. Shall we start with the first lesson?",msgGo:"You're doing great! Let's keep going.",msgDue:"Time to review your words while they're fresh.",msgLevel:"New level unlocked!",
+  msgStart:"Hi! I'm Flueno. Shall we start with the first lesson?",msgGo:"You're doing great! Let's keep going.",msgDue:"Time to review your words while they're fresh.",msgLevel:"New level unlocked!",
   review:"Review",reviewGoal:"Practise the words and phrases from this unit.",vocabGoal:"New words: {n}",newWords:"New words",
-  wordsHint:"Listen to each word and remember its translation.",qMeaning:"What does “{w}” mean?",qSay:"How do you say “{g}”?",qListen:"Listen and choose the word",
-  playAgain:"Play again",autoplay:"Listen to cards",stop:"Stop",noVoice:"This device has no voice for this language",
+  wordsHint:”Listen to each word and remember its translation.”,qMeaning:”What does “{w}” mean?”,qSay:”How do you say “{g}”?”,qListen:”Listen and choose the word”,
+  qBuild:”Build the phrase”,qType:”Type the translation”,qMatch:”Match the pairs”,qTranslate:”Translate the sentence”,
+  buildHint:”Tap the words to build the phrase”,typeHint:”Type the translation”,checkAnswer:”Check”,
+  hearts:”Lives”,xpEarned:”+{n} XP”,hintLabel:”Hint”,noHints:”No more hints”,
+  mascotHints:”Tap me if you need a hint!”,
+  playAgain:”Play again”,autoplay:”Listen to cards”,stop:”Stop”,noVoice:”This device has no voice for this language”,
   noVoiceHint:"This device has no voice for this language, so cards are shown without sound.",
   recTitle:"Real human pronunciation",recSub:"Words are spoken by native speakers: recordings from Wikimedia Commons and Wiktionary. The author and licence are shown under each word.",
   voice:"Synthetic voice",voiceAuto:"Automatic: best female voice",voiceTest:"Listen",voiceNone:"This device has no voices for this language.",
@@ -1649,26 +1715,50 @@ function ic(name,cls){ return `<svg class="ic ${cls||""}" viewBox="0 0 24 24" ar
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 const hasCyr=s=>/[А-Яа-яЁёІіЇїЄєҐґ]/.test(s);
 
-// ================= Сова Лінго =================
+// ================= Талісман Flueno =================
+// Персонаж: дружелюбная капля-компаньон с книжкой. Не сова, не птица.
+// Янтарно-золотой цвет, крупные глаза, мягкая форма.
 let owlN=0;
 function owl(size,mood,cls){
-  const id="og"+(++owlN), ink="#1A1F33";
-  const eyes = mood==="happy"
-    ? `<path d="M36 57q8-9 16 0M68 57q8-9 16 0" stroke="${ink}" stroke-width="4" fill="none" stroke-linecap="round"/>`
-    : `<circle cx="46" cy="56" r="7" fill="${ink}"/><circle cx="78" cy="56" r="7" fill="${ink}"/>
-       <circle cx="48.5" cy="53.5" r="2.4" fill="#fff"/><circle cx="80.5" cy="53.5" r="2.4" fill="#fff"/>
-       <rect class="lid" x="29" y="39" width="62" height="31" rx="15.5" fill="url(#${id})"/>`;
+  const id="fm"+(++owlN);
+  const happy=mood==="happy";
+  const eyes = happy
+    ? `<path d="M40 52q5-7 10 0" stroke="#2D1B00" stroke-width="3" fill="none" stroke-linecap="round"/>
+       <path d="M70 52q5-7 10 0" stroke="#2D1B00" stroke-width="3" fill="none" stroke-linecap="round"/>`
+    : `<ellipse cx="45" cy="50" rx="5.5" ry="6" fill="#2D1B00"/>
+       <ellipse cx="75" cy="50" rx="5.5" ry="6" fill="#2D1B00"/>
+       <circle cx="47" cy="47.5" r="2" fill="#fff"/><circle cx="77" cy="47.5" r="2" fill="#fff"/>
+       <rect class="lid" x="32" y="38" width="56" height="24" rx="12" fill="url(#${id}a)"/>`;
+  const mouth = happy
+    ? `<path d="M52 62q8 8 16 0" stroke="#2D1B00" stroke-width="2.5" fill="none" stroke-linecap="round"/>`
+    : `<path d="M55 62q5 4 10 0" stroke="#2D1B00" stroke-width="2" fill="none" stroke-linecap="round"/>`;
   return `<svg class="owl ${cls||""}" width="${size}" height="${size}" viewBox="0 0 120 120" aria-hidden="true">
-    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD866"/><stop offset="1" stop-color="#F0A23A"/></linearGradient></defs>
-    <path d="M30 42L27 13l23 17zM90 42l3-29-23 17z" fill="#E08E2B"/>
-    <ellipse cx="60" cy="66" rx="40" ry="42" fill="url(#${id})"/>
-    <path d="M22 66q-7 20 11 34q-3-18 1-32zM98 66q7 20-11 34q3-18-1-32z" fill="#E08E2B"/>
-    <ellipse cx="60" cy="84" rx="24" ry="20" fill="#FFF4DA"/>
-    <path d="M50 80q4 4 8 0M62 80q4 4 8 0M56 90q4 4 8 0" stroke="#F2C27A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <circle cx="44" cy="54" r="15" fill="#fff"/><circle cx="76" cy="54" r="15" fill="#fff"/>
+    <defs>
+      <linearGradient id="${id}a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD24A"/><stop offset="1" stop-color="#F0A030"/></linearGradient>
+      <linearGradient id="${id}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6CB8FF"/><stop offset="1" stop-color="#4A8FD9"/></linearGradient>
+    </defs>
+    <!-- Тело — мягкая капля -->
+    <path d="M60 12C38 12 18 34 18 60c0 28 16 48 42 48s42-20 42-48C102 34 82 12 60 12z" fill="url(#${id}a)"/>
+    <!-- Блик -->
+    <ellipse cx="48" cy="28" rx="16" ry="8" fill="#FFE88A" opacity=".45"/>
+    <!-- Щёчки -->
+    <circle cx="32" cy="58" r="7" fill="#F0A030" opacity=".35"/>
+    <circle cx="88" cy="58" r="7" fill="#F0A030" opacity=".35"/>
+    <!-- Глаза -->
+    <circle cx="45" cy="50" r="12" fill="#fff"/><circle cx="75" cy="50" r="12" fill="#fff"/>
     ${eyes}
-    <path d="M54 65h12l-6 10z" fill="#FF7A6B"/>
-    <path d="M47 107h9M64 107h9" stroke="#FF7A6B" stroke-width="5" stroke-linecap="round"/>
+    <!-- Рот -->
+    ${mouth}
+    <!-- Ручки -->
+    <path d="M22 68q-4 6-1 12" stroke="#E89520" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M98 68q4 6 1 12" stroke="#E89520" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- Книжка в правой ручке -->
+    <rect x="96" y="72" width="14" height="18" rx="2" fill="url(#${id}b)" transform="rotate(15,103,81)"/>
+    <rect x="98" y="75" width="10" height="1.5" rx=".75" fill="#fff" opacity=".5" transform="rotate(15,103,81)"/>
+    <rect x="98" y="79" width="7" height="1.5" rx=".75" fill="#fff" opacity=".35" transform="rotate(15,103,81)"/>
+    <!-- Ножки -->
+    <ellipse cx="47" cy="106" rx="8" ry="4" fill="#E89520"/>
+    <ellipse cx="73" cy="106" rx="8" ry="4" fill="#E89520"/>
   </svg>`;
 }
 
@@ -1719,11 +1809,36 @@ function unitWords(level,unit){
 function wordQuizzes(rows,poolRows,withListen){
   const lang=S.lang, ui=uiIdx(), steps=[];
   const poolW=poolRows.map(r=>wordOf(r,lang)), poolG=poolRows.map(r=>r[ui]);
+  // Різноманітні вправи в стилі Duolingo
   rows.forEach((r,k)=>{
     const w=wordOf(r,lang), g=r[ui];
-    if(k%2===0) steps.push({type:"quiz",question:T("qMeaning",{w}),options:[g,...pickDistractors(g,poolG,3)],answer:0,explain:`${w} — ${g}`,uiOpts:true,say:w});
-    else steps.push({type:"quiz",question:T("qSay",{g}),options:[w,...pickDistractors(w,poolW,3)],answer:0,explain:`${w} — ${g}`,say:w});
+    const exType=k%5; // чергуємо типи вправ
+    if(exType===0){
+      // Класичний квіз: що означає слово?
+      steps.push({type:"quiz",question:T("qMeaning",{w}),options:[g,...pickDistractors(g,poolG,3)],answer:0,explain:`${w} — ${g}`,uiOpts:true,say:w});
+    } else if(exType===1){
+      // Квіз: як буде переклад?
+      steps.push({type:"quiz",question:T("qSay",{g}),options:[w,...pickDistractors(w,poolW,3)],answer:0,explain:`${w} — ${g}`,say:w});
+    } else if(exType===2){
+      // Build: скласти слово/фразу з літер-плиток
+      const letters=w.split("");
+      const extra=["а","е","и","о","у","к","н","с","т","р","l","e","a","s","t","n"];
+      const distractors=shuffle(extra.filter(l=>!letters.includes(l))).slice(0,Math.min(3,Math.max(1,Math.floor(letters.length*0.4))));
+      steps.push({type:"build",question:T("qTranslate")+" — "+g,answer:w,tiles:shuffle([...letters,...distractors]),explain:`${w} — ${g}`,say:w});
+    } else if(exType===3){
+      // Type: написати переклад
+      steps.push({type:"type",question:T("qType")+" — "+g,answer:w,explain:`${w} — ${g}`,say:w});
+    } else {
+      // Квіз: як буде переклад (зворотній)
+      steps.push({type:"quiz",question:T("qSay",{g}),options:[w,...pickDistractors(w,poolW,3)],answer:0,explain:`${w} — ${g}`,say:w});
+    }
   });
+  // Match pairs — якщо достатньо слів
+  if(rows.length>=4){
+    const matchRows=shuffle(rows).slice(0,4);
+    const pairs=matchRows.map(r=>({w:wordOf(r,lang),g:r[ui]}));
+    steps.push({type:"match",pairs,explain:pairs.map(p=>`${p.w} — ${p.g}`).join(", ")});
+  }
   if(withListen){
     shuffle(rows.filter(r=>canSayWord(wordOf(r,lang),lang))).slice(0,2).forEach(r=>{ const w=wordOf(r,lang), g=r[ui];
       steps.push({type:"quiz",listen:true,question:T("qListen"),options:[w,...pickDistractors(w,poolW,3)],answer:0,explain:`${w} — ${g}`,say:w}); });
@@ -1742,7 +1857,7 @@ function buildReviewBody(level,unit){
   if(rows.length){
     // Спершу слова, які ви знаєте найгірше або ще не повторювали
     const score=r=>{ const c=S.cards[S.lang+":"+wordOf(r,S.lang)]; return c?(c.ef||2.5)+(c.reps||0)*0.3:0; };
-    const pick=shuffle(rows).sort((a,b)=>score(a)-score(b)).slice(0,8);
+    const pick=shuffle(rows).sort((a,b)=>score(a)-score(b)).slice(0,10);
     steps.push(...wordQuizzes(pick,rows,canVoice(S.lang)));
   }
   // Питання з уроків фраз цього розділу
@@ -2108,7 +2223,8 @@ function startLesson(L,u,i){
   stopAutoplay();
   const key=lessonKey(S.lang,L,u,i), body=lessonBody(key);
   if(!body||!body.steps.length) return toast(T("soon"));
-  session={key,level:L,unit:u,idx:i,body,step:0,chosen:null,ok:null,correct:0,total:0,orders:{},results:[],finished:false,passed:false};
+  session={key,level:L,unit:u,idx:i,body,step:0,chosen:null,ok:null,correct:0,total:0,orders:{},results:[],finished:false,passed:false,
+    hearts:3,xp:0,buildBuf:[],matchState:null,typeVal:"",hintUsed:false};
   view="lesson"; render(); window.scrollTo(0,0);
 }
 function orderFor(step){
@@ -2132,6 +2248,70 @@ function lessonView(){
       <div class="list words">${step.items.map((it,k)=>`<div class="row"><span class="grow"><span class="title" lang="${S.lang}">${esc(it.w)}</span><span class="sub">${esc(it.g)}</span>${recCredit(it.w,S.lang)}</span>
         <button class="mini" data-action="sayWord" data-arg="${k}" aria-label="${T("listen")}">${ic("volume","sm")}</button></div>`).join("")}</div>`;
     foot=`<button class="btn" data-action="cont">${T("cont")}</button>`;
+  } else if(step.type==="build"){
+    // Build phrase from tiles
+    if(!s.buildBuf) s.buildBuf=[];
+    const tiles=step.tiles||[];
+    const usedIdxs=new Set(s.buildBuf.map(b=>b.idx));
+    const builtWord=s.buildBuf.map(b=>b.ch).join("");
+    body=`<h1>${esc(step.question)}</h1>
+      <div class="build-area" data-action="buildTapArea">
+        ${s.buildBuf.length?s.buildBuf.map((b,i)=>`<span class="tile placed" data-action="buildRemove" data-arg="${i}">${esc(b.ch)}</span>`).join("")
+          :`<span class="meta">${T("buildHint")}</span>`}
+      </div>
+      <div class="tiles">${tiles.map((ch,i)=>
+        `<button class="tile ${usedIdxs.has(i)?"used":""}" data-action="buildAdd" data-arg="${i}" ${usedIdxs.has(i)||s.chosen!==null?"disabled":""}>${esc(ch)}</button>`
+      ).join("")}</div>`;
+    if(s.chosen!==null){
+      const ok=s.ok;
+      foot=`<div class="fb ${ok?"ok":"bad"}"><div class="fb-head">${ic(ok?"checkCircle":"xCircle")}${ok?T("correct"):T("wrong")}</div>
+        ${step.explain?`<p>${esc(step.explain)}</p>`:""}
+        <div class="fb-row">${step.say?`<button class="mini" data-action="sayAnswer" aria-label="${T("listen")}">${ic("volume")}</button>`:""}
+        <button class="btn ${ok?"ok":"bad"}" data-action="cont">${T("cont")}</button></div></div>`;
+    } else {
+      foot=`<button class="btn" data-action="checkBuild" ${builtWord.length===0?"disabled":""}>${T("checkAnswer")}</button>`;
+    }
+  } else if(step.type==="match"){
+    // Match pairs
+    if(!s.matchState) s.matchState={selected:null,matched:[],wrong:null};
+    const ms=s.matchState;
+    const left=step.pairs.map(p=>p.w), right=step.pairs.map(p=>p.g);
+    if(!s._matchOrder) s._matchOrder=shuffle(right.map((_,i)=>i));
+    const rOrder=s._matchOrder;
+    body=`<h1>${T("qMatch")}</h1><div class="match-grid">
+      <div class="match-col">${left.map((w,i)=>{
+        const done=ms.matched.includes(i);
+        const sel=ms.selected&&ms.selected.side==="left"&&ms.selected.idx===i;
+        return `<button class="match-btn ${done?"matched":""} ${sel?"selected":""} ${ms.wrong&&ms.wrong.includes("l"+i)?"wrong":""}"
+          data-action="matchPick" data-arg="l${i}" ${done||s.chosen!==null?"disabled":""} lang="${S.lang}">${esc(w)}</button>`;
+      }).join("")}</div>
+      <div class="match-col">${rOrder.map(ri=>{
+        const done=ms.matched.includes(ri);
+        const sel=ms.selected&&ms.selected.side==="right"&&ms.selected.idx===ri;
+        return `<button class="match-btn ${done?"matched":""} ${sel?"selected":""} ${ms.wrong&&ms.wrong.includes("r"+ri)?"wrong":""}"
+          data-action="matchPick" data-arg="r${ri}" ${done||s.chosen!==null?"disabled":""}>${esc(right[ri])}</button>`;
+      }).join("")}</div></div>`;
+    if(s.chosen!==null){
+      foot=`<div class="fb ok"><div class="fb-head">${ic("checkCircle")}${T("correct")}</div>
+        ${step.explain?`<p>${esc(step.explain)}</p>`:""}
+        <div class="fb-row"><button class="btn ok" data-action="cont">${T("cont")}</button></div></div>`;
+    } else {
+      foot=`<p class="meta" style="text-align:center">${T("buildHint").replace(T("buildHint"),T("qMatch"))}</p>`;
+    }
+  } else if(step.type==="type"){
+    // Type the answer
+    body=`<h1>${esc(step.question)}</h1>
+      <div class="type-input"><input type="text" id="typeInput" placeholder="${T("typeHint")}" value="${esc(s.typeVal||"")}"
+        ${s.chosen!==null?"disabled":""} autocomplete="off" autocorrect="off" spellcheck="false" lang="${S.lang}"/></div>`;
+    if(s.chosen!==null){
+      const ok=s.ok;
+      foot=`<div class="fb ${ok?"ok":"bad"}"><div class="fb-head">${ic(ok?"checkCircle":"xCircle")}${ok?T("correct"):T("wrong")}</div>
+        ${step.explain?`<p>${esc(step.explain)}</p>`:""}
+        <div class="fb-row">${step.say?`<button class="mini" data-action="sayAnswer" aria-label="${T("listen")}">${ic("volume")}</button>`:""}
+        <button class="btn ${ok?"ok":"bad"}" data-action="cont">${T("cont")}</button></div></div>`;
+    } else {
+      foot=`<button class="btn" data-action="checkType">${T("checkAnswer")}</button>`;
+    }
   } else {
     const order=orderFor(step), right=correctOrig(step);
     const texts=step.type==="quiz"?step.options:step.options.map(o=>o.text);
@@ -2163,18 +2343,27 @@ function lessonView(){
         <button class="btn ${ok?"ok":"bad"}" data-action="cont">${T("cont")}</button></div></div>`;
     }
   }
+  // Hearts display
+  const heartsHtml=`<div class="hearts">${[0,1,2].map(i=>`<span class="heart ${i<s.hearts?"":"lost"}">${ic("flame","xs")}</span>`).join("")}</div>`;
+  // XP badge
+  const xpHtml=s.xp>0?`<span class="xp-badge">+${s.xp} XP</span>`:"";
+  // Mascot hint (рідко — тільки якщо ще не використана і крок > 2)
+  const canHint=!s.hintUsed&&s.step>2&&s.chosen===null&&step.explain&&step.type!=="explain"&&step.type!=="words";
+  const hintBtn=canHint?`<button class="mascot-hint" data-action="useHint" aria-label="${T("hintLabel")}">${owl(36)}</button>`:"";
   return `<div class="lesson">
     <div class="lesson-top"><button class="iconbtn" data-action="closeLesson" aria-label="${T("close")}">${ic("close")}</button>
-      <div class="segs" aria-hidden="true">${segs}</div><span class="code">${s.level}</span></div>
-    <div class="lesson-body">${body}</div>
+      <div class="segs" aria-hidden="true">${segs}</div>${xpHtml}${heartsHtml}<span class="code">${s.level}</span></div>
+    <div class="lesson-body">${hintBtn}${body}</div>
     <div class="lesson-foot">${foot}</div></div>`;
 }
 function finishView(){
   const s=session, next=s.passed?nextAfter(s.level,s.unit,s.idx):null;
+  const xpTotal=s.xp||0;
   return `<div class="lesson"><div class="lesson-top"><button class="iconbtn" data-action="closeLesson" aria-label="${T("close")}">${ic("close")}</button>
       <div class="segs" aria-hidden="true">${s.body.steps.map(()=>`<i class="on"></i>`).join("")}</div><span class="code">${s.level}</span></div>
     <div class="finish">${owl(130,s.passed?"happy":"",s.passed?"cheer":"")}
       <h1>${s.passed?T("lessonDone"):T("lessonRetry")}</h1><p class="meta">${esc(s.body.title)}</p>
+      ${xpTotal>0?`<div class="xp-badge big">${T("xpEarned",{n:xpTotal})}</div>`:""}
       ${s.results.length?`<div class="marks" aria-hidden="true">${s.results.map(r=>`<span class="mark ${r?"ok":"bad"}">${ic(r?"check":"close","xs")}</span>`).join("")}</div>`:""}
       <p class="meta num">${T("scoreLine",{c:s.correct,t:s.total})}</p>
       <div class="actions">
@@ -2186,16 +2375,95 @@ function finishView(){
 function answer(d){
   const s=session; if(!s||s.chosen!==null) return;
   const step=s.body.steps[s.step], orig=orderFor(step)[d];
-  s.chosen=d; s.ok=orig===correctOrig(step); s.total++; if(s.ok) s.correct++; s.results.push(s.ok);
-  // Слово з квізу потрапляє в картки з оцінкою за відповіддю
+  s.chosen=d; s.ok=orig===correctOrig(step); s.total++; if(s.ok){ s.correct++; s.xp+=10; } else { s.hearts=Math.max(0,s.hearts-1); }
+  s.results.push(s.ok);
   if(step.say&&s.body.kind){ const key=S.lang+":"+step.say; S.cards[key]=sm2(S.cards[key],s.ok?4:1); save(); }
-  haptic(s.ok?"success":"error"); render();
+  haptic(s.ok?"success":"error");
+  if(s.hearts<=0){ s.finished=true; s.passed=false; touchStreak(); save(); }
+  render();
+}
+// Build: додати плитку
+function buildAdd(idx){
+  const s=session; if(!s||s.chosen!==null) return;
+  const step=s.body.steps[s.step]; if(step.type!=="build") return;
+  if(!s.buildBuf) s.buildBuf=[];
+  const ch=step.tiles[idx];
+  s.buildBuf.push({ch,idx:parseInt(idx)}); haptic("light"); render();
+}
+// Build: прибрати плитку
+function buildRemove(idx){
+  const s=session; if(!s||s.chosen!==null) return;
+  if(!s.buildBuf) return;
+  s.buildBuf.splice(parseInt(idx),1); render();
+}
+// Build: перевірити
+function checkBuild(){
+  const s=session; if(!s||s.chosen!==null) return;
+  const step=s.body.steps[s.step]; if(step.type!=="build") return;
+  const built=s.buildBuf.map(b=>b.ch).join("");
+  s.ok=built.toLowerCase()===step.answer.toLowerCase();
+  s.chosen=0; s.total++; if(s.ok){ s.correct++; s.xp+=15; } else { s.hearts=Math.max(0,s.hearts-1); }
+  s.results.push(s.ok);
+  if(step.say&&s.body.kind){ const key=S.lang+":"+step.say; S.cards[key]=sm2(S.cards[key],s.ok?4:1); save(); }
+  haptic(s.ok?"success":"error");
+  if(s.hearts<=0){ s.finished=true; s.passed=false; touchStreak(); save(); }
+  render();
+}
+// Match: вибрати елемент
+function matchPick(arg){
+  const s=session; if(!s||s.chosen!==null) return;
+  const step=s.body.steps[s.step]; if(step.type!=="match") return;
+  if(!s.matchState) s.matchState={selected:null,matched:[],wrong:null};
+  const ms=s.matchState;
+  const side=arg[0]==="l"?"left":"right", idx=parseInt(arg.slice(1));
+  if(ms.matched.includes(idx)&&side==="left") return;
+  if(ms.matched.includes(idx)&&side==="right") return;
+  ms.wrong=null;
+  if(!ms.selected){ ms.selected={side,idx}; haptic("light"); render(); return; }
+  if(ms.selected.side===side){ ms.selected={side,idx}; haptic("light"); render(); return; }
+  // Перевірка пари
+  const leftIdx=side==="left"?idx:ms.selected.idx;
+  const rightIdx=side==="right"?idx:ms.selected.idx;
+  if(leftIdx===rightIdx){
+    // Правильна пара!
+    ms.matched.push(leftIdx); ms.selected=null; haptic("success"); s.xp+=5;
+    if(ms.matched.length===step.pairs.length){
+      // Всі пари знайдено
+      s.ok=true; s.chosen=0; s.total++; s.correct++; s.results.push(true); s.xp+=10;
+    }
+  } else {
+    ms.wrong=["l"+leftIdx,"r"+rightIdx]; ms.selected=null; haptic("error");
+    setTimeout(()=>{ if(s.matchState) s.matchState.wrong=null; render(); },600);
+  }
+  render();
+}
+// Type: перевірити
+function checkType(){
+  const s=session; if(!s||s.chosen!==null) return;
+  const step=s.body.steps[s.step]; if(step.type!=="type") return;
+  const inp=document.getElementById("typeInput");
+  const val=(inp?inp.value:s.typeVal||"").trim();
+  s.typeVal=val;
+  s.ok=val.toLowerCase()===step.answer.toLowerCase();
+  s.chosen=0; s.total++; if(s.ok){ s.correct++; s.xp+=20; } else { s.hearts=Math.max(0,s.hearts-1); }
+  s.results.push(s.ok);
+  if(step.say&&s.body.kind){ const key=S.lang+":"+step.say; S.cards[key]=sm2(S.cards[key],s.ok?4:1); save(); }
+  haptic(s.ok?"success":"error");
+  if(s.hearts<=0){ s.finished=true; s.passed=false; touchStreak(); save(); }
+  render();
+}
+// Mascot hint
+function useHint(){
+  const s=session; if(!s||s.hintUsed) return;
+  const step=s.body.steps[s.step]; if(!step.explain) return;
+  s.hintUsed=true;
+  toast(step.explain,3000); haptic("light"); render();
 }
 function cont(){
   const s=session; if(!s) return;
   const step=s.body.steps[s.step];
   if(step.type!=="explain"&&step.type!=="words"&&s.chosen===null) return;
-  s.step++; s.chosen=null; s.ok=null;
+  s.step++; s.chosen=null; s.ok=null; s.buildBuf=[]; s.matchState=null; s.typeVal=""; s.hintUsed=false; s._matchOrder=null;
   if(s.step>=s.body.steps.length){
     s.finished=true; s.passed=s.total===0||s.correct>=s.total*0.6;
     if(s.passed){
@@ -2244,6 +2512,12 @@ document.addEventListener("click",(e)=>{
     case "stopAutoplay": return stopAutoplay();
     case "answer": return answer(+arg);
     case "cont": return cont();
+    case "buildAdd": return buildAdd(arg);
+    case "buildRemove": return buildRemove(arg);
+    case "checkBuild": return checkBuild();
+    case "matchPick": return matchPick(arg);
+    case "checkType": return checkType();
+    case "useHint": return useHint();
     case "sayWord": { const st=session.body.steps[session.step]; return say(st.items[+arg].w,S.lang,el); }
     case "sayStep": { const st=session.body.steps[session.step]; return say(st.say,S.lang,el); }
     case "sayAnswer": { const st=session.body.steps[session.step]; return say(st.say||st.options[st.answer],S.lang,el); }
@@ -2255,6 +2529,13 @@ document.addEventListener("click",(e)=>{
     case "reset": return confirmReset();
     case "openLink": try{ if(inTg&&tg.openLink) return tg.openLink(arg); }catch(err){} try{ window.open(arg,"_blank","noopener"); }catch(err){} return;
   }
+});
+// Input events for type exercise
+document.addEventListener("input",(e)=>{
+  if(e.target.id==="typeInput"&&session) session.typeVal=e.target.value;
+});
+document.addEventListener("keydown",(e)=>{
+  if(e.key==="Enter"&&e.target.id==="typeInput"&&session&&session.chosen===null) checkType();
 });
 // Хостинг може додати свою закріплену смужку внизу. Не ховаємо її, а піднімаємо свої нижні елементи над нею.
 function measureHostBar(){
