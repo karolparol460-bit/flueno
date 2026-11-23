@@ -283,6 +283,9 @@ h2,.h2{font-weight:800;font-size:18px;line-height:1.3;margin:0;text-wrap:balance
 .listen-big{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--s2);width:100%;padding:var(--s6);border-radius:var(--r-lg);
   background:color-mix(in oklab,var(--accent) 14%,var(--surface));color:var(--text);font-weight:800}
 .listen-big .ic{width:40px;height:40px;color:var(--accent-ink)}
+.listen-sm{display:inline-flex;align-items:center;gap:var(--s1);padding:var(--s1) var(--s3);border-radius:var(--r);
+  background:color-mix(in oklab,var(--accent) 12%,var(--surface));color:var(--accent-ink);font-size:.85rem;font-weight:700;margin:var(--s2) 0}
+.listen-sm .ic{width:18px;height:18px}
 #cardActions .btn+.btn{margin-top:var(--s2)}
 #cardActions .rate+.btn{margin-top:var(--s3)}
 
@@ -1756,40 +1759,38 @@ const hasCyr=s=>/[А-Яа-яЁёІіЇїЄєҐґ]/.test(s);
 let mascotN=0;
 function owl(size,mood,cls){
   const id="fg"+(++mascotN);
-  const fur1="#FF8C42", fur2="#E5712E", belly="#FFF0D4", nose="#2D2D3A", cheek="#FFB0A0";
+  // Стильный персонаж — абстрактная капля/пламя с лицом
+  const c1="#FFB938", c2="#FF8C1A", c3="#FF6B2C", dark="#1A1F33", light="#FFF4DA";
   const eyes = mood==="happy"
-    ? `<path d="M42 56q5-7 12 0" stroke="${nose}" stroke-width="3" fill="none" stroke-linecap="round"/>
-       <path d="M68 56q5-7 12 0" stroke="${nose}" stroke-width="3" fill="none" stroke-linecap="round"/>`
-    : `<ellipse cx="48" cy="54" rx="5" ry="5.5" fill="${nose}"/><ellipse cx="74" cy="54" rx="5" ry="5.5" fill="${nose}"/>
-       <ellipse cx="49.5" cy="52" rx="2" ry="2.2" fill="#fff"/><ellipse cx="75.5" cy="52" rx="2" ry="2.2" fill="#fff"/>
-       <rect class="blink-lid" x="35" y="42" width="52" height="24" rx="12" fill="url(#${id})"/>`;
+    ? `<path d="M44 54q5-6 10 0" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+       <path d="M66 54q5-6 10 0" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>`
+    : `<ellipse cx="49" cy="52" rx="4.5" ry="5" fill="#fff"/><ellipse cx="71" cy="52" rx="4.5" ry="5" fill="#fff"/>
+       <ellipse cx="50.5" cy="51" rx="2.2" ry="2.5" fill="${dark}"/><ellipse cx="72.5" cy="51" rx="2.2" ry="2.5" fill="${dark}"/>
+       <circle cx="52" cy="49.5" r="1.2" fill="#fff" opacity=".9"/><circle cx="74" cy="49.5" r="1.2" fill="#fff" opacity=".9"/>
+       <rect class="blink-lid" x="38" y="40" width="44" height="22" rx="11" fill="url(#${id})"/>`;
   return `<svg class="mascot ${cls||""}" width="${size}" height="${size}" viewBox="0 0 120 120" aria-hidden="true">
-    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${fur1}"/><stop offset="1" stop-color="${fur2}"/></linearGradient></defs>
-    <!-- ears -->
-    <path class="ear-flick" d="M28 44L22 12l22 22z" fill="${fur2}"/><path d="M28 44L26 22l14 14z" fill="${belly}"/>
-    <path d="M92 44L98 12l-22 22z" fill="${fur2}"/><path d="M92 44L94 22l-14 14z" fill="${belly}"/>
-    <!-- head -->
-    <ellipse cx="60" cy="66" rx="38" ry="40" fill="url(#${id})"/>
-    <!-- cheeks -->
-    <ellipse cx="32" cy="68" rx="8" ry="6" fill="${cheek}" opacity=".35"/>
-    <ellipse cx="88" cy="68" rx="8" ry="6" fill="${cheek}" opacity=".35"/>
-    <!-- belly/face mask -->
-    <ellipse cx="60" cy="78" rx="22" ry="22" fill="${belly}"/>
-    <!-- eyes -->
+    <defs>
+      <linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient>
+      <linearGradient id="${id}b" x1=".3" y1="0" x2=".7" y2="1"><stop offset="0" stop-color="${c2}"/><stop offset="1" stop-color="${c3}"/></linearGradient>
+      <filter id="${id}s"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="${c3}" flood-opacity=".25"/></filter>
+    </defs>
+    <!-- body: rounded drop shape -->
+    <path d="M60 8 C40 8 20 35 20 65 C20 92 37 112 60 112 C83 112 100 92 100 65 C100 35 80 8 60 8Z" fill="url(#${id})" filter="url(#${id}s)"/>
+    <!-- inner glow -->
+    <path d="M60 18 C45 18 30 40 30 63 C30 85 42 100 60 100 C78 100 90 85 90 63 C90 40 75 18 60 18Z" fill="url(#${id}b)" opacity=".4"/>
+    <!-- flame tip -->
+    <path class="ear-flick" d="M52 14Q56 2 60 6Q64 2 68 14Q64 10 60 12Q56 10 52 14Z" fill="${c1}"/>
+    <!-- face area -->
     ${eyes}
-    <!-- nose -->
-    <ellipse cx="61" cy="64" rx="5" ry="3.5" fill="${nose}"/>
-    <path d="M61 67.5v6" stroke="${nose}" stroke-width="2" stroke-linecap="round"/>
     <!-- mouth -->
-    <path d="M54 74q7 5 14 0" stroke="${nose}" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <!-- whiskers -->
-    <line x1="26" y1="62" x2="42" y2="66" stroke="${nose}" stroke-width="1.2" opacity=".3"/>
-    <line x1="26" y1="70" x2="42" y2="70" stroke="${nose}" stroke-width="1.2" opacity=".3"/>
-    <line x1="96" y1="62" x2="80" y2="66" stroke="${nose}" stroke-width="1.2" opacity=".3"/>
-    <line x1="96" y1="70" x2="80" y2="70" stroke="${nose}" stroke-width="1.2" opacity=".3"/>
-    <!-- tail -->
-    <path class="tail-wag" d="M95 90q18-8 16-28q-6 14-20 16z" fill="${fur1}"/>
-    <path class="tail-wag" d="M105 66q4-6 2-10q-4 4-8 6z" fill="${belly}"/>
+    <path d="M54 64q6 5 12 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" opacity=".9"/>
+    <!-- cheek glow -->
+    <ellipse cx="38" cy="60" rx="6" ry="4" fill="${c3}" opacity=".2"/>
+    <ellipse cx="82" cy="60" rx="6" ry="4" fill="${c3}" opacity=".2"/>
+    <!-- tiny sparkles -->
+    <circle cx="28" cy="30" r="2" fill="${c1}" opacity=".5"><animate attributeName="opacity" values=".5;1;.5" dur="2s" repeatCount="indefinite"/></circle>
+    <circle cx="92" cy="25" r="1.5" fill="${c1}" opacity=".4"><animate attributeName="opacity" values=".4;.9;.4" dur="2.5s" repeatCount="indefinite"/></circle>
+    <circle cx="85" cy="40" r="1" fill="#fff" opacity=".6"><animate attributeName="opacity" values=".6;1;.6" dur="1.8s" repeatCount="indefinite"/></circle>
   </svg>`;
 }
 
@@ -2344,6 +2345,7 @@ function startLesson(L,u,i){
   if(!unlim&&curH<=0){ toast(T("gameOverTitle")); return; }
   session={key,level:L,unit:u,idx:i,body,step:0,chosen:null,ok:null,correct:0,total:0,orders:{},results:[],finished:false,passed:false,hearts:curH,maxHearts:unlim?Infinity:MAX_HEARTS,gameOver:false};
   view="lesson"; render(); window.scrollTo(0,0);
+  const first=body.steps[0]; if(first&&(first.listen||first.say)&&S.sound) setTimeout(()=>say(first.say,S.lang),300);
 }
 function orderFor(step){
   const s=session;
@@ -2377,7 +2379,7 @@ function lessonView(){
     }).join("");
     if(step.type==="quiz"&&step.listen) body=`<h1>${esc(step.question)}</h1>
       <button class="listen-big" data-action="sayStep" aria-label="${T("playAgain")}">${ic("volume")}<span>${T("playAgain")}</span></button><div class="opts">${opts}</div>`;
-    else if(step.type==="quiz") body=`<h1>${esc(step.question)}</h1><div class="opts">${opts}</div>`;
+    else if(step.type==="quiz") body=`<h1>${esc(step.question)}</h1>${step.say?`<button class="listen-sm" data-action="sayStep" aria-label="${T("listen")}">${ic("volume","sm")}<span>${T("listen")}</span></button>`:""}<div class="opts">${opts}</div>`;
     else{
       body=`<h1>${T("situation")}</h1><div class="scene">${ic("chat")}<span>${esc(step.scene)}</span></div><div class="opts">${opts}</div>`;
       if(s.chosen!==null&&s.ok){
@@ -2475,7 +2477,7 @@ function cont(){
   }
   render(); window.scrollTo(0,0);
   const nxt=!s.finished&&s.body.steps[s.step];
-  if(nxt&&nxt.listen) say(nxt.say,S.lang); // натискання «Продовжити» дозволяє браузеру одразу відтворити звук
+  if(nxt&&(nxt.listen||nxt.say)&&S.sound) say(nxt.say,S.lang); // натискання «Продовжити» дозволяє браузеру одразу відтворити звук
 }
 function closeLesson(){ session=null; view="home"; tab="learn"; unitShown="auto"; render(); window.scrollTo(0,0); }
 function goBack(){ if(view==="lesson") return closeLesson(); if(["pickUi","pickLang","pickVoice","subscription"].includes(view)){ view="home"; render(); } }
