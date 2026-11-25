@@ -91,6 +91,7 @@ h2,.h2{font-weight:800;font-size:18px;line-height:1.3;margin:0;text-wrap:balance
 .game-over-card h2{font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-.02em}
 .game-over-card .meta{color:var(--text-2);font-size:14px;line-height:1.5}
 .game-over-card .actions{display:flex;flex-direction:column;gap:10px;width:100%}
+.sub-offer{background:color-mix(in oklab,var(--accent) 10%,var(--surface));border-radius:var(--r-lg);padding:var(--s4);display:flex;flex-direction:column;align-items:center;gap:var(--s2);width:100%}
 .hearts-big{display:flex;gap:6px;justify-content:center}
 .hearts-big svg{width:32px;height:32px;color:var(--bad)}
 
@@ -1980,8 +1981,9 @@ const FEMALE=/female|woman|frau|zira|hedda|katja|amala|anna|petra|marlene|vicki|
 const MALE=/\bmale\b|\bmann\b|stefan|markus|yannick|conrad|jacek|adam|antonin|kert|nils|leonas|diego|luca|cosimo|jorge|pablo|alvaro|daniel|arthur|george|ryan|thomas|oliver|rishi|giorgio|benigno|reed|fred|rocko|grandpa|eddy/i;
 function voicesFor(lang){ const bcp=SPEECH[lang]||"en-GB", pre=bcp.split("-")[0].toLowerCase(); return VOICES.filter(v=>v.lang&&v.lang.toLowerCase().replace("_","-").startsWith(pre)); }
 function voiceScore(v,bcp){
-  return (FEMALE.test(v.name)?5:0)-(MALE.test(v.name)?6:0)+(/natural|neural|premium|enhanced|wavenet|online/i.test(v.name)?6:0)
-    +(/google|microsoft|siri/i.test(v.name)?2:0)+(v.lang.toLowerCase().replace("_","-")===bcp.toLowerCase()?2:0);
+  return (FEMALE.test(v.name)?5:0)-(MALE.test(v.name)?6:0)+(/natural|neural|premium|enhanced|wavenet|online/i.test(v.name)?12:0)
+    +(/google|microsoft|siri|apple/i.test(v.name)?3:0)+(v.lang.toLowerCase().replace("_","-")===bcp.toLowerCase()?2:0)
+    -(/compact|espeak|mbrola/i.test(v.name)?10:0);
 }
 function pickVoice(lang){
   const list=voicesFor(lang); if(!list.length) return null;
@@ -2003,7 +2005,7 @@ function say(text,lang,btn){
       if(!("speechSynthesis" in window)||!voicesFor(lang).length){ clearTimeout(guard); if(btn) toast(T("noVoice")); return finish(false); }
       try{
         const code=SPEECH[lang]||"en-GB", u=new SpeechSynthesisUtterance(text), v=pickVoice(lang);
-        u.lang=v?v.lang:code; if(v) u.voice=v; u.rate=0.9; u.pitch=1.05;
+        u.lang=v?v.lang:code; if(v) u.voice=v; u.rate=0.85; u.pitch=1.0;
         u.onend=()=>{ clearTimeout(guard); finish(true); }; u.onerror=()=>{ clearTimeout(guard); finish(false); };
         speechSynthesis.speak(u);
       }catch(e){ clearTimeout(guard); finish(false); }
@@ -2407,15 +2409,26 @@ function lessonView(){
 }
 function finishView(){
   const s=session, next=s.passed?nextAfter(s.level,s.unit,s.idx):null;
+  const unlim=(PLAN==="plus"||PLAN==="pro");
+  const hd=getHearts(), noHearts=!unlim&&hd.hearts<=0;
+  let subOffer="";
+  if(!s.passed&&noHearts){
+    const elapsed=Date.now()-hd.ts;
+    const left=Math.max(1,Math.ceil((HEART_REFILL_MS-elapsed)/60000));
+    subOffer=`<div class="sub-offer">
+      <p class="meta" style="color:var(--accent-ink)">${T("gameOverWait",{m:left})}</p>
+      <button class="btn" data-action="openSub">${T("gameOverSub")} ${ic("arrowRight","sm")}</button></div>`;
+  }
   return `<div class="lesson"><div class="lesson-top"><button class="iconbtn" data-action="closeLesson" aria-label="${T("close")}">${ic("close")}</button>
       <div class="segs" aria-hidden="true">${s.body.steps.map(()=>`<i class="on"></i>`).join("")}</div><span class="code">${s.level}</span></div>
     <div class="finish">${owl(130,s.passed?"happy":"",s.passed?"cheer":"")}
       <h1>${s.passed?T("lessonDone"):T("lessonRetry")}</h1><p class="meta">${esc(s.body.title)}</p>
       ${s.results.length?`<div class="marks" aria-hidden="true">${s.results.map(r=>`<span class="mark ${r?"ok":"bad"}">${ic(r?"check":"close","xs")}</span>`).join("")}</div>`:""}
       <p class="meta num">${T("scoreLine",{c:s.correct,t:s.total})}</p>
+      ${subOffer}
       <div class="actions">
         ${next?`<button class="btn" data-action="nextLesson">${T("nextLesson")}${ic("arrowRight","sm")}</button>`:""}
-        ${!s.passed?`<button class="btn" data-action="retry">${T("retry")}</button>`:""}
+        ${!s.passed?`<button class="btn" data-action="retry" ${noHearts?"disabled":""}>${T("gameOverRetry")}</button>`:""}
         <button class="btn quiet" data-action="closeLesson">${T("toRoute")}</button>
       </div></div></div>`;
 }
